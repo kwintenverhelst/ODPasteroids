@@ -120,7 +120,7 @@ public class Asteroids extends JFrame {
       return;
     } else {
       // <begin>
-      IFacade facade = new asteroids.model.Facade();
+      IFacade facade = new asteroids.Facade();
       // <end>
       GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
       GraphicsDevice device = env.getDefaultScreenDevice();

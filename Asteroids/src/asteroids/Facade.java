@@ -1,7 +1,5 @@
-package asteroids.model;
+package asteroids;
 
-import asteroids.IFacade;
-import asteroids.IShip;
 
 public class Facade implements IFacade {
 
