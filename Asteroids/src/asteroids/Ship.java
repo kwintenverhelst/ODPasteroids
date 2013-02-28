@@ -1,12 +1,13 @@
 package asteroids;
+import be.kuleuven.cs.som.annotate.*;
 
 public class Ship implements IShip {
 	
 
     /**
-     * 
-     * @return
+     * return the y coordinate of the this ship's position expressed in km
      */
+	@ Basic
 	public double getY() {
 		return y;
 	}
@@ -30,9 +31,9 @@ public class Ship implements IShip {
 	private double y;
 	
 	/**
-	 * 
-	 * @return
+	 * return the x coordinate of the this ship's position expressed in km
 	 */
+	@ Basic
 	public double getX() {
 		return x;
 	}
