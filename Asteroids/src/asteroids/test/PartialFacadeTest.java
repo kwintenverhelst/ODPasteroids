@@ -1,5 +1,6 @@
 package asteroids.test;
 
+import be.kuleuven.cs.som.annotate.*;
 import static org.junit.Assert.*;
 
 import org.junit.Before;

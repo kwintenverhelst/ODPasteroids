@@ -15,19 +15,23 @@ public class Ship implements IShip {
 	/**
 	 * 
 	 * @param y
+	 * 
+	 * @post  the new position y of the ship is equal to the given number
+	 * 	     | new.getY() == y
+	 * @throws IllegalArgumentException
+	 * 			The given position is not a valid number
+	 * 		  | ! isValidDouble(y)
 	 */
-	public void setY(double y) {
+	public void setY(double y) throws IllegalArgumentException {
+		if(! isValidDouble(y)) {
+			throw new IllegalArgumentException();
+		}
 		this.y = y;
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean isValidY(){
-		return true;			
-	}
 	
+
+
 	private double y;
 	
 	/**
@@ -39,22 +43,37 @@ public class Ship implements IShip {
 	}
 
 	/**
-	 * 
+	 * @post  the new position y of the ship is equal to the given number
+	 * 	     | new.getX() == x
+	 * @throws IllegalArgumentException
+	 * 			The given position is not a valid number
+	 * 		  | ! isValidDouble(x)
 	 * @param x
 	 */
 	public void setX(double x) {
+		if(! isValidDouble(x)) {
+			throw new IllegalArgumentException();
+		}
 		this.x = x;
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean isValidX(){
-		return true;			
-	}
-	
 	private double x;
+	
+	/**
+	 * @param
+	 * @return true if double is a number otherwise it is false 
+	 * 			| result !=  Double.isNaN(number)
+	 */
+	public boolean isValidDouble(double number){
+		
+		if(Double.isNaN(number)){
+			return false;
+			
+		}
+		else {
+			return true;
+		}
+	}
 }
 
 
