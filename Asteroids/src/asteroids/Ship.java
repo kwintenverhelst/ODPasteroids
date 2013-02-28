@@ -74,7 +74,57 @@ public class Ship implements IShip {
 			return true;
 		}
 	}
-}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	@ Basic
+	public double getVelocityX() {
+		return velocityX;
+	}
+	
+	/**
+	 * 
+	 * @param velocityX
+	 */
+	public void setVelocityX(double velocityX) {
+		this.velocityX = velocityX;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	@ Basic
+	public double getVelocityY() {
+		return velocityY;
+	}
 
+	/**
+	 * 
+	 * @param velocityY
+	 */
+	public void setVelocityY(double velocityY) {
+		
+		this.velocityY = velocityY;
+	}
+
+
+	private final double speedOfLight;
+
+	public double getSpeedOfLight() {
+		return speedOfLight;
+	}
+
+
+	private double velocityX;
+	
+	private double velocityY;
+
+	}
+
+}
+	
 
 
