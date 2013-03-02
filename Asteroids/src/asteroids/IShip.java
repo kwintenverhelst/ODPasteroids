@@ -5,5 +5,15 @@ package asteroids;
  * modify this file.
  */
 public interface IShip {
-
+	public double getY();
+	
+	public double getX();
+	
+	public double getVelocityX();
+	
+	public double getVelocityY();
+	
+	public double getAngle();
+	
+	public double getRadius();
 }

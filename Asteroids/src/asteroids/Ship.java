@@ -11,7 +11,7 @@ import be.kuleuven.cs.som.annotate.*;
  * @version 1.0
  * @author Mathieu Vermeire en Kwinten Verhelst
  */
-public class Ship {
+public class Ship implements IShip{
 	/**
 	 * Initialize a new ship with given x-coordinat, given y-coordinat, given
 	 * velocity in the x direction, given velocity in the y direction, given
@@ -57,7 +57,7 @@ public class Ship {
 		setX(x);
 		setY(y);
 		setVelocity(velocityX, velocityY);
-		if(!isValidDouble(radius)) {
+		if(isValidDouble(radius)) {
 			if (!isValidRadius(radius)) {
 				throw new IllegalArgumentException("Non-existing radius");
 			} else {
