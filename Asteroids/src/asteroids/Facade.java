@@ -53,19 +53,19 @@ public class Facade implements IFacade {
 
 	@Override
 	public void move(IShip ship, double dt) {
-		// TODO Auto-generated method stub
+		ship.move(dt);
 
 	}
 
 	@Override
 	public void thrust(IShip ship, double amount) {
-		// TODO Auto-generated method stub
+		ship.thrust(amount);
 
 	}
 
 	@Override
 	public void turn(IShip ship, double angle) {
-		// TODO Auto-generated method stub
+		ship.setAngle(angle);
 
 	}
 

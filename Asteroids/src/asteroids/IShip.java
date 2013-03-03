@@ -16,4 +16,10 @@ public interface IShip {
 	public double getAngle();
 	
 	public double getRadius();
+	
+	public void thrust(double amount);
+	
+	public void move (double dt);
+	
+	public void setAngle(double angle);
 }

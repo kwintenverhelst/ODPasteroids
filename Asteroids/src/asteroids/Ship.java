@@ -366,4 +366,64 @@ public class Ship implements IShip{
 
 	}
 
+	/**
+	 * Let the ship move within a given time period
+	 * @post  the ship has moved in the given time period
+	 * 			| x== velocityX*dt && y== velocityY*dt
+	 * 
+	 * @param dt
+	 * 			the time in which the ship needs to move
+	 * @throws NullPointerException
+	 * 			The given time is not a number
+	 *             |!isValidDouble(dt)
+	 * @throws IllegalArgumentException
+	 * 			The given time is not a valid time
+	 *             |!isValidTime(dt)
+	 */
+	public void move (double dt) throws NullPointerException, IllegalArgumentException{
+		if(isValidDouble(dt)){
+			if(isValidTime(dt)){
+				this.x= this.velocityX*dt; 
+				this.y= this.velocityY*dt;
+			} else {
+				throw new IllegalArgumentException("the time must be more then zero");
+			}
+		} else {
+			throw new NullPointerException("the time you have given is not a number");
+		}
+		
+	}
+	/**
+	 * Check whether the time is more or equal to zero
+	 * 
+	 * @param dt
+	 * 			the time to check
+	 * @return true if time is more or equal to zero
+	 * 			| result == dt >= 0
+	 */
+	public boolean isValidTime(double dt){
+		return dt>=0;
+	}
+	/**
+	 * Changes the velocities of the ship
+	 * 
+	 * @param amount
+	 * 			the amount of acceleration you want to give to the ship
+	 * @post 
+	 */
+	public void thrust(double amount){
+		if(!isValidDouble(amount)){
+			amount = 0;
+		}
+		double newVelocityX = this.velocityX + amount * Math.cos(this.angle);
+		double newVelocityY = this.velocityY + amount * Math.cos(this.angle);
+		if(isValidVelocity(newVelocityX, newVelocityY)){
+			this.velocityX = newVelocityX;
+			this.velocityY = newVelocityY;
+		}else {
+			this.velocityX = this.getSpeedLimit() * Math.cos(this.angle);
+			this.velocityY = this.getSpeedLimit() * Math.sin(this.angle);
+		}
+		
+	}
 }
