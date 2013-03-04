@@ -65,7 +65,7 @@ public class Facade implements IFacade {
 
 	@Override
 	public void turn(IShip ship, double angle) {
-		ship.setAngle(angle);
+		ship.setAngle(getDirection(ship)+angle);
 
 	}
 

@@ -383,8 +383,8 @@ public class Ship implements IShip{
 	public void move (double dt) throws NullPointerException, IllegalArgumentException{
 		if(isValidDouble(dt)){
 			if(isValidTime(dt)){
-				this.x= this.velocityX*dt; 
-				this.y= this.velocityY*dt;
+				this.x= this.velocityX*dt+this.x; 
+				this.y= this.velocityY*dt+this.x;
 			} else {
 				throw new IllegalArgumentException("the time must be more then zero");
 			}
