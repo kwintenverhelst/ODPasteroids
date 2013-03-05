@@ -210,7 +210,7 @@ public class Ship implements IShip{
 	 * 			|result == Math.sqrt((Math.pow(velocityX, 2) + Math.pow(velocityY,2))
 	 */
 	public double getVelocity(double velocityX, double velocityY) {
-		return Math.sqrt(Math.pow(velocityX, 2) + Math.pow(velocityY, 2));
+		return Math.hypot(velocityX, velocityY));
 	}
 
 	/**
@@ -428,6 +428,7 @@ public class Ship implements IShip{
 			this.velocityY = this.getSpeedLimit() * Math.sin(direction);
 		}	
 	}
+	
 	/**
 	 * Check whether the amount of thrust is more or equal to zero
 	 * 
@@ -439,4 +440,33 @@ public class Ship implements IShip{
 	public boolean isValidThrust(double amount){
 		return amount>=0;
 	}
+	
+	/**
+	 * 
+	 * @param ship
+	 * @return
+	 */
+	public double getDistanceBetween(Ship ship) throws IllegalArgumentException, NullPointerException{
+		if (this==ship){
+			throw new IllegalArgumentException("Ship cannot be compared to itself");
+		if (ship==null){
+			throw new NullPointerException("the given ship does not exist");
+		return Math.hypot(this.getX()-ship.getX(), this.getY()-ship.getY())-this.getRadius()-ship.getRadius();
+		
+	}
+	
+	/**
+	 * 
+	 * @param ship
+	 * @return
+	 */
+	public boolean overlap(Ship ship){
+		if(this==ship){
+			return true
+		}
+		else {
+			return Util.fuzzyEquals(this.getDistanceBetween(ship), 0.0);
+		}
+	}
 }
+	
