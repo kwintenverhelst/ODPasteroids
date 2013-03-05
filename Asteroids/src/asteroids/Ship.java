@@ -368,8 +368,9 @@ public class Ship implements IShip{
 
 	/**
 	 * Let the ship move within a given time period
-	 * @post  the ship has moved in the given time period
-	 * 			| x== velocityX*dt && y== velocityY*dt
+	 * @effect  the ship has moved in the given time period
+	 * 			| setY(this.velocityY*dt+getY()) &&
+				  setY(this.velocityX*dt+getX())
 	 * 
 	 * @param dt
 	 * 			the time in which the ship needs to move
@@ -383,8 +384,9 @@ public class Ship implements IShip{
 	public void move (double dt) throws NullPointerException, IllegalArgumentException{
 		if(isValidDouble(dt)){
 			if(isValidTime(dt)){
-				this.x= this.velocityX*dt+this.x; 
-				this.y= this.velocityY*dt+this.x;
+				setX(this.velocityX*dt+getX());
+				setY(this.velocityY*dt+getY());
+				
 			} else {
 				throw new IllegalArgumentException("the time must be more then zero");
 			}
@@ -412,18 +414,29 @@ public class Ship implements IShip{
 	 * @post 
 	 */
 	public void thrust(double amount){
-		if(!isValidDouble(amount)){
+		if(!isValidDouble(amount) || !isValidThrust(amount)){
 			amount = 0;
 		}
-		double newVelocityX = this.velocityX + amount * Math.cos(this.angle);
-		double newVelocityY = this.velocityY + amount * Math.cos(this.angle);
+		double newVelocityX = this.velocityX + amount * Math.cos(getAngle());
+		double newVelocityY = this.velocityY + amount * Math.sin(getAngle());
 		if(isValidVelocity(newVelocityX, newVelocityY)){
 			this.velocityX = newVelocityX;
 			this.velocityY = newVelocityY;
 		}else {
-			this.velocityX = this.getSpeedLimit() * Math.cos(this.angle);
-			this.velocityY = this.getSpeedLimit() * Math.sin(this.angle);
-		}
-		
+			double direction = getDirection(newVelocityX, newVelocityY);
+			this.velocityX = this.getSpeedLimit() * Math.cos(direction);
+			this.velocityY = this.getSpeedLimit() * Math.sin(direction);
+		}	
+	}
+	/**
+	 * Check whether the amount of thrust is more or equal to zero
+	 * 
+	 * @param amount
+	 * 			the the amount of thrust to check
+	 * @return true if the amount of thrust is more or equal to zero
+	 * 			| result == amount >= 0
+	 */
+	public boolean isValidThrust(double amount){
+		return amount>=0;
 	}
 }
