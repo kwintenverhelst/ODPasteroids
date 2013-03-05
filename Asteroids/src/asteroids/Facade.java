@@ -72,25 +72,25 @@ public class Facade implements IFacade {
 	@Override
 	public double getDistanceBetween(IShip ship1, IShip ship2) {
 		// TODO Auto-generated method stub
-		return 0;
+		return ship1.getDistanceBetween(ship2);
 	}
 
 	@Override
 	public boolean overlap(IShip ship1, IShip ship2) {
 		// TODO Auto-generated method stub
-		return false;
+		return ship1.overlap(ship2);
 	}
 
 	@Override
 	public double getTimeToCollision(IShip ship1, IShip ship2) {
 		// TODO Auto-generated method stub
-		return 0;
+		return ship1.getTimeToCollision(ship2);
 	}
 
 	@Override
 	public double[] getCollisionPosition(IShip ship1, IShip ship2) {
 		// TODO Auto-generated method stub
-		return null;
+		return ship1.getCollisionPosition(ship2);
 	}
 
 }

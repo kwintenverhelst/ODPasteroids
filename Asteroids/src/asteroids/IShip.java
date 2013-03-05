@@ -22,4 +22,13 @@ public interface IShip {
 	public void move (double dt);
 	
 	public void setAngle(double angle);
+	
+	public double getDistanceBetween(IShip ship);
+	
+	public boolean overlap(IShip ship);
+
+	public double getTimeToCollision(IShip ship2);
+
+	public double[] getCollisionPosition(IShip ship2);
+	
 }

@@ -11,7 +11,7 @@ import be.kuleuven.cs.som.annotate.*;
  * @version 1.0
  * @author Mathieu Vermeire en Kwinten Verhelst
  */
-public class Ship2 implements IShip{
+public class Ship2 {
 	/**
 	 * Initialize a new ship with given x-coordinat, given y-coordinat, given
 	 * velocity in the x direction, given velocity in the y direction, given

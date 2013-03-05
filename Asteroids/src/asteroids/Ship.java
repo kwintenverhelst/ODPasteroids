@@ -11,7 +11,7 @@ import be.kuleuven.cs.som.annotate.*;
  * @version 1.0
  * @author Mathieu Vermeire en Kwinten Verhelst
  */
-public class Ship implements IShip{
+public class Ship implements IShip {
 	/**
 	 * Initialize a new ship with given x-coordinat, given y-coordinat, given
 	 * velocity in the x direction, given velocity in the y direction, given
@@ -48,7 +48,8 @@ public class Ship implements IShip{
 	 *             |!isValidRadius(radius)
 	 * @throws NullPointerException
 	 *             one of the given coordinates or the radius is not an number
-	 *             |!isValidDouble(x) || !isValidDouble(y) || !isValidDouble(radius)
+	 *             |!isValidDouble(x) || !isValidDouble(y) ||
+	 *             !isValidDouble(radius)
 	 * 
 	 */
 	public Ship(double x, double y, double velocityX, double velocityY,
@@ -57,7 +58,7 @@ public class Ship implements IShip{
 		setX(x);
 		setY(y);
 		setVelocity(velocityX, velocityY);
-		if(isValidDouble(radius)) {
+		if (isValidDouble(radius)) {
 			if (!isValidRadius(radius)) {
 				throw new IllegalArgumentException("Non-existing radius");
 			} else {
@@ -113,8 +114,7 @@ public class Ship implements IShip{
 	 * @post the new position x of this ship is equal to the given number in km
 	 *       |new.getX() == x
 	 * @throws NullPointerException
-	 *             The given position is not a valid number 
-	 *             |!isValidDouble(x)
+	 *             The given position is not a valid number |!isValidDouble(x)
 	 */
 	public void setX(double x) throws NullPointerException {
 		if (!isValidDouble(x)) {
@@ -206,11 +206,12 @@ public class Ship implements IShip{
 	 *            velocity in the x direction in km/s
 	 * @param velocityY
 	 *            velocity in the y direction in km/s
-	 * @return The square root of the sum of powers of velocityX and velocityY 
-	 * 			|result == Math.sqrt((Math.pow(velocityX, 2) + Math.pow(velocityY,2))
+	 * @return The square root of the sum of powers of velocityX and velocityY
+	 *         |result == Math.sqrt((Math.pow(velocityX, 2) +
+	 *         Math.pow(velocityY,2))
 	 */
 	public double getVelocity(double velocityX, double velocityY) {
-		return Math.hypot(velocityX, velocityY));
+		return Math.hypot(velocityX, velocityY);
 	}
 
 	/**
@@ -222,25 +223,22 @@ public class Ship implements IShip{
 	 *            velocity in the y direction in km/s
 	 * @post If the given velocity is less than or equal to the speed limit, the
 	 *       new velocity of this ship is equal to given velocity.
-	 *       |if(isValidVelocity(velocityX, velocityY)) 
-	 *       | then new.getVelocityX()=this.getVelocityX() 
-	 *       | && new.getVelocityY()=this.getVelocityY()
+	 *       |if(isValidVelocity(velocityX, velocityY)) | then
+	 *       new.getVelocityX()=this.getVelocityX() | &&
+	 *       new.getVelocityY()=this.getVelocityY()
 	 * @post If the given velocity is greater than the speed limit, the new
 	 *       velocity of this ship is equal the speed limit, the velocity in x
 	 *       direction is the velocity times the cosine of the direction, the
 	 *       velocity in y direction is the velocity times the sine of the
-	 *       direction. 
-	 *       |if!(isValidVelocity(velocityX, velocityY)) 
-	 *       | then new.getVelocityX()=this.getSpeedLimit()*Math.cos(this.getDirection()) 
-	 *       | && new.getVelocityY()=this.getSpeedLimit()*Math.sin(this.getDirection())
-	 * @post if one or both of the velocities is not a number then that velocity 
-	 * 			(those velocities) are set on zero
-	 * 			| if (!isValidDouble(velocityY)) 
-					then this.velocityY = 0;
-				| || if (!isValidDouble(velocityX)) 
-					then this.velocityX = 0
-					
-				
+	 *       direction. |if!(isValidVelocity(velocityX, velocityY)) | then
+	 *       new.getVelocityX
+	 *       ()=this.getSpeedLimit()*Math.cos(this.getDirection()) | &&
+	 *       new.getVelocityY
+	 *       ()=this.getSpeedLimit()*Math.sin(this.getDirection())
+	 * @post if one or both of the velocities is not a number then that velocity
+	 *       (those velocities) are set on zero | if (!isValidDouble(velocityY))
+	 *       then this.velocityY = 0; | || if (!isValidDouble(velocityX)) then
+	 *       this.velocityX = 0
 	 */
 	public void setVelocity(double velocityX, double velocityY) {
 		if (isValidDouble(velocityX) && isValidDouble(velocityY)) {
@@ -368,105 +366,125 @@ public class Ship implements IShip{
 
 	/**
 	 * Let the ship move within a given time period
-	 * @effect  the ship has moved in the given time period
-	 * 			| setY(this.velocityY*dt+getY()) &&
-				  setY(this.velocityX*dt+getX())
+	 * 
+	 * @effect the ship has moved in the given time period |
+	 *         setY(this.velocityY*dt+getY()) && setY(this.velocityX*dt+getX())
 	 * 
 	 * @param dt
-	 * 			the time in which the ship needs to move
+	 *            the time in which the ship needs to move
 	 * @throws NullPointerException
-	 * 			The given time is not a number
-	 *             |!isValidDouble(dt)
+	 *             The given time is not a number |!isValidDouble(dt)
 	 * @throws IllegalArgumentException
-	 * 			The given time is not a valid time
-	 *             |!isValidTime(dt)
+	 *             The given time is not a valid time |!isValidTime(dt)
 	 */
-	public void move (double dt) throws NullPointerException, IllegalArgumentException{
-		if(isValidDouble(dt)){
-			if(isValidTime(dt)){
-				setX(this.velocityX*dt+getX());
-				setY(this.velocityY*dt+getY());
-				
+	public void move(double dt) throws NullPointerException,
+			IllegalArgumentException {
+		if (isValidDouble(dt)) {
+			if (isValidTime(dt)) {
+				setX(this.velocityX * dt + getX());
+				setY(this.velocityY * dt + getY());
+
 			} else {
-				throw new IllegalArgumentException("the time must be more then zero");
+				throw new IllegalArgumentException(
+						"the time must be more then zero");
 			}
 		} else {
-			throw new NullPointerException("the time you have given is not a number");
+			throw new NullPointerException(
+					"the time you have given is not a number");
 		}
-		
+
 	}
+
 	/**
 	 * Check whether the time is more or equal to zero
 	 * 
 	 * @param dt
-	 * 			the time to check
-	 * @return true if time is more or equal to zero
-	 * 			| result == dt >= 0
+	 *            the time to check
+	 * @return true if time is more or equal to zero | result == dt >= 0
 	 */
-	public boolean isValidTime(double dt){
-		return dt>=0;
+	public boolean isValidTime(double dt) {
+		return dt >= 0;
 	}
+
 	/**
 	 * Changes the velocities of the ship
 	 * 
 	 * @param amount
-	 * 			the amount of acceleration you want to give to the ship
-	 * @post 
+	 *            the amount of acceleration you want to give to the ship
+	 * @post
 	 */
-	public void thrust(double amount){
-		if(!isValidDouble(amount) || !isValidThrust(amount)){
+	public void thrust(double amount) {
+		if (!isValidDouble(amount) || !isValidThrust(amount)) {
 			amount = 0;
 		}
 		double newVelocityX = this.velocityX + amount * Math.cos(getAngle());
 		double newVelocityY = this.velocityY + amount * Math.sin(getAngle());
-		if(isValidVelocity(newVelocityX, newVelocityY)){
+		if (isValidVelocity(newVelocityX, newVelocityY)) {
 			this.velocityX = newVelocityX;
 			this.velocityY = newVelocityY;
-		}else {
+		} else {
 			double direction = getDirection(newVelocityX, newVelocityY);
 			this.velocityX = this.getSpeedLimit() * Math.cos(direction);
 			this.velocityY = this.getSpeedLimit() * Math.sin(direction);
-		}	
+		}
 	}
-	
+
 	/**
 	 * Check whether the amount of thrust is more or equal to zero
 	 * 
 	 * @param amount
-	 * 			the the amount of thrust to check
-	 * @return true if the amount of thrust is more or equal to zero
-	 * 			| result == amount >= 0
+	 *            the the amount of thrust to check
+	 * @return true if the amount of thrust is more or equal to zero | result ==
+	 *         amount >= 0
 	 */
-	public boolean isValidThrust(double amount){
-		return amount>=0;
+	public boolean isValidThrust(double amount) {
+		return amount >= 0;
 	}
-	
+
 	/**
 	 * 
 	 * @param ship
 	 * @return
 	 */
-	public double getDistanceBetween(Ship ship) throws IllegalArgumentException, NullPointerException{
+	public double getDistanceBetween(IShip ship) throws IllegalArgumentException, NullPointerException{
 		if (this==ship){
 			throw new IllegalArgumentException("Ship cannot be compared to itself");
-		if (ship==null){
+		} else if (ship==null){
 			throw new NullPointerException("the given ship does not exist");
-		return Math.hypot(this.getX()-ship.getX(), this.getY()-ship.getY())-this.getRadius()-ship.getRadius();
-		
+		} else {
+			return Math.hypot(this.getX()-ship.getX(), this.getY()-ship.getY())-this.getRadius()-ship.getRadius();
+		} 
 	}
-	
+
 	/**
 	 * 
 	 * @param ship
 	 * @return
 	 */
-	public boolean overlap(Ship ship){
-		if(this==ship){
-			return true
-		}
-		else {
+	public boolean overlap(IShip ship) {
+		if (this == ship) {
+			return true;
+		} else {
 			return Util.fuzzyEquals(this.getDistanceBetween(ship), 0.0);
 		}
 	}
-}
+
+	/**
+	 * 
+	 * 
+	 */
+	public double getTimeToCollision(IShip ship2) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/**
+	 * 
+	 */
+	public double[] getCollisionPosition(IShip ship2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
+}
