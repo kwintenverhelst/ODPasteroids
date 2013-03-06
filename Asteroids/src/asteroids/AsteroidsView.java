@@ -99,19 +99,22 @@ public class AsteroidsView extends JPanel {
       IShip first = min_ship;
       if (first != null && !facade.overlap(selected, first)) {
         // draw circles
-        double dt = facade.getTimeToCollision(selected, first);
-        int x1_ = (int) (facade.getX(selected) + dt * facade.getXVelocity(selected));
-        int y1_ = height - (int) (facade.getY(selected) + dt * facade.getYVelocity(selected));
-        int radius1 = (int) facade.getRadius(selected);
+    	double dt = facade.getTimeToCollision(selected, first);
+        
         float[] dashPattern = { 10, 5 };
         g2d.setColor(Color.LIGHT_GRAY);
         g2d.setStroke(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10, dashPattern, 0));
+        
+        int x1_ = (int) (facade.getX(selected) + dt * facade.getXVelocity(selected));
+        int y1_ = height - (int) (facade.getY(selected) + dt * facade.getYVelocity(selected));
+        int radius1 = (int) facade.getRadius(selected);
         g2d.drawOval(x1_ - radius1, y1_ - radius1, 2 * radius1, 2 * radius1);
         g2d.drawLine((int) facade.getX(selected), height - (int) facade.getY(selected), x1_, y1_);
+        
         int x2_ = (int) (facade.getX(first) + dt * facade.getXVelocity(first));
         int y2_ = height - (int) (facade.getY(first) + dt * facade.getYVelocity(first));
-
         int radius2 = (int) facade.getRadius(first);
+        
         g2d.drawOval(x2_ - radius2, y2_ - radius2, 2 * radius2, 2 * radius2);
         g2d.drawLine((int) facade.getX(first), height - (int) facade.getY(first), x2_, y2_);
       }
@@ -122,7 +125,9 @@ public class AsteroidsView extends JPanel {
           if (colPos != null) {
             int x = (int) colPos[0];
             int y = height - (int) colPos[1];
+            
             g2d.setColor(Color.WHITE);
+            
             g2d.drawLine(x - 5, y, x + 5, y);
             g2d.drawLine(x, y - 5, x, y + 5);
           }

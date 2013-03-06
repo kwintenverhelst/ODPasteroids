@@ -91,9 +91,9 @@ public class Ship implements IShip {
 	public void setY(double y) throws NullPointerException {
 		if (!isValidDouble(y)) {
 			throw new NullPointerException("Non-existing y-coordinat");
-		} else if ( y > 1080){
+		} else if (y > 1080) {
 			this.y = 0;
-		} else if(y<0){
+		} else if (y < 0) {
 			this.y = 1080;
 		} else {
 			this.y = y;
@@ -124,9 +124,9 @@ public class Ship implements IShip {
 	public void setX(double x) throws NullPointerException {
 		if (!isValidDouble(x)) {
 			throw new NullPointerException("Non-existing x-coordinat");
-		}else if ( x > 1920){
+		} else if (x > 1920) {
 			this.x = 0;
-		} else if(x<0){
+		} else if (x < 0) {
 			this.x = 1920;
 		} else {
 			this.x = x;
@@ -349,7 +349,7 @@ public class Ship implements IShip {
 
 	/**
 	 * return the radius of the ship
-	 *
+	 * 
 	 */
 	@Basic
 	@Immutable
@@ -456,34 +456,37 @@ public class Ship implements IShip {
 	 * @param ship
 	 * @return
 	 */
-	public double getDistanceBetween(IShip ship) throws IllegalArgumentException, NullPointerException{
-		if (this==ship){
+	public double getDistanceBetween(IShip ship)
+			throws IllegalArgumentException, NullPointerException {
+		if (this == ship) {
 			throw new IllegalArgumentException("Ship cannot be compared to itself");
-		} else if (ship==null){
+		} else if (ship == null) {
 			throw new NullPointerException("the given ship does not exist");
 		} else {
-			return distance(this.getX(), ship.getX(), this.getY(), ship.getY())-this.getRadius()-ship.getRadius();
-		} 
+			return distance(this.getX(), ship.getX(), this.getY(), ship.getY())
+					- this.getRadius() - ship.getRadius();
+		}
 	}
+
 	/**
 	 * return the distance between two points
 	 * 
 	 * @param x1
-	 * 			the x-coordinat of the first point
+	 *            the x-coordinat of the first point
 	 * @param x2
-	 * 			the x-coordinat of the second point
+	 *            the x-coordinat of the second point
 	 * @param y1
-	 * 			the y-coordinat of the first point
+	 *            the y-coordinat of the first point
 	 * @param y2
-	 * 			the y-coordinat of the second point
-	 * @return the distance between two points
-	 * 			| result == Math.hypot(x1-x2, y1-y2)
+	 *            the y-coordinat of the second point
+	 * @return the distance between two points | result == Math.hypot(x1-x2,
+	 *         y1-y2)
 	 */
-	private static double distance (double x1, double x2, double y1, double y2){
-		return Math.hypot(x1-x2, y1-y2);
-		
+	private static double distance(double x1, double x2, double y1, double y2) {
+		return Math.hypot(x1 - x2, y1 - y2);
+
 	}
-	
+
 	/**
 	 * 
 	 * @param ship
@@ -494,22 +497,24 @@ public class Ship implements IShip {
 			return true;
 		} else {
 			double distance = this.getDistanceBetween(ship);
-			if( Util.fuzzyLessThanOrEqualTo(distance, 0.0)) {
+			if (Util.fuzzyLessThanOrEqualTo(distance, 0.0)) {
 				return true;
 			} else {
 				return false;
 			}
-			
+
 		}
 	}
 
 	/**
-	 * returns the time in which this ship collides with the given ship, if they never collide it will give infinite back
+	 * returns the time in which this ship collides with the given ship, if they
+	 * never collide it will give infinite back
 	 * 
 	 * @param ship
-	 * 			the ship from which we need to know when it will collide with this ship
-	 * @return the time in which this ship collides with the given ship, if they never collide it will give infinite back
-	 * 			| 
+	 *            the ship from which we need to know when it will collide with
+	 *            this ship
+	 * @return the time in which this ship collides with the given ship, if they
+	 *         never collide it will give infinite back |
 	 * 
 	 */
 	public double getTimeToCollision(IShip ship) {
@@ -517,28 +522,30 @@ public class Ship implements IShip {
 		double y1 = this.getY();
 		double vx1 = this.getVelocityX();
 		double vy1 = this.getVelocityY();
-		
+
 		double x2 = ship.getX();
 		double y2 = ship.getY();
 		double vx2 = ship.getVelocityX();
 		double vy2 = ship.getVelocityY();
-		
-		double dvMultiDr = (vx1-vx2)*(x1-x2)+(vy1-vy2)*(y1-y2);
-		double dvMultDv = Math.pow(vx1-vx2,2)+Math.pow(vy1-vy2,2);
-		double drMultiDr = Math.pow(x1-x2,2)+Math.pow(y1-y2,2);
-	
-		if(Util.fuzzyLessThanOrEqualTo(dvMultiDr, 0.0)){
+
+		double dvMultiDr = (vx1 - vx2) * (x1 - x2) + (vy1 - vy2) * (y1 - y2);
+		double dvMultiDv = Math.pow(vx1 - vx2, 2) + Math.pow(vy1 - vy2, 2);
+		double drMultiDr = Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2);
+
+		if (Util.fuzzyEquals(dvMultiDr, 0.0) || Double.compare(dvMultiDr, 0.0) > 0) {
 			return Double.POSITIVE_INFINITY;
 		} else {
-			double dVariable = Math.pow(dvMultiDr,2) - dvMultDv * (drMultiDr- Math.pow(distance(x1, x2, y1, y2),2));
-			if (Util.fuzzyLessThanOrEqualTo(dVariable, 0.0)) {
+					
+			double dVariable = Math.pow(dvMultiDr, 2) - dvMultiDv * (drMultiDr - Math.pow(this.getRadius()+ship.getRadius(), 2));
+			
+			if (Util.fuzzyLessThanOrEqualTo(dVariable, 0)) {
 				return Double.POSITIVE_INFINITY;
 			} else {
-				double time = -((dvMultiDr + Math.sqrt(dVariable))/(dvMultDv));
+				double time = -((dvMultiDr + Math.sqrt(dVariable)) / (dvMultiDv));
 				return time;
 			}
 		}
-		
+
 	}
 
 	/**
@@ -549,21 +556,20 @@ public class Ship implements IShip {
 		double y1 = this.getY();
 		double vx1 = this.getVelocityX();
 		double vy1 = this.getVelocityY();
-		
+
 		double time = getTimeToCollision(ship);
-		
-		if(!Util.fuzzyEquals(time, Double.POSITIVE_INFINITY)){
-			double x1Collision = x1+ time *vx1;
-			double y1Collision = y1+ time *vy1;
+
+		if (!Double.isInfinite(time)) {
+			double x1Collision = x1 + time * vx1;
+			double y1Collision = y1 + time * vy1;
 			double[] collisionPoint = new double[2];
-			collisionPoint[0]= x1Collision;
-			collisionPoint[1]= y1Collision;
+			collisionPoint[0] = x1Collision;
+			collisionPoint[1] = y1Collision;
 			return collisionPoint;
-		}else {
+		} else {
 			return null;
 		}
-		
+
 	}
 
-	
 }
