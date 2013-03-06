@@ -91,8 +91,13 @@ public class Ship implements IShip {
 	public void setY(double y) throws NullPointerException {
 		if (!isValidDouble(y)) {
 			throw new NullPointerException("Non-existing y-coordinat");
+		} else if ( y > 1080){
+			this.y = 0;
+		} else if(y<0){
+			this.y = 1080;
+		} else {
+			this.y = y;
 		}
-		this.y = y;
 	}
 
 	/**
@@ -119,8 +124,13 @@ public class Ship implements IShip {
 	public void setX(double x) throws NullPointerException {
 		if (!isValidDouble(x)) {
 			throw new NullPointerException("Non-existing x-coordinat");
+		}else if ( x > 1920){
+			this.x = 0;
+		} else if(x<0){
+			this.x = 1920;
+		} else {
+			this.x = x;
 		}
-		this.x = x;
 	}
 
 	/**
@@ -338,8 +348,8 @@ public class Ship implements IShip {
 	private final double radius;
 
 	/**
-	 * return radius of the ship
-	 * 
+	 * return the radius of the ship
+	 *
 	 */
 	@Basic
 	@Immutable
@@ -452,10 +462,28 @@ public class Ship implements IShip {
 		} else if (ship==null){
 			throw new NullPointerException("the given ship does not exist");
 		} else {
-			return Math.hypot(this.getX()-ship.getX(), this.getY()-ship.getY())-this.getRadius()-ship.getRadius();
+			return distance(this.getX(), ship.getX(), this.getY(), ship.getY())-this.getRadius()-ship.getRadius();
 		} 
 	}
-
+	/**
+	 * return the distance between two points
+	 * 
+	 * @param x1
+	 * 			the x-coordinat of the first point
+	 * @param x2
+	 * 			the x-coordinat of the second point
+	 * @param y1
+	 * 			the y-coordinat of the first point
+	 * @param y2
+	 * 			the y-coordinat of the second point
+	 * @return the distance between two points
+	 * 			| result == Math.hypot(x1-x2, y1-y2)
+	 */
+	private static double distance (double x1, double x2, double y1, double y2){
+		return Math.hypot(x1-x2, y1-y2);
+		
+	}
+	
 	/**
 	 * 
 	 * @param ship
@@ -465,25 +493,76 @@ public class Ship implements IShip {
 		if (this == ship) {
 			return true;
 		} else {
-			return Util.fuzzyEquals(this.getDistanceBetween(ship), 0.0);
+			double distance = this.getDistanceBetween(ship);
+			if( Util.fuzzyLessThanOrEqualTo(distance, 0.0)) {
+				return true;
+			} else {
+				return false;
+			}
+			
 		}
 	}
 
 	/**
+	 * returns the time in which this ship collides with the given ship, if they never collide it will give infinite back
 	 * 
+	 * @param ship
+	 * 			the ship from which we need to know when it will collide with this ship
+	 * @return the time in which this ship collides with the given ship, if they never collide it will give infinite back
+	 * 			| 
 	 * 
 	 */
-	public double getTimeToCollision(IShip ship2) {
-		// TODO Auto-generated method stub
-		return 0;
+	public double getTimeToCollision(IShip ship) {
+		double x1 = this.getX();
+		double y1 = this.getY();
+		double vx1 = this.getVelocityX();
+		double vy1 = this.getVelocityY();
+		
+		double x2 = ship.getX();
+		double y2 = ship.getY();
+		double vx2 = ship.getVelocityX();
+		double vy2 = ship.getVelocityY();
+		
+		double dvMultiDr = (vx1-vx2)*(x1-x2)+(vy1-vy2)*(y1-y2);
+		double dvMultDv = Math.pow(vx1-vx2,2)+Math.pow(vy1-vy2,2);
+		double drMultiDr = Math.pow(x1-x2,2)+Math.pow(y1-y2,2);
+	
+		if(Util.fuzzyLessThanOrEqualTo(dvMultiDr, 0.0)){
+			return Double.POSITIVE_INFINITY;
+		} else {
+			double dVariable = Math.pow(dvMultiDr,2) - dvMultDv * (drMultiDr- Math.pow(distance(x1, x2, y1, y2),2));
+			if (Util.fuzzyLessThanOrEqualTo(dVariable, 0.0)) {
+				return Double.POSITIVE_INFINITY;
+			} else {
+				double time = -((dvMultiDr + Math.sqrt(dVariable))/(dvMultDv));
+				return time;
+			}
+		}
+		
 	}
 
 	/**
 	 * 
 	 */
-	public double[] getCollisionPosition(IShip ship2) {
-		// TODO Auto-generated method stub
-		return null;
+	public double[] getCollisionPosition(IShip ship) {
+		double x1 = this.getX();
+		double y1 = this.getY();
+		double vx1 = this.getVelocityX();
+		double vy1 = this.getVelocityY();
+		
+		double time = getTimeToCollision(ship);
+		
+		if(!Util.fuzzyEquals(time, Double.POSITIVE_INFINITY)){
+			double x1Collision = x1+ time *vx1;
+			double y1Collision = y1+ time *vy1;
+			double[] collisionPoint = new double[2];
+			collisionPoint[0]= x1Collision;
+			collisionPoint[1]= y1Collision;
+			return collisionPoint;
+		}else {
+			return null;
+		}
+		
 	}
 
 	
