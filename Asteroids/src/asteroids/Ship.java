@@ -479,6 +479,7 @@ public class Ship implements IShip {
 	 *            the y-coordinat of the first point
 	 * @param y2
 	 *            the y-coordinat of the second point
+	 *            
 	 * @return the distance between two points | result == Math.hypot(x1-x2,
 	 *         y1-y2)
 	 */
@@ -547,9 +548,15 @@ public class Ship implements IShip {
 		}
 
 	}
-
+	
+	
 	/**
+	 * returns the position of the ship at the moment of impact with the given ship
 	 * 
+	 * @param ship
+	 * 			the ship from which we need to know at which place this ship will collide with it
+	 * @return the position of the ship at the moment of impact with the given ship
+	 *          
 	 */
 	public double[] getCollisionPosition(IShip ship) {
 		double x1 = this.getX();

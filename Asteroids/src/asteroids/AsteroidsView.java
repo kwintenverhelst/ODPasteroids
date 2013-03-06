@@ -102,7 +102,7 @@ public class AsteroidsView extends JPanel {
     	double dt = facade.getTimeToCollision(selected, first);
         
         float[] dashPattern = { 10, 5 };
-        g2d.setColor(Color.LIGHT_GRAY);
+        g2d.setColor(Color.GREEN);
         g2d.setStroke(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10, dashPattern, 0));
         
         int x1_ = (int) (facade.getX(selected) + dt * facade.getXVelocity(selected));
@@ -126,7 +126,7 @@ public class AsteroidsView extends JPanel {
             int x = (int) colPos[0];
             int y = height - (int) colPos[1];
             
-            g2d.setColor(Color.WHITE);
+            g2d.setColor(Color.BLUE);
             
             g2d.drawLine(x - 5, y, x + 5, y);
             g2d.drawLine(x, y - 5, x, y + 5);
