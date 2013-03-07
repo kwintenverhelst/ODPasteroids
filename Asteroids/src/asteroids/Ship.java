@@ -90,7 +90,7 @@ public class Ship implements IShip {
 	 */
 	public void setY(double y) throws NullPointerException {
 		if (!isValidDouble(y)) {
-			throw new NullPointerException("Non-existing y-coordinat");
+			throw new NullPointerException("Non-existing y-coordinate");
 		} else if (y > 1080) {
 			this.y = 0;
 		} else if (y < 0) {
@@ -255,21 +255,22 @@ public class Ship implements IShip {
 			if (isValidVelocity(velocityX, velocityY)) {
 				this.velocityX = velocityX;
 				this.velocityY = velocityY;
-			} else {
+			} 
+			else {
 				double direction = this.getDirection(velocityX, velocityY);
 				this.velocityX = this.getSpeedLimit() * Math.cos(direction);
 				this.velocityY = this.getSpeedLimit() * Math.sin(direction);
 			}
-		} else {
-			if (isValidDouble(velocityX) && !isValidDouble(velocityY)) {
-				this.velocityX = velocityX;
-				this.velocityY = 0;
-			} else if (!isValidDouble(velocityX) && isValidDouble(velocityY)) {
-				this.velocityX = 0;
-				this.velocityY = velocityY;
-			} else {
-				this.velocityX = 0;
-				this.velocityY = 0;
+		} 
+		else {
+			if (!isValidDouble(velocityY)) {
+				setVelocity(velocityX, 0.0);
+			}
+			else if (!isValidDouble(velocityX)) {
+				setVelocity(0.0,velocityY);
+			}
+			else {
+				setVelocity(0.0, 0.0);
 			}
 		}
 	}
