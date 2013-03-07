@@ -601,7 +601,7 @@ public class Ship implements IShip {
 	 *             the given ship is null
 	 *             |ship == null         
 	 */
-	public double[] getCollisionPosition(IShip ship) {
+	public double[] getCollisionPosition(IShip ship) throws NullPointerException {
 		if(ship == null){
 			throw new NullPointerException();
 		}
