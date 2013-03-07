@@ -1,5 +1,8 @@
 package asteroids;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 import be.kuleuven.cs.som.annotate.*;
 
 /**
@@ -13,14 +16,14 @@ import be.kuleuven.cs.som.annotate.*;
  */
 public class Ship implements IShip {
 	/**
-	 * Initialize a new ship with given x-coordinat, given y-coordinat, given
+	 * Initialize a new ship with given x-coordinate, given y-coordinate, given
 	 * velocity in the x direction, given velocity in the y direction, given
 	 * radius and given direction
 	 * 
 	 * @param x
-	 *            The x-coordinat for this new ship.
+	 *            The x-coordinate for this new ship.
 	 * @param y
-	 *            The y-coordinat for this new ship.
+	 *            The y-coordinate for this new ship.
 	 * @param velocityX
 	 *            The velocity in the x direction for this new ship.
 	 * @param velocityY
@@ -32,9 +35,9 @@ public class Ship implements IShip {
 	 * 
 	 * @post the given radius is set as the radius of this new ship | (new
 	 *       this).radius = radius
-	 * @effect the given x-coordinat is set as the x-coordinat of this new ship
+	 * @effect the given x-coordinate is set as the x-coordinate of this new ship
 	 *         |setX(x)
-	 * @effect the given y-coordinat is set as the y-coordinat of this new ship
+	 * @effect the given y-coordinate is set as the y-coordinate of this new ship
 	 *         |setY(y)
 	 * @effect the given velocity in the x direction and the given velocity in
 	 *         the y direction is set as the velocity in the x direction and the
@@ -79,22 +82,36 @@ public class Ship implements IShip {
 	}
 
 	/**
+	 * sets the y coordinate of this ship to the given position,
+	 * adjusted to your screen's height. 
 	 * 
 	 * @param y
-	 *            The y-coordinate of this ship in km.
+	 *     	  The y-coordinate of this ship in km.
 	 * 
-	 * @post the new position y of this ship is equal to the given number.
-	 *       |new.getY() == y
+	 * @post if the given number lies between 0 and your screen's height 
+	 * 		 then the new position y of this ship is equal to the given number.
+	 *       | if (0< y < screenSize.getHeight())
+	 *       | then new.getY() == y
+	 * @post if the given number is smaller than 0
+	 * 		  then the new position y of this ship is equal to your screen's height.
+	 * 		 |if ( y < 0)
+	 * 		 |then new.getY() == screenSize.getHeight()
+	 * @post if the given number height than your screen's height
+	 * 		  then the new position y of this ship is 0.
+	 * 		 |if (screenSize.getHeight() < y)
+	 * 		 |then new.getY() == 0
 	 * @throws NullPointerException
-	 *             The given position is not a valid number. |!isValidDouble(y)
+	 *         The given position is not a valid number.
+	 *         |!isValidDouble(y)
 	 */
 	public void setY(double y) throws NullPointerException {
+		double height = screenSize.getHeight();
 		if (!isValidDouble(y)) {
 			throw new NullPointerException("Non-existing y-coordinate");
-		} else if (y > 1080) {
+		} else if (y > height) {
 			this.y = 0;
 		} else if (y < 0) {
-			this.y = 1080;
+			this.y = height;
 		} else {
 			this.y = y;
 		}
@@ -114,20 +131,36 @@ public class Ship implements IShip {
 	}
 
 	/**
+	 * sets the x coordinate of this ship to the given position,
+	 * adjusted to your screen's width. 
+	 * 
 	 * @param x
-	 *            The x-coordinate of this ship in km.
-	 * @post the new position x of this ship is equal to the given number in km
-	 *       |new.getX() == x
+	 *       	The x-coordinate of this ship in km.
+	 * 
+	 * @post if the given number lies between 0 and your screen's width 
+	 * 		 then the new position x of this ship is equal to the given number.
+	 *       | if (0< x < screenSize.getWidth())
+	 *       | then new.getX() == x
+	 * @post if the given number is smaller than 0
+	 * 		  then the new position x of this ship is equal to your screen's width.
+	 * 		 |if ( x < 0)
+	 * 		 |then new.getX() == screenSize.getWidth()
+	 * @post if the given number height than your screen's width
+	 * 		  then the new position x of this ship is 0.
+	 * 		 |if (screenSize.getWidth() < x)
+	 * 		 |then new.getX() == 0
 	 * @throws NullPointerException
-	 *             The given position is not a valid number |!isValidDouble(x)
+	 *         The given position is not a valid number.
+	 *         |!isValidDouble(x)
 	 */
 	public void setX(double x) throws NullPointerException {
+		double width = screenSize.getWidth();
 		if (!isValidDouble(x)) {
 			throw new NullPointerException("Non-existing x-coordinat");
-		} else if (x > 1920) {
+		} else if (x > width) {
 			this.x = 0;
 		} else if (x < 0) {
-			this.x = 1920;
+			this.x = width;
 		} else {
 			this.x = x;
 		}
@@ -137,12 +170,17 @@ public class Ship implements IShip {
 	 * Variable with the x coordinate of this ship in km.
 	 */
 	private double x;
-
+	
+	/**
+	 * Variable with the size of your screen.
+	 */
+	private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	
 	/**
 	 * Check if this number is a valid number.
 	 * 
 	 * @param number
-	 *            The number in double format to verify.
+	 *       	 The number in double format to verify.
 	 * @return True if double is a valid number otherwise it is false.
 	 *         |result!=Double.isNaN(number)
 	 */
@@ -193,14 +231,14 @@ public class Ship implements IShip {
 
 	/**
 	 * Checks if the velocity is a valid number and if it is less or equal to
-	 * the speedlimit.
+	 * the speed limit.
 	 * 
 	 * @param velocityX
 	 *            velocity in the x direction in km/s
 	 * @param velocityY
 	 *            velocity in the y direction in km/s
 	 * @effect Returns true if the velocity is a valid number and if it is less
-	 *         or equal to the speedlimit.
+	 *         or equal to the speed limit.
 	 *         |Util.fuzzyLessThanOrEqualTo(getVelocity(velocityX, velocityY),
 	 *         getSpeedLimit())
 	 */
@@ -217,8 +255,7 @@ public class Ship implements IShip {
 	 * @param velocityY
 	 *            velocity in the y direction in km/s
 	 * @return The square root of the sum of powers of velocityX and velocityY
-	 *         |result == Math.sqrt((Math.pow(velocityX, 2) +
-	 *         Math.pow(velocityY,2))
+	 *         |result == Math.hypot(velocityX, velocityY).
 	 */
 	public double getVelocity(double velocityX, double velocityY) {
 		return Math.hypot(velocityX, velocityY);
@@ -233,23 +270,26 @@ public class Ship implements IShip {
 	 *            velocity in the y direction in km/s
 	 * @post If the given velocity is less than or equal to the speed limit, the
 	 *       new velocity of this ship is equal to given velocity.
-	 *       |if(isValidVelocity(velocityX, velocityY)) | then
-	 *       new.getVelocityX()=this.getVelocityX() | &&
-	 *       new.getVelocityY()=this.getVelocityY()
+	 *       |if(isValidVelocity(velocityX, velocityY)) 
+	 *       | then new.getVelocityX()=this.getVelocityX() 
+	 *       | &&   new.getVelocityY()=this.getVelocityY()
 	 * @post If the given velocity is greater than the speed limit, the new
 	 *       velocity of this ship is equal the speed limit, the velocity in x
 	 *       direction is the velocity times the cosine of the direction, the
 	 *       velocity in y direction is the velocity times the sine of the
-	 *       direction. |if!(isValidVelocity(velocityX, velocityY)) | then
-	 *       new.getVelocityX
-	 *       ()=this.getSpeedLimit()*Math.cos(this.getDirection()) | &&
-	 *       new.getVelocityY
-	 *       ()=this.getSpeedLimit()*Math.sin(this.getDirection())
-	 * @post if one or both of the velocities is not a number then that velocity
-	 *       (those velocities) are set on zero | if (!isValidDouble(velocityY))
-	 *       then this.velocityY = 0; | || if (!isValidDouble(velocityX)) then
-	 *       this.velocityX = 0
-	 */
+	 *       direction. 
+	 *       |if!(isValidVelocity(velocityX, velocityY))
+	 *       | then new.getVelocityX()=this.getSpeedLimit()*Math.cos(this.getDirection())
+	 *       | && new.getVelocityY()=this.getSpeedLimit()*Math.sin(this.getDirection())
+	 * @effect if one or both of the velocities is not a number then that velocity
+	 *       	(those velocities) are set on zero
+	 *       	 |if (!isValidDouble(velocityY))
+	 *      	 |  then setVelocity(velocityX, 0.0); 
+	 *      	 |if (!isValidDouble(velocityX)) 
+	 *      	 | then setVelocity(0.0,velocityY);
+	 *      	 |if (!isValidDouble(velocityX) && !isValidDouble(velocityY))
+	 *     	 	 |then setVelocity(0.0, 0.0)
+	 */		 	
 	public void setVelocity(double velocityX, double velocityY) {
 		if (isValidDouble(velocityX) && isValidDouble(velocityY)) {
 			if (isValidVelocity(velocityX, velocityY)) {
@@ -283,8 +323,8 @@ public class Ship implements IShip {
 	 *            The x component of the velocity
 	 * @param velocityY
 	 *            The y component of the velocity
-	 * @return the angle of the velocity | result ==
-	 *         Math.atan(velocityY/velocityX)
+	 * @return the angle of the velocity
+	 * 		 	| result == Math.atan(velocityY/velocityX)
 	 */
 	private double getDirection(double velocityX, double velocityY) {
 		return Math.atan(velocityY / velocityX);
@@ -296,7 +336,8 @@ public class Ship implements IShip {
 	private double angle;
 
 	/**
-	 * Return the angle of the ship the angle express in which angle, with the
+	 * Return the angle of the ship 
+	 * the angle expresses in which angle, with the
 	 * x-as, the acceleration of the ship is
 	 * 
 	 */
@@ -310,24 +351,20 @@ public class Ship implements IShip {
 	 * 
 	 * @param angle
 	 *            The angle to check
-	 * @return true if angle | result == angle >= 0 && angle < 2*Math.PI
+	 * @return true if angle lies between 0 and 2PI
+	 * 			| result == angle >= 0 && angle < 2*Math.PI
 	 */
 	public boolean isValidAngle(double angle) {
-		if (angle >= 0 && angle < 2 * Math.PI && isValidDouble(angle)) {
-			return true;
-		} else {
-			return false;
-		}
-
+		return (angle >= 0 && angle < 2 * Math.PI && isValidDouble(angle));
 	}
 
 	/**
-	 * Set the angle of the ship with the given angle
+	 * Set the angle of the ship to the given angle
 	 * 
 	 * @param angle
 	 *            the new angle of the ship
-	 * @pre the given angle of the ship must be a valid angle |
-	 *      isValidAngle(angle)
+	 * @pre the given angle of the ship must be a valid angle
+	 * 		 |isValidAngle(angle)
 	 * @post the new angle of the ship is equal to the given angle
 	 *       |new.getAngle() == angle
 	 */
@@ -338,8 +375,6 @@ public class Ship implements IShip {
 
 	/**
 	 * Constant that reflects the lowest possible radius of a ship
-	 * 
-	 * @return the lowest possible radius a ship can have | result = 10
 	 */
 	public final static double MIN_RADIUS = 10;
 
@@ -350,7 +385,6 @@ public class Ship implements IShip {
 
 	/**
 	 * return the radius of the ship
-	 * 
 	 */
 	@Basic
 	@Immutable
@@ -363,30 +397,26 @@ public class Ship implements IShip {
 	 * 
 	 * @param radius
 	 *            The radius to check
-	 * @return true if radius is larger then the lower bound radius | result ==
-	 *         radius > MIN_RADIUS && isValidDouble(radius)
+	 * @return true if radius is larger then the lower bound radius
+	 *         | result == (radius > MIN_RADIUS) && (isValidDouble(radius))
 	 */
 	public boolean isValidRadius(double radius) {
-		if (radius > MIN_RADIUS && isValidDouble(radius)) {
-			return true;
-		} else {
-			return false;
-		}
-
+		return (radius > MIN_RADIUS && isValidDouble(radius));
 	}
 
 	/**
 	 * Let the ship move within a given time period
 	 * 
-	 * @effect the ship has moved in the given time period |
-	 *         setY(this.velocityY*dt+getY()) && setY(this.velocityX*dt+getX())
-	 * 
+	 * @effect the ship has moved in the given time period
+	 *         |setY(this.velocityY*dt+getY()) && setY(this.velocityX*dt+getX())
 	 * @param dt
-	 *            the time in which the ship needs to move
+	 *         the time in which the ship needs to move
 	 * @throws NullPointerException
-	 *             The given time is not a number |!isValidDouble(dt)
+	 *             The given time is not a number
+	 *         |!isValidDouble(dt)
 	 * @throws IllegalArgumentException
-	 *             The given time is not a valid time |!isValidTime(dt)
+	 *             The given time is not a valid time
+	 *         |!isValidTime(dt)
 	 */
 	public void move(double dt) throws NullPointerException,
 			IllegalArgumentException {
@@ -396,12 +426,10 @@ public class Ship implements IShip {
 				setY(this.velocityY * dt + getY());
 
 			} else {
-				throw new IllegalArgumentException(
-						"the time must be more then zero");
+				throw new IllegalArgumentException("the time must be more then zero");
 			}
 		} else {
-			throw new NullPointerException(
-					"the time you have given is not a number");
+			throw new NullPointerException("the time you have given is not a number");
 		}
 
 	}
@@ -410,19 +438,27 @@ public class Ship implements IShip {
 	 * Check whether the time is more or equal to zero
 	 * 
 	 * @param dt
-	 *            the time to check
-	 * @return true if time is more or equal to zero | result == dt >= 0
+	 *          the time to check
+	 * @return true if time is more or equal to zero
+	 *         |result == dt >= 0
 	 */
 	public boolean isValidTime(double dt) {
 		return dt >= 0;
 	}
 
 	/**
-	 * Changes the velocities of the ship
+	 * if the amount is a valid number, this ship accelerates with the given amount in the current direction.
 	 * 
 	 * @param amount
-	 *            the amount of acceleration you want to give to the ship
-	 * @post
+	 *        the amount of acceleration you want to give to the ship
+	 * @post  if the amount is not a valid double or if it's less than 0, 
+	 * 		  then the amount is set to 0.
+	 * 		  | if (!isValidDouble(amount) || !isValidThrust(amount))
+			  |  then amount = 0;
+	 * @effect this ship accelerates with the given amount in the current direction.
+	 * 		  | newVelocityX = this.velocityX + amount * Math.cos(getAngle())
+	 *		  | newVelocityY = this.velocityY + amount * Math.sin(getAngle())
+	 *        | setVelocity(newVelocityX, newVelocityY)
 	 */
 	public void thrust(double amount) {
 		if (!isValidDouble(amount) || !isValidThrust(amount)) {
@@ -430,32 +466,46 @@ public class Ship implements IShip {
 		}
 		double newVelocityX = this.velocityX + amount * Math.cos(getAngle());
 		double newVelocityY = this.velocityY + amount * Math.sin(getAngle());
-		if (isValidVelocity(newVelocityX, newVelocityY)) {
-			this.velocityX = newVelocityX;
-			this.velocityY = newVelocityY;
-		} else {
-			double direction = getDirection(newVelocityX, newVelocityY);
-			this.velocityX = this.getSpeedLimit() * Math.cos(direction);
-			this.velocityY = this.getSpeedLimit() * Math.sin(direction);
-		}
+		setVelocity(newVelocityX, newVelocityY);
 	}
 
 	/**
 	 * Check whether the amount of thrust is more or equal to zero
 	 * 
 	 * @param amount
-	 *            the the amount of thrust to check
-	 * @return true if the amount of thrust is more or equal to zero | result ==
-	 *         amount >= 0
+	 *           the amount that has to be checked.
+	 * @return true if the amount of thrust is more or equal to zero
+	 * 		   | result == amount >= 0
 	 */
 	public boolean isValidThrust(double amount) {
 		return amount >= 0;
 	}
+	
+	/**
+	 *Turns the ship by adding the given angle to the current angle.
+	 * 
+	 * @param angle
+	 * 			the angle that has to be added.
+	 * @effect sets the angle of this ship to the current angle plus the given angle.
+	 * 		   | this.setAngle(this.getAngle()+angle)
+	 */
+	public void turn(double angle) {
+		this.setAngle(this.getAngle()+angle);
+	}
 
 	/**
+	 * Calculates the distance between this ship and the given ship.
 	 * 
 	 * @param ship
-	 * @return
+	 * 			The ship between which you calculate the distance
+	 * @return Returns the distance between this ship and the given ship.
+	 * 			|result == Math.hypot((this.getX() - ship.getX()), (this.getY() - ship.getY()))- this.getRadius() - ship.getRadius()
+	 * @throws IllegalArgumentException
+	 *             the given ship is this ship
+	 *             |this == ship
+	 * @throws NullPointerException
+	 *             the given ship is null
+	 *             |ship == null
 	 */
 	public double getDistanceBetween(IShip ship)
 			throws IllegalArgumentException, NullPointerException {
@@ -464,35 +514,19 @@ public class Ship implements IShip {
 		} else if (ship == null) {
 			throw new NullPointerException("the given ship does not exist");
 		} else {
-			return distance(this.getX(), ship.getX(), this.getY(), ship.getY())
+			return Math.hypot((this.getX() - ship.getX()), (this.getY() - ship.getY()))
 					- this.getRadius() - ship.getRadius();
 		}
 	}
 
 	/**
-	 * return the distance between two points
-	 * 
-	 * @param x1
-	 *            the x-coordinat of the first point
-	 * @param x2
-	 *            the x-coordinat of the second point
-	 * @param y1
-	 *            the y-coordinat of the first point
-	 * @param y2
-	 *            the y-coordinat of the second point
-	 *            
-	 * @return the distance between two points | result == Math.hypot(x1-x2,
-	 *         y1-y2)
-	 */
-	private static double distance(double x1, double x2, double y1, double y2) {
-		return Math.hypot(x1 - x2, y1 - y2);
-
-	}
-
-	/**
+	 * returns true if this ship overlaps with the given ship
 	 * 
 	 * @param ship
-	 * @return
+	 * 			The ship which to check if it overlaps with this ship
+	 * @return True if this ship is the given ship or if the distance between the 2 ships equals 0.
+	 * 			|distance = this.getDistanceBetween(ship)
+	 * 		 	|result == ((this==ship) || (Util.fuzzyLessThanOrEqualTo(distance, 0.0))
 	 */
 	public boolean overlap(IShip ship) {
 		if (this == ship) {
@@ -516,10 +550,16 @@ public class Ship implements IShip {
 	 *            the ship from which we need to know when it will collide with
 	 *            this ship
 	 * @return the time in which this ship collides with the given ship, if they
-	 *         never collide it will give infinite back |
-	 * 
+	 *         never collide it will give infinite back
+	 *        |  result == 
+	 * @throws NullPointerException
+	 *             the given ship is null
+	 *             |ship == null
 	 */
-	public double getTimeToCollision(IShip ship) {
+	public double getTimeToCollision(IShip ship) throws NullPointerException{
+		if (ship == null){
+			throw new NullPointerException();
+		}
 		double x1 = this.getX();
 		double y1 = this.getY();
 		double vx1 = this.getVelocityX();
@@ -557,19 +597,20 @@ public class Ship implements IShip {
 	 * @param ship
 	 * 			the ship from which we need to know at which place this ship will collide with it
 	 * @return the position of the ship at the moment of impact with the given ship
-	 *          
+	 * @throws NullPointerException
+	 *             the given ship is null
+	 *             |ship == null         
 	 */
 	public double[] getCollisionPosition(IShip ship) {
-		double x1 = this.getX();
-		double y1 = this.getY();
-		double vx1 = this.getVelocityX();
-		double vy1 = this.getVelocityY();
+		if(ship == null){
+			throw new NullPointerException();
+		}
 
 		double time = getTimeToCollision(ship);
 
 		if (!Double.isInfinite(time)) {
-			double x1Collision = x1 + time * vx1;
-			double y1Collision = y1 + time * vy1;
+			double x1Collision = this.getX() + time * this.getVelocityX();
+			double y1Collision = this.getY() + time * this.getVelocityY();
 			double[] collisionPoint = new double[2];
 			collisionPoint[0] = x1Collision;
 			collisionPoint[1] = y1Collision;
@@ -577,7 +618,8 @@ public class Ship implements IShip {
 		} else {
 			return null;
 		}
-
+	
 	}
 
+	
 }
