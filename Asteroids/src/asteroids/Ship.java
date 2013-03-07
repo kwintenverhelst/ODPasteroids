@@ -6,12 +6,23 @@ import java.awt.Toolkit;
 import be.kuleuven.cs.som.annotate.*;
 
 /**
+ * A class to create Spaceships for playing asteroids. 
+ * A ship has 2D coordinates in km for its position, a velocity in km/s,
+ * a radius and a direction.
+ * The ships are able to move, turn and accelerate.
+ * This class can also predict time and place of collision between 2 ships.
  * 
+ * @invar X coordinate, Y coordinate, VelocityX, Velocity Y doubles must be valid numbers.
+ * 		| isValidDouble(getX()) && isValidDouble(getY())
+ * 		| isValidDouble(getVelocityX()) && isValidDouble(getVelocityY()) 
+ * @invar Angle must be a valid angle
+ * 		| isValidAngle(getAngle())
+ * @invar Radius must be a valid radius
+ * 		| isValidRadius(getRadius())
+ * @invar The velocity must be a valid velocity, less than the speed limit.
+ * 		| isValidVelocity(getVelocityX(),getVelocityY())
  * 
- * @invar The denominator of each rational number must be a legal denominator
- *        for a rational number. | isValidDenominator(getDenominator())
- * 
- * @version 1.0
+ * @version 1.1
  * @author Mathieu Vermeire en Kwinten Verhelst
  */
 public class Ship implements IShip {
@@ -33,8 +44,8 @@ public class Ship implements IShip {
 	 * @param angle
 	 *            The direction for this new ship.
 	 * 
-	 * @post the given radius is set as the radius of this new ship | (new
-	 *       this).radius = radius
+	 * @post the given radius is set as the radius of this new ship 
+	 *			| (new this).radius = radius
 	 * @effect the given x-coordinate is set as the x-coordinate of this new ship
 	 *         |setX(x)
 	 * @effect the given y-coordinate is set as the y-coordinate of this new ship
