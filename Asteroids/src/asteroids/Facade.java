@@ -3,7 +3,7 @@ package asteroids;
 public class Facade implements IFacade {
 
 	public IShip createShip() {
-		return new Ship(200, 400, 0, 0, 50, 0);
+		return new Ship(0, 0, 0, 0, 50, 0);
 	}
 
 	public IShip createShip(double x, double y, double xVelocity,
