@@ -9,15 +9,10 @@ import be.kuleuven.cs.som.annotate.*;
  * The ships are able to move, turn and accelerate.
  * This class can also predict time and place of collision between 2 ships.
  * 
- * @invar X coordinate, Y coordinate, VelocityX, Velocity Y doubles must be valid numbers.
- * 		| isValidDouble(getX()) && isValidDouble(getY())
- * 		| isValidDouble(getVelocityX()) && isValidDouble(getVelocityY()) 
  * @invar Angle must be a valid angle
  * 		| isValidAngle(getAngle())
  * @invar Radius must be a valid radius
  * 		| isValidRadius(getRadius())
- * @invar The velocity must be a valid velocity, less than the speed limit.
- * 		| isValidVelocity(getVelocityX(),getVelocityY())
  * 
  * @version 1.1
  * @author Mathieu Vermeire en Kwinten Verhelst
@@ -29,9 +24,9 @@ public class Ship implements IShip {
 	 * radius and given direction
 	 * 
 	 * @param x
-	 *            The x-coordinate for this new ship.
+	 *            The x-coordinate of the position for this new ship.
 	 * @param y
-	 *            The y-coordinate for this new ship.
+	 *            The y-coordinate of the position for this new ship.
 	 * @param velocityX
 	 *            The velocity in the x direction for this new ship.
 	 * @param velocityY
@@ -42,11 +37,10 @@ public class Ship implements IShip {
 	 *            The direction for this new ship.
 	 * 
 	 * @post the given radius is set as the radius of this new ship 
-	 *			| (new this).radius = radius
-	 * @effect the given x-coordinate is set as the x-coordinate of this new ship
-	 *         |setX(x)
-	 * @effect the given y-coordinate is set as the y-coordinate of this new ship
-	 *         |setY(y)
+	 *			| (new this).radius == radius
+	 * @effect the given x-coordinate and the given y-coordinate is set as 
+	 * 			the x-coordinate and the y-coordinate of this new ship
+	 *         |setPosition(x, y)
 	 * @effect the given velocity in the x direction and the given velocity in
 	 *         the y direction is set as the velocity in the x direction and the
 	 *         velocity in the y direction of this new ship
@@ -59,8 +53,7 @@ public class Ship implements IShip {
 	 *             |!isValidRadius(radius)
 	 * @throws NullPointerException
 	 *             one of the given coordinates or the radius is not an number
-	 *             |!isValidDouble(x) || !isValidDouble(y) ||
-	 *             !isValidDouble(radius)
+	 *        		|!isValidDouble(radius)
 	 * 
 	 */
 	public Ship(double x, double y, double velocityX, double velocityY,
@@ -79,9 +72,15 @@ public class Ship implements IShip {
 		}
 		setAngle(angle);
 	}
+	/**
+	 * variable registering the position of the ship
+	 */
 	
 	private Position position = new Position();
 	
+	/**
+	 * variable registering the velocity of the ship
+	 */
 	private Velocity velocity = new Velocity();
 	
 	/**
@@ -98,7 +97,10 @@ public class Ship implements IShip {
 	 * variable registering the radius of the ship
 	 */
 	private final double radius;
-
+	
+	/**
+	 * Returns the position of the this ship
+	 */
 	@Basic
 	public Position getPosition(){
 		return position;
@@ -106,6 +108,9 @@ public class Ship implements IShip {
 	
 	/**
 	 * Returns the x coordinate of the this ship's position expressed in km
+	 * 
+	 * @return the x coordinate of the this ship's position expressed in km
+	 * 			|result == getPosition().getX()
 	 */
 	public double getX(){
 		return getPosition().getX();
@@ -113,22 +118,43 @@ public class Ship implements IShip {
 	
 	/**
 	 * Returns the y coordinate of the this ship's position expressed in km
+	 * 
+	 * @return the y coordinate of the this ship's position expressed in km
+	 * 			|result == getPosition().getY()
 	 */
 	public double getY(){
 		return getPosition().getY();
 	}			
-		
+	
+	/**
+	 *  set the position of this ship on the given x- and y-coordinates
+	 * @param x
+	 * 			The x-coordinate in km of the new position
+	 * @param y
+	 * 			The y-coordinate in km of the new position
+	 * @post the new position of the ship has the given x- and y-coordinates	
+	 * 			(new this).getX() == x
+	 * 			(new this).getY() == y
+	 * 			
+	 */
 	public void setPosition(double x, double y){
 		position.setX(x);
 		position.setY(y);
 	}
 	
+	/**
+	 * Returns the velocity of this ship in km/s.
+	 */
+	@Basic
 	public Velocity getVelocity(){
 		return velocity;
 	}
 	
 	/**
 	 * Returns the velocity of this ship in the x direction in km/s.
+	 * 
+	 * @return the velocity of this ship in the x direction in km/s
+	 * 			|result == getVelocity().getVelocityX()
 	 */
 	public double getVelocityX(){
 		return getVelocity().getVelocityX();
@@ -136,11 +162,25 @@ public class Ship implements IShip {
 	
 	/**
 	 * Returns the velocity of this ship in the y direction in km/s.
+	 * 
+	 * @return the velocity of this ship in the y direction in km/s
+	 * 			|result == getVelocity().getVelocityY()
 	 */
 	public double getVelocityY(){
 		return getVelocity().getVelocityY();
 	}
 	
+	/**
+	 *  set the velocity of this ship on the given x- and y-velocities
+	 * @param x
+	 * 			The x-velocity in km of the new velocity
+	 * @param y
+	 * 			The y-velocity in km of the new velocity
+	 * @post the new velocity of the ship has the given x- and y-coordinates	
+	 * 			(new this).getVelocityX() == x
+	 * 			(new this).getVelocityY() == y
+	 * 			
+	 */
 	public void setVelocity(double velocityX, double velocityY){
 		velocity.setVelocity(velocityX, velocityY);
 	}
@@ -222,7 +262,7 @@ public class Ship implements IShip {
 	 * Let the ship move within a given time period
 	 * 
 	 * @effect the ship has moved in the given time period
-	 *         |setY(this.velocityY*dt+getY()) && setY(this.velocityX*dt+getX())
+	 *         |this.setPosition(this.getVelocityX()*dt + this.getX(), this.getVelocityY()*dt + this.getY())
 	 * @param dt
 	 *         the time in which the ship needs to move
 	 * @throws NullPointerException
@@ -363,7 +403,18 @@ public class Ship implements IShip {
 	 *            this ship
 	 * @return the time in which this ship collides with the given ship, if they
 	 *         never collide it will give infinite back
-	 *        |  result == 
+	 *        |  with ship1==this position == (x1,y1) velocity == (vx1,vy1)
+	 *        |   and ship2 position == (x2,y2) velocity == (vx2,vy2)
+	 *        |   and Δr== (Δx,Δy), Δv== (Δvx,Δvy), Δr*Δr== (Δx)²+(Δy)²
+	 *        |   and Δv*Δv== (Δvx)²+(Δvy)² and Δv*Δr== (Δvx)*(Δx)+(Δvy)*(Δy)
+	 *        |   and σ== this.getRadius() + ship2.getRadius()
+	 *        |   and d== (Δv*Δr)² - (Δv*Δv)*(Δr*Δr -σ²)
+	 *        |   if(Δv*Δr >= 0) 
+	 *        |		then result == Double.POSITIVE_INFINITY
+	 *        |	  else if(d <= 0)
+	 *        |		then result == Double.POSITIVE_INFINITY
+	 *        |	  else
+	 *        |		then result == -((Δv*Δr)+Math.sqrt(d))/(Δv*Δv)
 	 * @throws NullPointerException
 	 *             the given ship is null
 	 *             |ship == null
@@ -408,6 +459,13 @@ public class Ship implements IShip {
 	 * @param ship
 	 * 			the ship from which we need to know at which place this ship will collide with it
 	 * @return the position of the ship at the moment of impact with the given ship
+	 * 			|if(Double.isInfinite(getTimeToCollision(ship)))
+	 * 			|	then result == null
+	 * 			| else 
+	 * 			|	then with double[] collisionPoint = new double[2]
+	 * 			| 		and collisionPoint[0] = x1Collision
+	 * 			|       and collisionPoint[1] = y1Collision;
+	 * 			|		result == collisionPoint
 	 * @throws NullPointerException
 	 *             the given ship is null
 	 *             |ship == null         

@@ -2,30 +2,58 @@ package asteroids;
 
 import be.kuleuven.cs.som.annotate.*;
 
+/**
+ * A class to create velocity in a 2D setting and with a velocity in the x direction, a velocity in the y direction
+ *  and a speedlimit in km/s
+ *
+ * @invar VelocityX, Velocity Y doubles must be valid numbers.
+ * 		| isValidDouble(getVelocityX()) && isValidDouble(getVelocityY()) 
+ * @invar The velocity must be a valid velocity, less than the speed limit.
+ * 		| isValidVelocity(getVelocityX(),getVelocityY())
+ * 
+ * @version 1.1
+ * @author Mathieu Vermeire en Kwinten Verhelst
+ */
 public class Velocity {
 	
 	/**
-	 * The velocity of this ship in the x direction in km/s
+	 * The velocity in the x direction in km/s
 	 */
 	private double velocityX;
 	
 	/**
-	 * The velocity of this ship in the y direction in km/s
+	 * The velocity in the y direction in km/s
 	 */
 	private double velocityY;
 	
 	/**
-	 * Variable for the speed limit of this ship in km/s.
+	 * Variable for the speed limit in km/s.
 	 */
 	private final double speedLimit = 300000;
 	
+	/**
+	 * Initialize a new velocity on default, the x- and y-velocity are both zero
+	 * 
+	 * @post the x- and y-velocity are both zero
+	 * 			| setVelocity(0, 0)
+	 */
 	public Velocity (){
 		setVelocity(0, 0);
 	}
 	
+	/**
+	 * Initialize a new velocity with the given the x- and y-velocity
+	 * @param velocityX
+	 * 			the x-coordinate of this velocity
+	 * @param velocityY
+	 * 			the y-coordinate of this velocity
+	 * @post the x- and y-velocity are the given the x- and y-velocity
+	 * 			|setVelocity(velocityX, velocityY)
+	 */
 	public Velocity (double velocityX, double velocityY){
 		setVelocity(velocityX, velocityY);
 	}
+	
 	/**
 	 * Check if this number is a valid number.
 	 * 
@@ -40,7 +68,7 @@ public class Velocity {
 	}
 
 	/**
-	 * Returns the velocity of this ship in the x direction in km/s.
+	 * Returns the velocity in the x direction in km/s.
 	 */
 	@Basic
 	public double getVelocityX() {
@@ -49,7 +77,7 @@ public class Velocity {
 
 
 	/**
-	 * Returns the velocity of this ship in the y direction in km/s.
+	 * Returns the velocity in the y direction in km/s.
 	 */
 	@Basic
 	public double getVelocityY() {
@@ -57,7 +85,7 @@ public class Velocity {
 	}
 
 	/**
-	 * Returns the speed limit of this ship in km/s.
+	 * Returns the speed limit  in km/s.
 	 */
 	@Basic
 	@Immutable
@@ -98,30 +126,30 @@ public class Velocity {
 	}
 
 	/**
-	 * Changes the velocity of this ship in the given x and y direction.
+	 * Changes the velocity in the given x and y direction.
 	 * 
 	 * @param velocityX
 	 *            velocity in the x direction in km/s
 	 * @param velocityY
 	 *            velocity in the y direction in km/s
 	 * @post If the given velocity is less than or equal to the speed limit, the
-	 *       new velocity of this ship is equal to given velocity.
+	 *       new velocity is equal to given velocity.
 	 *       |if(isValidVelocity(velocityX, velocityY)) 
-	 *       | then new.getVelocityX()=this.getVelocityX() 
-	 *       | &&   new.getVelocityY()=this.getVelocityY()
+	 *       | then new.getVelocityX()==this.getVelocityX() 
+	 *       | &&   new.getVelocityY()==this.getVelocityY()
 	 * @post If the given velocity is greater than the speed limit, the new
-	 *       velocity of this ship is equal the speed limit, the velocity in x
+	 *       velocity  is equal the speed limit, the velocity in x
 	 *       direction is the velocity times the cosine of the direction, the
 	 *       velocity in y direction is the velocity times the sine of the
 	 *       direction. 
 	 *       |if!(isValidVelocity(velocityX, velocityY))
-	 *       | then new.getVelocityX()=this.getSpeedLimit()*Math.cos(this.getDirection())
-	 *       | && new.getVelocityY()=this.getSpeedLimit()*Math.sin(this.getDirection())
+	 *       | then new.getVelocityX()==this.getSpeedLimit()*Math.cos(this.getDirection())
+	 *       | && new.getVelocityY()==this.getSpeedLimit()*Math.sin(this.getDirection())
 	 * @effect if one or both of the velocities is not a number then that velocity
 	 *       	(those velocities) are set on zero
-	 *       	 |if (!isValidDouble(velocityY))
+	 *       	 |if (isValidDouble(velocityX) && !isValidDouble(velocityY))
 	 *      	 |  then setVelocity(velocityX, 0.0); 
-	 *      	 |if (!isValidDouble(velocityX)) 
+	 *      	 |if (!isValidDouble(velocityX) && isValidDouble(velocityY)) 
 	 *      	 | then setVelocity(0.0,velocityY);
 	 *      	 |if (!isValidDouble(velocityX) && !isValidDouble(velocityY))
 	 *     	 	 |then setVelocity(0.0, 0.0)
@@ -162,7 +190,7 @@ public class Velocity {
 	 * @return the angle of the velocity
 	 * 		 	| result == Math.atan(velocityY/velocityX)
 	 */
-	public double getDirection(double velocityX, double velocityY) {
+	private double getDirection(double velocityX, double velocityY) {
 		return Math.atan(velocityY / velocityX);
 	}
 }

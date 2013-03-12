@@ -5,15 +5,24 @@ import java.awt.Toolkit;
 
 import be.kuleuven.cs.som.annotate.Basic;
 
+/** 
+ * A class to create a position in a 2D setting with a x-coordinate and a y-coordinate in km
+ * 
+ * @invar x-coordinate, y-coordinate doubles must be valid numbers.
+ * 		| isValidDouble(getX()) && isValidDouble(getY())
+ * 
+ * @version 1.1
+ * @author Mathieu Vermeire en Kwinten Verhelst
+ */
 public class Position {
 	
 	/**
-	 * Variable with the x coordinate of this ship in km.
+	 * Variable with the x-coordinate in km.
 	 */
 	private double x;
 	
 	/**
-	 * Variable with the y coordinate of this ship in km.
+	 * Variable with the y-coordinate in km.
 	 */
 	private double y;
 
@@ -22,17 +31,33 @@ public class Position {
 	 */
 	private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	
+	/**
+	 * Initialize a new position on default, the x- and y-coordinate are both zero
+	 * 
+	 * @post the x- and y-coordinate are both zero
+	 * 			|setX(0) && setY(0)
+	 */
 	public Position(){
 		setX(0);
 		setY(0);
 	}
+	
+	/**
+	 * Initialize a new position with the given the x- and y-coordinate
+	 * @param x
+	 * 			the x-coordinate of this position
+	 * @param y
+	 * 			the y-coordinate of this position
+	 * @post the x- and y-coordinate are the given the x- and y-coordinate
+	 * 			|setX(x) && setY(y)
+	 */
 	public Position(double x, double y){
 		setX(x);
 		setY(y);
 	}
 	
 	/**
-	 * Returns the x coordinate of the this ship's position expressed in km
+	 * Returns the x-coordinate of the position expressed in km
 	 */
 	@Basic
 	public double getX() {
@@ -40,22 +65,22 @@ public class Position {
 	}
 
 	/**
-	 * sets the x coordinate of this ship to the given position,
+	 * sets the x-coordinate to the given position,
 	 * adjusted to your screen's width. 
 	 * 
 	 * @param x
-	 *       	The x-coordinate of this ship in km.
+	 *       	The x-coordinate in km.
 	 * 
 	 * @post if the given number lies between 0 and your screen's width 
-	 * 		 then the new position x of this ship is equal to the given number.
+	 * 		 then the new position x is equal to the given number.
 	 *       | if (0< x < screenSize.getWidth())
 	 *       | then new.getX() == x
 	 * @post if the given number is smaller than 0
-	 * 		  then the new position x of this ship is equal to your screen's width.
+	 * 		  then the new position x is equal to your screen's width.
 	 * 		 |if ( x < 0)
 	 * 		 |then new.getX() == screenSize.getWidth()
 	 * @post if the given number height than your screen's width
-	 * 		  then the new position x of this ship is 0.
+	 * 		  then the new position x is 0.
 	 * 		 |if (screenSize.getWidth() < x)
 	 * 		 |then new.getX() == 0
 	 * @throws NullPointerException
@@ -76,7 +101,7 @@ public class Position {
 	}
 
 	/**
-	 * Returns the y coordinate in km
+	 * Returns the y-coordinate in km
 	 */
 	@Basic
 	public double getY() {
@@ -84,22 +109,22 @@ public class Position {
 	}
 
 	/**
-	 * sets the y coordinate of this ship to the given position,
+	 * sets the y-coordinate to the given position,
 	 * adjusted to your screen's height. 
 	 * 
 	 * @param y
-	 *     	  The y-coordinate of this ship in km.
+	 *     	  The y-coordinate in km.
 	 * 
 	 * @post if the given number lies between 0 and your screen's height 
-	 * 		 then the new position y of this ship is equal to the given number.
+	 * 		 then the new position y is equal to the given number.
 	 *       | if (0< y < screenSize.getHeight())
 	 *       | then new.getY() == y
 	 * @post if the given number is smaller than 0
-	 * 		  then the new position y of this ship is equal to your screen's height.
+	 * 		  then the new position y is equal to your screen's height.
 	 * 		 |if ( y < 0)
 	 * 		 |then new.getY() == screenSize.getHeight()
 	 * @post if the given number height than your screen's height
-	 * 		  then the new position y of this ship is 0.
+	 * 		  then the new position y is 0.
 	 * 		 |if (screenSize.getHeight() < y)
 	 * 		 |then new.getY() == 0
 	 * @throws NullPointerException
