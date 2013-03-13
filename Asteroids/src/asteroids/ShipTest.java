@@ -191,9 +191,9 @@ public class ShipTest {
 	
 	@Test
 	public final void getTimeToCollision_TrueCase() {
-		Ship newShip1 = new Ship(10, 10, 0, 0, 10, 0);
-		Ship newShip2 = new Ship(30, 40, -15, -20, 10, 0);
-		assertEquals(2.23598995, newShip1.getTimeToCollision(newShip2), Util.EPSILON);	
+		Ship newShip1 = new Ship(200, 400, 1, 1, 50, 0);
+		Ship newShip2 = new Ship(450, 600, 0, 0, 75, 0);
+		assertEquals(140.2209, newShip1.getTimeToCollision(newShip2), Util.EPSILON);	
 	}
 	
 	@Test
@@ -207,17 +207,17 @@ public class ShipTest {
 		ship.getTimeToCollision(null);
 	}
 	
+	
 	@Test
 	public final void getCollisionPosition_TrueCase() {
-		Ship newShip1 = new Ship(10, 10, 0, 0, 10, 0);
-		Ship newShip2 = new Ship(30, 40, -15, -20, 10, 0);
+		Ship newShip1 = new Ship(200, 400, 1, 1, 50, 0);
+		Ship newShip2 = new Ship(450, 600, 0, 0, 75, 0);
 		double[] collisionPoints = new double[2];
-		collisionPoints[0] = 10;
-		collisionPoints[1] = 10;
+		collisionPoints[0] = 340.2209;
+		collisionPoints[1] = 540.2209;
 		assertArrayEquals(collisionPoints, newShip1.getCollisionPosition(newShip2),Util.EPSILON);
 		
 	}
-	
 
 	@Test(expected = NullPointerException.class)
 	public final void getCollisionPosition_NullPointerCase() {
@@ -229,7 +229,6 @@ public class ShipTest {
 		Ship newShip = new Ship(20, 30, 50, 40, 15, 30);
 		assertNull(ship.getCollisionPosition(newShip));
 	}
-	
 	
 	
 	
