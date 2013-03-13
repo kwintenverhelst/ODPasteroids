@@ -190,7 +190,7 @@ public class Velocity {
 	 * @return the angle of the velocity
 	 * 		 	| result == Math.atan(velocityY/velocityX)
 	 */
-	private double getDirection(double velocityX, double velocityY) {
+	public double getDirection(double velocityX, double velocityY) {
 		return Math.atan(velocityY / velocityX);
 	}
 }
