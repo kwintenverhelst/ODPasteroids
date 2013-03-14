@@ -132,10 +132,8 @@ public class Ship implements IShip {
 	 * 			The x-coordinate in km of the new position
 	 * @param y
 	 * 			The y-coordinate in km of the new position
-	 * @post the new position of the ship has the given x- and y-coordinates	
-	 * 			(new this).getX() == x
-	 * 			(new this).getY() == y
-	 * 			
+	 * @effect the new position of the ship has the given x- and y-coordinates	
+	 * 			|position.setPosition(x, y)
 	 */
 	public void setPosition(double x, double y){
 		position.setX(x);
@@ -172,14 +170,13 @@ public class Ship implements IShip {
 	
 	/**
 	 *  set the velocity of this ship on the given x- and y-velocities
-	 * @param x
+	 * @param VelocityX
 	 * 			The x-velocity in km of the new velocity
-	 * @param y
+	 * @param VelocityY
 	 * 			The y-velocity in km of the new velocity
-	 * @post the new velocity of the ship has the given x- and y-coordinates	
-	 * 			(new this).getVelocityX() == x
-	 * 			(new this).getVelocityY() == y
-	 * 			
+	 * @effect the new velocity of the ship has the given x- and y-coordinates	
+	 * 			|velocity.setVelocity(velocityX, velocityY)
+	 * 
 	 */
 	public void setVelocity(double velocityX, double velocityY){
 		velocity.setVelocity(velocityX, velocityY);

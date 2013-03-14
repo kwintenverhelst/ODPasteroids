@@ -34,7 +34,7 @@ public class Position {
 	/**
 	 * Initialize a new position on default, the x- and y-coordinate are both zero
 	 * 
-	 * @post the x- and y-coordinate are both zero
+	 * @effect the x- and y-coordinate are both zero
 	 * 			|setX(0) && setY(0)
 	 */
 	public Position(){
@@ -48,7 +48,7 @@ public class Position {
 	 * 			the x-coordinate of this position
 	 * @param y
 	 * 			the y-coordinate of this position
-	 * @post the x- and y-coordinate are the given the x- and y-coordinate
+	 * @effect the x- and y-coordinate are the given the x- and y-coordinate
 	 * 			|setX(x) && setY(y)
 	 */
 	public Position(double x, double y){

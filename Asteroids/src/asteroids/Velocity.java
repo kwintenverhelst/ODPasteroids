@@ -34,7 +34,7 @@ public class Velocity {
 	/**
 	 * Initialize a new velocity on default, the x- and y-velocity are both zero
 	 * 
-	 * @post the x- and y-velocity are both zero
+	 * @effect the x- and y-velocity are both zero
 	 * 			| setVelocity(0, 0)
 	 */
 	public Velocity (){
@@ -47,7 +47,7 @@ public class Velocity {
 	 * 			the x-coordinate of this velocity
 	 * @param velocityY
 	 * 			the y-coordinate of this velocity
-	 * @post the x- and y-velocity are the given the x- and y-velocity
+	 * @effect the x- and y-velocity are the given the x- and y-velocity
 	 * 			|setVelocity(velocityX, velocityY)
 	 */
 	public Velocity (double velocityX, double velocityY){
@@ -135,8 +135,8 @@ public class Velocity {
 	 * @post If the given velocity is less than or equal to the speed limit, the
 	 *       new velocity is equal to given velocity.
 	 *       |if(isValidVelocity(velocityX, velocityY)) 
-	 *       | then new.getVelocityX()==this.getVelocityX() 
-	 *       | &&   new.getVelocityY()==this.getVelocityY()
+	 *       | then new.getVelocityX()==velocityX
+	 *       | &&   new.getVelocityY()==velocityY
 	 * @post If the given velocity is greater than the speed limit, the new
 	 *       velocity  is equal the speed limit, the velocity in x
 	 *       direction is the velocity times the cosine of the direction, the
