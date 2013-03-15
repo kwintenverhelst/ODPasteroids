@@ -402,16 +402,16 @@ public class Ship implements IShip {
 	 *         never collide it will give infinite back
 	 *        |  with ship1==this position == (x1,y1) velocity == (vx1,vy1)
 	 *        |   and ship2 position == (x2,y2) velocity == (vx2,vy2)
-	 *        |   and Δr== (Δx,Δy), Δv== (Δvx,Δvy), Δr*Δr== (Δx)²+(Δy)²
-	 *        |   and Δv*Δv== (Δvx)²+(Δvy)² and Δv*Δr== (Δvx)*(Δx)+(Δvy)*(Δy)
-	 *        |   and σ== this.getRadius() + ship2.getRadius()
-	 *        |   and d== (Δv*Δr)² - (Δv*Δv)*(Δr*Δr -σ²)
-	 *        |   if(Δv*Δr >= 0) 
+	 *        |   and DeltaR== (DeltaX,DeltaY), DeltaV== (DeltaVX,DeltaVY), DeltaR*DeltaR== (DeltaX)^2+(DeltaY)^2
+	 *        |   and DeltaV*DeltaV== (DeltaVX)^2+(DeltaVY)^2 and DeltaV*DeltaR== (DeltaVX)*(DeltaX)+(DeltaVY)*(DeltaY)
+	 *        |   and Sigma== this.getRadius() + ship2.getRadius()
+	 *        |   and d== (DeltaV*DeltaR)^2 - (DeltaV*DeltaV)*(DeltaR*DeltaR -Sigma^2)
+	 *        |   if(DeltaV*DeltaR >= 0) 
 	 *        |		then result == Double.POSITIVE_INFINITY
 	 *        |	  else if(d <= 0)
 	 *        |		then result == Double.POSITIVE_INFINITY
 	 *        |	  else
-	 *        |		then result == -((Δv*Δr)+Math.sqrt(d))/(Δv*Δv)
+	 *        |		then result == -((DeltaV*DeltaR)+Math.sqrt(d))/(DeltaV*DeltaV)
 	 * @throws NullPointerException
 	 *             the given ship is null
 	 *             |ship == null
