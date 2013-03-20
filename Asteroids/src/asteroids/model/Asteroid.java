@@ -6,13 +6,13 @@ import be.kuleuven.cs.som.annotate.Immutable;
 public class Asteroid extends ObjectInSpace {
 	
 	public Asteroid(){
-		this(0,0,0,0,1,1);
+		this(0,0,0,0,1);
 	}
 	
 	public Asteroid(double x, double y, double velocityX, double velocityY,
-			double radius, double mass){
+			double radius){
 		
-		super(x,y,velocityX,velocityY,radius, mass );
+		super(x,y,velocityX,velocityY,radius, 1);
 		setMass(calculateMass(radius));
 	}
 	

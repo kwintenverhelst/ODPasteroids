@@ -76,6 +76,13 @@ public class Ship  extends ObjectInSpace{
 	private double angle;
 	
 	/**
+	 * variable registering if the thrust of this ship is on
+	 */
+	private boolean thrustEnabled;
+	
+	private final double THRUST = 1.1*Math.pow(10, 18);
+	
+	/**
 	 * Return the angle of the ship 
 	 * the angle expresses in which angle, with the
 	 * x-as, the acceleration of the ship is
@@ -113,46 +120,6 @@ public class Ship  extends ObjectInSpace{
 		this.angle = angle;
 	}
 
-
-	/**
-	 * Let the ship move within a given time period
-	 * 
-	 * @effect the ship has moved in the given time period
-	 *         |this.setPosition(this.getVelocityX()*dt + this.getX(), this.getVelocityY()*dt + this.getY())
-	 * @param dt
-	 *         the time in which the ship needs to move
-	 * @throws NullPointerException
-	 *             The given time is not a number
-	 *         |!isValidDouble(dt)
-	 * @throws IllegalArgumentException
-	 *             The given time is not a valid time
-	 *         |!isValidTime(dt)
-	 */
-	public void move(double dt) throws NullPointerException,
-			IllegalArgumentException {
-		if (isValidDouble(dt)) {
-			if (isValidTime(dt)) {
-				setPosition(this.getVelocityX() * dt + getX(), this.getVelocityY() * dt + getY());
-			} else {
-				throw new IllegalArgumentException("the time must be more then zero");
-			}
-		} else {
-			throw new NullPointerException("the time you have given is not a number");
-		}
-
-	}
-
-	/**
-	 * Check whether the time is more or equal to zero
-	 * 
-	 * @param dt
-	 *          the time to check
-	 * @return true if time is more or equal to zero
-	 *         |result == dt >= 0
-	 */
-	public boolean isValidTime(double dt) {
-		return dt >= 0;
-	}
 
 	/**
 	 * if the amount is a valid number, this ship accelerates with the given amount in the current direction.
@@ -201,150 +168,10 @@ public class Ship  extends ObjectInSpace{
 		this.setAngle(this.getAngle()+angle);
 	}
 
-	/**
-	 * Calculates the distance between this ship and the given ship.
-	 * 
-	 * @param ship
-	 * 			The ship between which you calculate the distance
-	 * @return Returns the distance between this ship and the given ship.
-	 * 			|result == Math.hypot((this.getX() - ship.getX()), (this.getY() - ship.getY()))- this.getRadius() - ship.getRadius()
-	 * @throws IllegalArgumentException
-	 *             the given ship is this ship
-	 *             |this == ship
-	 * @throws NullPointerException
-	 *             the given ship is null
-	 *             |ship == null
-	 */
-	public double getDistanceBetween(Ship ship)
-			throws IllegalArgumentException, NullPointerException {
-		if (this == ship) {
-			throw new IllegalArgumentException("Ship cannot be compared to itself");
-		} else if (ship == null) {
-			throw new NullPointerException("the given ship does not exist");
-		} else {
-			return Math.hypot((this.getX() - ship.getX()), (this.getY() - ship.getY()))
-					- this.getRadius() - ship.getRadius();
-		}
+	public Bullet firebullet(){
+		return new Bullet(this);
 	}
 
-	/**
-	 * returns true if this ship overlaps with the given ship
-	 * 
-	 * @param ship
-	 * 			The ship which to check if it overlaps with this ship
-	 * @return True if this ship is the given ship or if the distance between the 2 ships equals 0.
-	 * 			|distance = this.getDistanceBetween(ship)
-	 * 		 	|result == ((this==ship) || (Util.fuzzyLessThanOrEqualTo(distance, 0.0))
-	 */
-	public boolean overlap(Ship ship) {
-		if (this == ship) {
-			return true;
-		} else {
-			double distance = this.getDistanceBetween(ship);
-			if (Util.fuzzyLessThanOrEqualTo(distance, 0.0)) {
-				return true;
-			} else {
-				return false;
-			}
-
-		}
-	}
-
-	/**
-	 * returns the time in which this ship collides with the given ship, if they
-	 * never collide it will give infinite back
-	 * 
-	 * @param ship
-	 *            the ship from which we need to know when it will collide with
-	 *            this ship
-	 * @return the time in which this ship collides with the given ship, if they
-	 *         never collide it will give infinite back
-	 *        |  with ship1==this position == (x1,y1) velocity == (vx1,vy1)
-	 *        |   and ship2 position == (x2,y2) velocity == (vx2,vy2)
-	 *        |   and DeltaR== (DeltaX,DeltaY), DeltaV== (DeltaVX,DeltaVY), DeltaR*DeltaR== (DeltaX)^2+(DeltaY)^2
-	 *        |   and DeltaV*DeltaV== (DeltaVX)^2+(DeltaVY)^2 and DeltaV*DeltaR== (DeltaVX)*(DeltaX)+(DeltaVY)*(DeltaY)
-	 *        |   and Sigma== this.getRadius() + ship2.getRadius()
-	 *        |   and d== (DeltaV*DeltaR)^2 - (DeltaV*DeltaV)*(DeltaR*DeltaR -Sigma^2)
-	 *        |   if(DeltaV*DeltaR >= 0) 
-	 *        |		then result == Double.POSITIVE_INFINITY
-	 *        |	  else if(d <= 0)
-	 *        |		then result == Double.POSITIVE_INFINITY
-	 *        |	  else
-	 *        |		then result == -((DeltaV*DeltaR)+Math.sqrt(d))/(DeltaV*DeltaV)
-	 * @throws NullPointerException
-	 *             the given ship is null
-	 *             |ship == null
-	 */
-	public double getTimeToCollision(Ship ship) throws NullPointerException{
-		if (ship == null){
-			throw new NullPointerException();
-		}
-		double x1 = this.getX();
-		double y1 = this.getY();
-		double vx1 = this.getVelocityX();
-		double vy1 = this.getVelocityY();
-
-		double x2 = ship.getX();
-		double y2 = ship.getY();
-		double vx2 = ship.getVelocityX();
-		double vy2 = ship.getVelocityY();
-
-		double dvMultiDr = (vx1 - vx2) * (x1 - x2) + (vy1 - vy2) * (y1 - y2);
-		double dvMultiDv = Math.pow(vx1 - vx2, 2) + Math.pow(vy1 - vy2, 2);
-		double drMultiDr = Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2);
-
-		if (Util.fuzzyEquals(dvMultiDr, 0.0) || Double.compare(dvMultiDr, 0.0) > 0) {
-			return Double.POSITIVE_INFINITY;
-		} else {
-					
-			double dVariable = Math.pow(dvMultiDr, 2) - dvMultiDv * (drMultiDr - Math.pow(this.getRadius()+ship.getRadius(), 2));
-			
-			if (Util.fuzzyLessThanOrEqualTo(dVariable, 0)) {
-				return Double.POSITIVE_INFINITY;
-			} else {
-				double time = -((dvMultiDr + Math.sqrt(dVariable)) / (dvMultiDv));
-				return time;
-			}
-		}
-
-	}
-	
-	/**
-	 * returns the position of the ship at the moment of impact with the given ship
-	 * 
-	 * @param ship
-	 * 			the ship from which we need to know at which place this ship will collide with it
-	 * @return the position of the ship at the moment of impact with the given ship
-	 * 			|if(Double.isInfinite(getTimeToCollision(ship)))
-	 * 			|	then result == null
-	 * 			| else 
-	 * 			|	then with double[] collisionPoint = new double[2]
-	 * 			| 		and collisionPoint[0] = x1Collision
-	 * 			|       and collisionPoint[1] = y1Collision;
-	 * 			|		result == collisionPoint
-	 * @throws NullPointerException
-	 *             the given ship is null
-	 *             |ship == null         
-	 */
-	public double[] getCollisionPosition(Ship ship) throws NullPointerException {
-		if(ship == null){
-			throw new NullPointerException();
-		}
-
-		double time = getTimeToCollision(ship);
-
-		if (!Double.isInfinite(time)) {
-			double x1Collision = this.getX() + time * this.getVelocityX();
-			double y1Collision = this.getY() + time * this.getVelocityY();
-			double[] collisionPoint = new double[2];
-			collisionPoint[0] = x1Collision;
-			collisionPoint[1] = y1Collision;
-			return collisionPoint;
-		} else {
-			return null;
-		}
-	
-	}
 
 	
 }
