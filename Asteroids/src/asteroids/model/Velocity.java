@@ -15,17 +15,8 @@ import be.kuleuven.cs.som.annotate.*;
  * @version 1.1
  * @author Mathieu Vermeire en Kwinten Verhelst
  */
-public class Velocity {
+public class Velocity extends VectorInSpace{
 	
-	/**
-	 * The velocity in the x direction in km/s
-	 */
-	private double velocityX;
-	
-	/**
-	 * The velocity in the y direction in km/s
-	 */
-	private double velocityY;
 	
 	/**
 	 * Variable for the speed limit in km/s.
@@ -39,7 +30,8 @@ public class Velocity {
 	 * 			| setVelocity(0, 0)
 	 */
 	public Velocity (){
-		this(0, 0);
+		
+		super(0, 0);
 	}
 	
 	/**
@@ -52,39 +44,13 @@ public class Velocity {
 	 * 			|setVelocity(velocityX, velocityY)
 	 */
 	public Velocity (double velocityX, double velocityY){
-		setVelocity(velocityX, velocityY);
+		super(velocityX, velocityY);
+		if(!isValidVelocity(velocityX,  velocityY )){
+			double direction = getDirection(velocityX, velocityY);
+			new Velocity(this.getSpeedLimit() * Math.cos(direction), this.getSpeedLimit() * Math.sin(direction));
+		}
 	}
 	
-	/**
-	 * Check if this number is a valid number.
-	 * 
-	 * @param number
-	 *       	 The number in double format to verify.
-	 * @return True if double is a valid number otherwise it is false.
-	 *         |result!=Double.isNaN(number)
-	 */
-	private boolean isValidDouble(double number) {
-
-		return !Double.isNaN(number);
-	}
-
-	/**
-	 * Returns the velocity in the x direction in km/s.
-	 */
-	@Basic
-	public double getVelocityX() {
-		return this.velocityX;
-	}
-
-
-	/**
-	 * Returns the velocity in the y direction in km/s.
-	 */
-	@Basic
-	public double getVelocityY() {
-		return this.velocityY;
-	}
-
 	/**
 	 * Returns the speed limit  in km/s.
 	 */
@@ -107,7 +73,7 @@ public class Velocity {
 	 *         |Util.fuzzyLessThanOrEqualTo(getVelocity(velocityX, velocityY),
 	 *         getSpeedLimit())
 	 */
-	private boolean isValidVelocity(double velocityX, double velocityY) {
+	public boolean isValidVelocity(double velocityX, double velocityY) {
 		return Util.fuzzyLessThanOrEqualTo(getVelocity(velocityX, velocityY),
 				getSpeedLimit());
 	}
@@ -126,59 +92,6 @@ public class Velocity {
 		return Math.hypot(velocityX, velocityY);
 	}
 
-	/**
-	 * Changes the velocity in the given x and y direction.
-	 * 
-	 * @param velocityX
-	 *            velocity in the x direction in km/s
-	 * @param velocityY
-	 *            velocity in the y direction in km/s
-	 * @post If the given velocity is less than or equal to the speed limit, the
-	 *       new velocity is equal to given velocity.
-	 *       |if(isValidVelocity(velocityX, velocityY)) 
-	 *       | then new.getVelocityX()==velocityX
-	 *       | &&   new.getVelocityY()==velocityY
-	 * @post If the given velocity is greater than the speed limit, the new
-	 *       velocity  is equal the speed limit, the velocity in x
-	 *       direction is the velocity times the cosine of the direction, the
-	 *       velocity in y direction is the velocity times the sine of the
-	 *       direction. 
-	 *       |if!(isValidVelocity(velocityX, velocityY))
-	 *       | then new.getVelocityX()==this.getSpeedLimit()*Math.cos(this.getDirection())
-	 *       | && new.getVelocityY()==this.getSpeedLimit()*Math.sin(this.getDirection())
-	 * @effect if one or both of the velocities is not a number then that velocity
-	 *       	(those velocities) are set on zero
-	 *       	 |if (isValidDouble(velocityX) && !isValidDouble(velocityY))
-	 *      	 |  then setVelocity(velocityX, 0.0); 
-	 *      	 |if (!isValidDouble(velocityX) && isValidDouble(velocityY)) 
-	 *      	 | then setVelocity(0.0,velocityY);
-	 *      	 |if (!isValidDouble(velocityX) && !isValidDouble(velocityY))
-	 *     	 	 |then setVelocity(0.0, 0.0)
-	 */		 	
-	public void setVelocity(double velocityX, double velocityY) {
-		if (isValidDouble(velocityX) && isValidDouble(velocityY)) {
-			if (isValidVelocity(velocityX, velocityY)) {
-				this.velocityX = velocityX;
-				this.velocityY = velocityY;
-			} 
-			else {
-				double direction = this.getDirection(velocityX, velocityY);
-				this.velocityX = this.getSpeedLimit() * Math.cos(direction);
-				this.velocityY = this.getSpeedLimit() * Math.sin(direction);
-			}
-		} 
-		else {
-			if (!isValidDouble(velocityY)) {
-				setVelocity(velocityX, 0.0);
-			}
-			else if (!isValidDouble(velocityX)) {
-				setVelocity(0.0,velocityY);
-			}
-			else {
-				setVelocity(0.0, 0.0);
-			}
-		}
-	}
 
 	/**
 	 * returns the angle of the velocity, which has the components velocityX and

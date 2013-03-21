@@ -3,7 +3,7 @@ package asteroids.model;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
-import be.kuleuven.cs.som.annotate.Basic;
+import be.kuleuven.cs.som.annotate.*;
 
 /** 
  * A class to create a position in a 2D setting with a x-coordinate and a y-coordinate in km
@@ -14,17 +14,9 @@ import be.kuleuven.cs.som.annotate.Basic;
  * @version 1.1
  * @author Mathieu Vermeire en Kwinten Verhelst
  */
-public class Position {
+@Value
+public class Position extends VectorInSpace{
 	
-	/**
-	 * Variable with the x-coordinate in km.
-	 */
-	private double x;
-	
-	/**
-	 * Variable with the y-coordinate in km.
-	 */
-	private double y;
 
 	/**
 	 * Variable with the size of your screen.
@@ -38,7 +30,8 @@ public class Position {
 	 * 			|setX(0) && setY(0)
 	 */
 	public Position(){
-		this(0,0);
+		
+		super(0,0);
 	}
 	
 	/**
@@ -51,17 +44,10 @@ public class Position {
 	 * 			|setX(x) && setY(y)
 	 */
 	public Position(double x, double y){
-		setX(x);
-		setY(y);
+		super(x,y);
 	}
 	
-	/**
-	 * Returns the x-coordinate of the position expressed in km
-	 */
-	@Basic
-	public double getX() {
-		return x;
-	}
+	
 
 	/**
 	 * sets the x-coordinate to the given position,
@@ -99,13 +85,6 @@ public class Position {
 		}
 	}
 
-	/**
-	 * Returns the y-coordinate in km
-	 */
-	@Basic
-	public double getY() {
-		return y;
-	}
 
 	/**
 	 * sets the y-coordinate to the given position,
@@ -143,17 +122,5 @@ public class Position {
 		}
 	}
 	
-	/**
-	 * Check if this number is a valid number.
-	 * 
-	 * @param number
-	 *       	 The number in double format to verify.
-	 * @return True if double is a valid number otherwise it is false.
-	 *         |result!=Double.isNaN(number)
-	 */
-	private boolean isValidDouble(double number) {
-
-		return !Double.isNaN(number);
-	}
 
 }
