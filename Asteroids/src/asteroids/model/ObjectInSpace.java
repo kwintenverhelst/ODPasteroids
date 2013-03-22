@@ -104,7 +104,7 @@ public abstract class ObjectInSpace {
 	 * 			|result == getPosition().getX()
 	 */
 	public double getX(){
-		return getPosition().getX();
+		return getPosition().getXCoordinate();
 	}
 	
 	/**
@@ -114,7 +114,7 @@ public abstract class ObjectInSpace {
 	 * 			|result == getPosition().getY()
 	 */
 	public double getY(){
-		return getPosition().getY();
+		return getPosition().getYCoordinate();
 	}			
 	
 	/**
@@ -127,8 +127,7 @@ public abstract class ObjectInSpace {
 	 * 			|position.setPosition(x, y)
 	 */
 	public void setPosition(double x, double y){
-		position.setX(x);
-		position.setY(y);
+		position = new Position(x, y);
 	}
 	
 	/**
@@ -146,7 +145,7 @@ public abstract class ObjectInSpace {
 	 * 			|result == getVelocity().getVelocityX()
 	 */
 	public double getVelocityX(){
-		return getVelocity().getVelocityX();
+		return getVelocity().getXCoordinate();
 	}
 	
 	/**
@@ -156,7 +155,7 @@ public abstract class ObjectInSpace {
 	 * 			|result == getVelocity().getVelocityY()
 	 */
 	public double getVelocityY(){
-		return getVelocity().getVelocityY();
+		return getVelocity().getYCoordinate();
 	}
 	
 	/**
@@ -170,7 +169,7 @@ public abstract class ObjectInSpace {
 	 * 
 	 */
 	public void setVelocity(double velocityX, double velocityY){
-		velocity.setVelocity(velocityX, velocityY);
+		velocity = Velocity.createVelocity(velocityX, velocityY);
 	}
 	
 	/**
@@ -273,7 +272,7 @@ public abstract class ObjectInSpace {
 			IllegalArgumentException {
 		if (isValidDouble(dt)) {
 			if (isValidTime(dt)) {
-				setPosition(this.getVelocityX() * dt + getX(), this.getVelocityY() * dt + getY());
+				setPosition(this.getVelocityX() * dt + this.getX(), this.getVelocityY() * dt + this.getY());
 			} else {
 				throw new IllegalArgumentException("the time must be more then zero");
 			}
@@ -316,8 +315,8 @@ public abstract class ObjectInSpace {
 		} else if (object == null) {
 			throw new NullPointerException("the given object does not exist");
 		} else {
-			return Math.hypot((this.getX() - object.getX()), (this.getY() - object.getY()))
-					- this.getRadius() - object.getRadius();
+			Position positionChange = (Position) Position.vectorChange(this.getPosition(), object.getPosition());
+			return Position.norm(positionChange)- this.getRadius() - object.getRadius();
 		}
 	}
 
@@ -373,19 +372,12 @@ public abstract class ObjectInSpace {
 		if (object == null){
 			throw new NullPointerException();
 		}
-		double x1 = this.getX();
-		double y1 = this.getY();
-		double vx1 = this.getVelocityX();
-		double vy1 = this.getVelocityY();
-
-		double x2 = object.getX();
-		double y2 = object.getY();
-		double vx2 = object.getVelocityX();
-		double vy2 = object.getVelocityY();
-
-		double dvMultiDr = (vx1 - vx2) * (x1 - x2) + (vy1 - vy2) * (y1 - y2);
-		double dvMultiDv = Math.pow(vx1 - vx2, 2) + Math.pow(vy1 - vy2, 2);
-		double drMultiDr = Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2);
+		VectorInSpace positionChange =  Position.vectorChange(this.getPosition(), object.getPosition());
+		Velocity velocity = (Velocity) Velocity.vectorChange(this.getVelocity(), object.getVelocity());
+		
+		double dvMultiDr = VectorInSpace.inProduct(velocity, positionChange);
+		double dvMultiDv = VectorInSpace.inProduct(velocity, velocity);
+		double drMultiDr = VectorInSpace.inProduct(positionChange, positionChange);
 
 		if (Util.fuzzyEquals(dvMultiDr, 0.0) || Double.compare(dvMultiDr, 0.0) > 0) {
 			return Double.POSITIVE_INFINITY;
@@ -404,18 +396,12 @@ public abstract class ObjectInSpace {
 	}
 	
 	/**
-	 * returns the position of the object at the moment of impact with the given object
+	 * returns the position where this object and the given object are going to collide
 	 * 
 	 * @param object
-	 * 			the object from which we need to know at which place this object will collide with it
-	 * @return the position of the object at the moment of impact with the given object
-	 * 			|if(Double.isInfinite(getTimeToCollision(object)))
-	 * 			|	then result == null
-	 * 			| else 
-	 * 			|	then with double[] collisionPoint = new double[2]
-	 * 			| 		and collisionPoint[0] = x1Collision
-	 * 			|       and collisionPoint[1] = y1Collision;
-	 * 			|		result == collisionPoint
+	 * 			the object from which we need to know at which place it will collide with this object
+	 * @return the position where this object and the given object are going to collide
+	 * 			
 	 * @throws NullPointerException
 	 *             the given object is null
 	 *             |object == null         
@@ -428,12 +414,27 @@ public abstract class ObjectInSpace {
 		double time = getTimeToCollision(object);
 
 		if (!Double.isInfinite(time)) {
-			double x1Collision = this.getX() + time * this.getVelocityX();
-			double y1Collision = this.getY() + time * this.getVelocityY();
+			Position position1 = new Position(this.getX() + time
+					* this.getVelocityX(), this.getY() + time
+					* this.getVelocityY());
+			Position position2 = new Position(object.getX() + time
+					* object.getVelocityX(), object.getY() + time
+					* object.getVelocityY());
+
+			double x1 = position1.getXCoordinate();
+			double y1 = position1.getYCoordinate();
+			double x2 = position2.getXCoordinate();
+			double y2 = position2.getYCoordinate();
+			double r1 = this.getRadius();
+			double r2 = object.getRadius();
+			
+			double afstand = r1+r2;
+	        double vx = (x2 - x1) / afstand;
+	        double vy = (y2 - y1) / afstand;
 			
 			double[] collisionPoint = new double[2];
-			collisionPoint[0] = x1Collision;
-			collisionPoint[1] = y1Collision;
+			collisionPoint[0] = x1 + r1 * vx;
+			collisionPoint[1] = y1 + r1 * vy;
 			return collisionPoint;
 		} else {
 			return null;

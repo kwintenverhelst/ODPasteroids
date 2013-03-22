@@ -7,10 +7,10 @@ import be.kuleuven.cs.som.annotate.*;
 public class VectorInSpace {
 
 	protected VectorInSpace(double xCoordinate, double yCoordinate) {
-		if (!isValidDouble(xCoordinate) ) {
-			xCoordinate =0;
+		if (!isValidDouble(xCoordinate)) {
+			xCoordinate = 0;
 		}
-		if( !isValidDouble(yCoordinate)) {
+		if (!isValidDouble(yCoordinate)) {
 			yCoordinate = 0;
 		}
 		this.xCoordinate = xCoordinate;
@@ -61,10 +61,28 @@ public class VectorInSpace {
 		return !Double.isNaN(number);
 	}
 
+	/**
+	 * Makes a new vector with given x-coordinate and y-coordinate
+	 * 
+	 * @param xCoordinate
+	 * 
+	 * @param yCoordinate
+	 * 
+	 * @return a new vector with given x-coordinate and y-coordinate
+	 */
 	public VectorInSpace changeVector(double xCoordinate, double yCoordinate) {
 		return new VectorInSpace(xCoordinate, yCoordinate);
 	}
 
+	/**
+	 * Makes a new vector where the given x-coordinate and y-coordinate are add
+	 * by the respectivily the x-coorcdibate and y-coordinate of this vector
+	 * 
+	 * @param addXCoordinate
+	 * @param addYCoordinate
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
 	public VectorInSpace addToVector(double addXCoordinate,
 			double addYCoordinate) throws IllegalArgumentException {
 		if (!isValidDouble(addXCoordinate) || !isValidDouble(addYCoordinate)) {
@@ -75,6 +93,14 @@ public class VectorInSpace {
 				getYCoordinate() + addYCoordinate);
 	}
 
+	/**
+	 * Check whether this vector is equal to the given object
+	 * 
+	 * @return True if and only if the given object is effective. if this vector
+	 *         and the given object belong to the same class and if this vector
+	 *         and the other object interpreted as a vector have equal
+	 *         x-coordinate and y-coordinate
+	 */
 	@Override
 	public boolean equals(Object other) {
 		if (other == null) {
@@ -90,25 +116,49 @@ public class VectorInSpace {
 						otherVectorInSpace.getYCoordinate());
 	}
 
+	/**
+	 * Returns the hash code for this vector
+	 */
 	@Override
 	public int hashCode() {
-		return Double.valueOf(getXCoordinate()).hashCode()+Double.valueOf(getYCoordinate()).hashCode();
+		return Double.valueOf(getXCoordinate()).hashCode()
+				+ Double.valueOf(getYCoordinate()).hashCode();
 	}
 
+	/**
+	 * Returns a textual representation of this vector
+	 * 
+	 * @return 
+	 */
 	@Override
 	public String toString() {
-		return "[" + Double.toString(getXCoordinate()) + " " + Double.toString(getYCoordinate()) + "]";
+		return "<" + Double.toString(getXCoordinate()) + ","
+				+ Double.toString(getYCoordinate()) + ">";
 	}
-	
-	public static double inProduct(VectorInSpace vector1, VectorInSpace vector2){
-		return ((vector1.getXCoordinate() * vector2.getXCoordinate()) + (vector1.getYCoordinate() * vector2.getYCoordinate()));
+
+	public static double inProduct(VectorInSpace vector1, VectorInSpace vector2) {
+		return ((vector1.getXCoordinate() * vector2.getXCoordinate()) + (vector1
+				.getYCoordinate() * vector2.getYCoordinate()));
 	}
-	
-	public static double norm(VectorInSpace vector){
+
+	public static double norm(VectorInSpace vector) {
 		return Math.hypot(vector.getXCoordinate(), vector.getYCoordinate());
 	}
+
+	/**
+	 * returns the angle of this vector
+	 * 
+	 * @return the angle of the vector | result ==
+	 *         Math.atan(getYCoordinate() / getXCoordinate())
+	 */
+	public static double getDirection(VectorInSpace vector) {
+		return Math.atan( vector.getYCoordinate() / vector.getXCoordinate());
+	}
 	
-	public static VectorInSpace vectorChange(VectorInSpace vector1, VectorInSpace vector2){
-		return new VectorInSpace(vector1.getXCoordinate()-vector2.getXCoordinate(), vector1.getYCoordinate() - vector2.getYCoordinate());
+	public static VectorInSpace vectorChange(VectorInSpace vector1,
+			VectorInSpace vector2) {
+		return new VectorInSpace(vector1.getXCoordinate()
+				- vector2.getXCoordinate(), vector1.getYCoordinate()
+				- vector2.getYCoordinate());
 	}
 }
