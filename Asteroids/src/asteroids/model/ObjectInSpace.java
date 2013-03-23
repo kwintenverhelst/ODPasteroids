@@ -372,7 +372,7 @@ public abstract class ObjectInSpace {
 		if (object == null){
 			throw new NullPointerException();
 		}
-		VectorInSpace positionChange =  Position.vectorChange(this.getPosition(), object.getPosition());
+		Position positionChange =  (Position) Position.vectorChange(this.getPosition(), object.getPosition());
 		Velocity velocity = (Velocity) Velocity.vectorChange(this.getVelocity(), object.getVelocity());
 		
 		double dvMultiDr = VectorInSpace.inProduct(velocity, positionChange);
@@ -420,22 +420,18 @@ public abstract class ObjectInSpace {
 			Position position2 = new Position(object.getX() + time
 					* object.getVelocityX(), object.getY() + time
 					* object.getVelocityY());
-
-			double x1 = position1.getXCoordinate();
-			double y1 = position1.getYCoordinate();
-			double x2 = position2.getXCoordinate();
-			double y2 = position2.getYCoordinate();
+			
+			Position positionChanged = (Position) Position.vectorChange(position2, position1);
+			double directionChanged = Position.getDirection(positionChanged);
+			
 			double r1 = this.getRadius();
-			double r2 = object.getRadius();
-			
-			double afstand = r1+r2;
-	        double vx = (x2 - x1) / afstand;
-	        double vy = (y2 - y1) / afstand;
-			
+						
 			double[] collisionPoint = new double[2];
-			collisionPoint[0] = x1 + r1 * vx;
-			collisionPoint[1] = y1 + r1 * vy;
+			collisionPoint[0] = position1.getXCoordinate() + r1 * Math.cos(directionChanged);
+			collisionPoint[1] = position1.getYCoordinate() + r1 * Math.sin(directionChanged);
+			
 			return collisionPoint;
+			
 		} else {
 			return null;
 		}
