@@ -19,56 +19,56 @@ public class VelocityTest {
 	 */
 	@Before
 	public void setUp()  {
-		velocity = new Velocity(40, 30);
+		velocity = Velocity.createVelocity(40, 30);
 	}
 
 	@Test
 	public final void deaultConstructor_SingleCase() {
 		Velocity newVelocity = new Velocity();
-		assertEquals(0, newVelocity.getVelocityX(), Util.EPSILON);
-		assertEquals(0, newVelocity.getVelocityY(),Util.EPSILON);
+		assertEquals(0, newVelocity.getXCoordinate(), Util.EPSILON);
+		assertEquals(0, newVelocity.getYCoordinate(),Util.EPSILON);
 	}
 	
 	@Test
 	public final void constructor_SingleCase() {
-		Velocity newVelocity = new Velocity(10, 20);
-		assertEquals(10, newVelocity.getVelocityX(), Util.EPSILON);
-		assertEquals(20, newVelocity.getVelocityY(),Util.EPSILON);
+		Velocity newVelocity = Velocity.createVelocity(10, 20);
+		assertEquals(10, newVelocity.getXCoordinate(), Util.EPSILON);
+		assertEquals(20, newVelocity.getYCoordinate(),Util.EPSILON);
 	}
 
 	@Test
-	public final void setVelocity_TrueCase() {
-		velocity.setVelocity(50, 50);
-		assertEquals(50, velocity.getVelocityX(), Util.EPSILON);
-		assertEquals(50, velocity.getVelocityY(),Util.EPSILON);
+	public final void changeVector_TrueCase() {
+		velocity.changeVector(50, 50);
+		assertEquals(50, velocity.getXCoordinate(), Util.EPSILON);
+		assertEquals(50, velocity.getYCoordinate(),Util.EPSILON);
 	}
 	
 	@Test
-	public final void setVelocity_MoreThanSpeedLimitCase() {
-		velocity.setVelocity(400000, 550000);
-		double direction = velocity.getDirection(400000, 550000);
-		assertEquals(velocity.getSpeedLimit()*Math.cos(direction), velocity.getVelocityX(), Util.EPSILON);
-		assertEquals(velocity.getSpeedLimit()*Math.sin(direction), velocity.getVelocityY(),Util.EPSILON);
+	public final void changeVector_MoreThanSpeedLimitCase() {
+		Velocity velocity = (Velocity) this.velocity.changeVector(400000, 550000);
+		double direction = VectorInSpace.getDirection(velocity);
+		assertEquals(velocity.getSpeedLimit()*Math.cos(direction), velocity.getXCoordinate(), Util.EPSILON);
+		assertEquals(velocity.getSpeedLimit()*Math.sin(direction), velocity.getYCoordinate(),Util.EPSILON);
 	}
 	
 	@Test
-	public final void setVelocity_VelocityXFalseCase() {
-		velocity.setVelocity(Double.NaN, 50);
-		assertEquals(0, velocity.getVelocityX(), Util.EPSILON);
-		assertEquals(50, velocity.getVelocityY(),Util.EPSILON);
+	public final void changeVector_VelocityXFalseCase() {
+		velocity.changeVector(Double.NaN, 50);
+		assertEquals(0, velocity.getXCoordinate(), Util.EPSILON);
+		assertEquals(50, velocity.getYCoordinate(),Util.EPSILON);
 	}
 	
 	@Test
-	public final void setVelocity_VelocityYFalseCase() {
-		velocity.setVelocity(50, Double.NaN);
-		assertEquals(50, velocity.getVelocityX(), Util.EPSILON);
-		assertEquals(0, velocity.getVelocityY(),Util.EPSILON);
+	public final void changeVector_VelocityYFalseCase() {
+		velocity.changeVector(50, Double.NaN);
+		assertEquals(50, velocity.getXCoordinate(), Util.EPSILON);
+		assertEquals(0, velocity.getYCoordinate(),Util.EPSILON);
 	}
 	
 	@Test
-	public final void setVelocity_FalseCase() {
-		velocity.setVelocity(Double.NaN, Double.NaN);
-		assertEquals(0, velocity.getVelocityX(), Util.EPSILON);
-		assertEquals(0, velocity.getVelocityY(),Util.EPSILON);
+	public final void changeVector_FalseCase() {
+		velocity.changeVector(Double.NaN, Double.NaN);
+		assertEquals(0, velocity.getXCoordinate(), Util.EPSILON);
+		assertEquals(0, velocity.getYCoordinate(),Util.EPSILON);
 	}
 }

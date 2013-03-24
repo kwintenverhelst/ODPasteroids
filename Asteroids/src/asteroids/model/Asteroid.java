@@ -19,6 +19,13 @@ public class Asteroid extends ObjectInSpace {
 	private final static double DENSITY = 7.8*Math.pow(10, 12);
 	
 	/**
+	 * Terminate this asteroid.
+	 */
+	public  void terminate(){
+		
+	}
+	
+	/**
 	 * Returns the density in km/km³.
 	 */
 	@Basic

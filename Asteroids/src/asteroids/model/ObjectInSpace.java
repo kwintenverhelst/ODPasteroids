@@ -1,8 +1,10 @@
 package asteroids.model;
 
+import Purchase;
 import asteroids.Util;
 import be.kuleuven.cs.som.annotate.Basic;
 import be.kuleuven.cs.som.annotate.Immutable;
+import be.kuleuven.cs.som.annotate.Raw;
 
 public abstract class ObjectInSpace {
 
@@ -88,6 +90,25 @@ public abstract class ObjectInSpace {
 	 * variable registering the radius of the object
 	 */
 	private final double radius;
+	
+	/**
+	 * Variable registering whether or not this object is
+	 * terminated.
+	 */
+	private boolean isTerminated = false;
+	
+	/**
+	 * Check whether this object is terminated.
+	 */
+	@Basic @Raw
+	public boolean isTerminated() {
+		return this.isTerminated;
+	}
+	
+	/**
+	 * Terminate this object.
+	 */
+	public abstract void terminate();
 	
 	/**
 	 * Returns the position of the this object
@@ -222,7 +243,7 @@ public abstract class ObjectInSpace {
 	}
 
 	/**
- 	*  Check weter mass of this object is valid
+ 	*  Check whether mass of this object is valid
  	*  @param mass
  	*         The mass to check
  	*  @return true if mass 
@@ -247,7 +268,7 @@ public abstract class ObjectInSpace {
  	* 			the given mass is not a valid mass
  	* 			| !isValidMass(mass)
  	*/
-	public void setMass(double mass) throws IllegalArgumentException{
+	protected void setMass(double mass) throws IllegalArgumentException{
 		if(isValidMass(mass)){
 			this.mass = mass;
 		} else {

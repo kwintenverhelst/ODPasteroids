@@ -9,7 +9,7 @@ public class Bullet extends ObjectInSpace {
 	public Bullet(Ship ship) {
 		super(3);
 		double radius = 3;
-		setShip(ship);
+		this.ship = ship;
 		setPosition(ship.getX()-(radius+ship.getRadius())*Math.cos(ship.getAngle()), ship.getY()-(radius+ship.getRadius())*Math.sin(ship.getAngle()));
 		setVelocity(250*Math.cos(ship.getAngle()), 250*Math.sin(ship.getAngle()));
 		setMass(calculateMass(radius));
@@ -21,8 +21,15 @@ public class Bullet extends ObjectInSpace {
 	 * variable registering the ship of this bullet
 	 * 
 	 */
-	private Ship ship;
+	private final Ship ship;
 
+	/**
+	 * Terminate this bullet.
+	 */
+	public  void terminate(){
+		
+	}
+	
 	/**
 	 * return the ship of this bullet
 	 * 
@@ -33,7 +40,7 @@ public class Bullet extends ObjectInSpace {
 	}
 
 	/**
-	 * Check wheter ship of this bullet is valid
+	 * Check whether ship of this bullet is valid
 	 * 
 	 * @param ship
 	 *            The ship to check
@@ -49,24 +56,6 @@ public class Bullet extends ObjectInSpace {
 
 	}
 
-	/**
-	 * Set the ship of this bullet with the given ship
-	 * 
-	 * @param ship
-	 *            the new ship of this bullet
-	 * @post the new ship of this bullet is equal to the given ship
-	 *       |new.getShip() == ship
-	 * @throws NullPointerException
-	 *             The given ship is not a valid ship 
-	 *             | !isValidShip (ship)
-	 */
-	public void setShip(Ship ship) {
-		if (isValidShip(ship)) {
-			this.ship = ship;
-		} else {
-			throw new NullPointerException();
-		}
-	}
 
 	/**
 	 * Returns the density in km/km³.
