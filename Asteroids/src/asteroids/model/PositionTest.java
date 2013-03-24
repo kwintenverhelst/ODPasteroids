@@ -33,62 +33,62 @@ public class PositionTest {
 	@Test
 	public final void defaultConstructor_SingleCase() {
 		Position newPosition = new Position();
-		assertEquals(0, newPosition.getX(), Util.EPSILON);
-		assertEquals(0, newPosition.getY(),Util.EPSILON);
+		assertEquals(0, newPosition.getXCoordinate(), Util.EPSILON);
+		assertEquals(0, newPosition.getYCoordinate(),Util.EPSILON);
 	}
 
 	@Test
 	public final void constructor_SingleCase() {
 		Position newPosition = new Position(10, 20);
-		assertEquals(10.0, newPosition.getX(), Util.EPSILON);
-		assertEquals(20, newPosition.getY(),Util.EPSILON);
+		assertEquals(10.0, newPosition.getXCoordinate(), Util.EPSILON);
+		assertEquals(20, newPosition.getYCoordinate(),Util.EPSILON);
 	}
 	
 	@Test
-	public final void setX_TrueCase() {
-		position.setX(10);
-		assertEquals(10, position.getX(), Util.EPSILON);
+	public final void changeVectorX_TrueCase() {
+		position.changeVector(10, 0);
+		assertEquals(10, position.getXCoordinate(), Util.EPSILON);
 	}
 	
 	@Test
-	public final void setX_LessThenZeroCase() {
-		position.setX(-10);
-		assertEquals(screenSize.getWidth(), position.getX(), Util.EPSILON);
+	public final void changeVectorX_LessThenZeroCase() {
+		position.changeVector(-10, 0);
+		assertEquals(screenSize.getWidth(), position.getXCoordinate(), Util.EPSILON);
 	}
 	
 	@Test
-	public final void setX_OutOfScreenCase() {
-		position.setX(50000);
-		assertEquals(0, position.getX(), Util.EPSILON);
+	public final void changeVectorX_OutOfScreenCase() {
+		position.changeVector(50000, 0);
+		assertEquals(0, position.getXCoordinate(), Util.EPSILON);
 	}
 	
 	@Test(expected = NullPointerException.class)
-	public final void setX_FalseCase() throws Exception{
-		position.setX(Double.NaN);
+	public final void changeVectorX_FalseCase() throws Exception{
+		position.changeVector(Double.NaN, 0);
 	}
 	
 	
 	@Test
-	public final void setY_TrueCase() {
-		position.setY(10);
-		assertEquals(10, position.getY(), Util.EPSILON);
+	public final void changeVectorY_TrueCase() {
+		position.changeVector(0,10);
+		assertEquals(10, position.getYCoordinate(), Util.EPSILON);
 	}
 	
 	@Test
-	public final void setY_LessThenZeroCase() {
-		position.setY(-10);
-		assertEquals(screenSize.getHeight(), position.getY(), Util.EPSILON);
+	public final void changeVectorY_LessThenZeroCase() {
+		position.changeVector(0,-10);
+		assertEquals(screenSize.getHeight(), position.getYCoordinate(), Util.EPSILON);
 	}
 	
 	@Test
-	public final void setY_OutOfScreenCase() {
-		position.setY(50000);
-		assertEquals(0, position.getY(), Util.EPSILON);
+	public final void changeVectorY_OutOfScreenCase() {
+		position.changeVector(0,50000);
+		assertEquals(0, position.getYCoordinate(), Util.EPSILON);
 	}
 	
 	@Test(expected = NullPointerException.class)
-	public final void setY_FalseCase() throws Exception{
-		position.setY(Double.NaN);
+	public final void changeVectorY_FalseCase() throws Exception{
+		position.changeVector(0,Double.NaN);
 	}
 	
 
