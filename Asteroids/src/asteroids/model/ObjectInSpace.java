@@ -1,6 +1,5 @@
 package asteroids.model;
 
-import Purchase;
 import asteroids.Util;
 import be.kuleuven.cs.som.annotate.Basic;
 import be.kuleuven.cs.som.annotate.Immutable;
@@ -111,6 +110,11 @@ public abstract class ObjectInSpace {
 	public abstract void terminate();
 	
 	/**
+	 * this object collides with the given object
+	 */
+	public abstract void collide(ObjectInSpace object);
+	
+	/**
 	 * Returns the position of the this object
 	 */
 	@Basic
@@ -211,7 +215,7 @@ public abstract class ObjectInSpace {
 	 *         | result == (radius > 0) && (isValidDouble(radius))
 	 */
 	public boolean isValidRadius(double radius) {
-		return (radius > 0 && isValidDouble(radius));
+		return radius > 0 && isValidDouble(radius);
 	}
 	
 	/**
@@ -250,12 +254,7 @@ public abstract class ObjectInSpace {
  	*			| result == isValidDouble(mass) && mass > 0
  	*/
 	public boolean isValidMass (double mass){
-		if(isValidDouble(mass) && mass > 0) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return isValidDouble(mass) && mass > 0;
 	}
 
 	/**
@@ -282,37 +281,29 @@ public abstract class ObjectInSpace {
 	 *         |this.setPosition(this.getVelocityX()*dt + this.getX(), this.getVelocityY()*dt + this.getY())
 	 * @param dt
 	 *         the time in which the object needs to move
-	 * @throws NullPointerException
-	 *             The given time is not a number
-	 *         |!isValidDouble(dt)
 	 * @throws IllegalArgumentException
 	 *             The given time is not a valid time
 	 *         |!isValidTime(dt)
 	 */
 	public void move(double dt) throws NullPointerException,
 			IllegalArgumentException {
-		if (isValidDouble(dt)) {
-			if (isValidTime(dt)) {
-				setPosition(this.getVelocityX() * dt + this.getX(), this.getVelocityY() * dt + this.getY());
-			} else {
-				throw new IllegalArgumentException("the time must be more then zero");
-			}
+		if (isValidTime(dt)) {
+			setPosition(this.getVelocityX() * dt + this.getX(), this.getVelocityY() * dt + this.getY());
 		} else {
-			throw new NullPointerException("the time you have given is not a number");
+			throw new IllegalArgumentException("the time must be more then zero");
 		}
-
 	}
 	
 	/**
-	 * Check whether the time is more or equal to zero
+	 * Check whether the time is more or equal to zero 
 	 * 
 	 * @param dt
 	 *          the time to check
-	 * @return true if time is more or equal to zero
-	 *         |result == dt >= 0
+	 * @return true if time is more or equal to zero and a number
+	 *         |result == dt >= 0 && isValidDouble(dt)
 	 */
 	public boolean isValidTime(double dt) {
-		return dt >= 0;
+		return dt >= 0 && isValidDouble(dt);
 	}
 	
 	/**

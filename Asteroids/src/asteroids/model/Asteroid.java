@@ -26,6 +26,22 @@ public class Asteroid extends ObjectInSpace {
 	}
 	
 	/**
+	 * this asteroid collides with the given object
+	 */
+	public void collide(ObjectInSpace object){
+		if(object != null){
+			if(Asteroid.class.isAssignableFrom(object.getClass())){
+				
+			} else if(Bullet.class.isAssignableFrom(object.getClass())){
+				
+			} else if(Ship.class.isAssignableFrom(object.getClass())){
+				
+			}
+			
+		}
+	}
+	
+	/**
 	 * Returns the density in km/km³.
 	 */
 	@Basic
@@ -38,4 +54,6 @@ public class Asteroid extends ObjectInSpace {
 		
 		return 4*Math.PI*Math.pow(radius, 3)*getDensity()/3;
 	}
+	
+	
 }

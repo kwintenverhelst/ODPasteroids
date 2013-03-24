@@ -79,6 +79,9 @@ public class Ship  extends ObjectInSpace{
 	 */
 	private boolean thrustEnabled;
 	
+	/**
+	 * variable registering the amount of thrust this ship can make
+	 */
 	private final double THRUST = 1.1*Math.pow(10, 18);
 	
 	/**
@@ -86,6 +89,22 @@ public class Ship  extends ObjectInSpace{
 	 */
 	public  void terminate(){
 		
+	}
+	
+	/**
+	 * this ship collides with the given object
+	 */
+	public void collide(ObjectInSpace object){
+		if(object != null){
+			if(Asteroid.class.isAssignableFrom(object.getClass())){
+				
+			} else if(Bullet.class.isAssignableFrom(object.getClass())){
+				
+			} else if(Ship.class.isAssignableFrom(object.getClass())){
+				
+			}
+			
+		}
 	}
 	
 	/**
@@ -125,43 +144,6 @@ public class Ship  extends ObjectInSpace{
 		assert isValidAngle(angle);
 		this.angle = angle;
 	}
-
-
-	/**
-	 * if the amount is a valid number, this ship accelerates with the given amount in the current direction.
-	 * 
-	 * @param amount
-	 *        the amount of acceleration you want to give to the ship
-	 * @post  if the amount is not a valid double or if it's less than 0, 
-	 * 		  then the amount is set to 0.
-	 * 		  | if (!isValidDouble(amount) || !isValidThrust(amount))
-			  |  then amount = 0;
-	 * @effect this ship accelerates with the given amount in the current direction.
-	 * 		  | newVelocityX = this.velocityX + amount * Math.cos(getAngle())
-	 *		  | newVelocityY = this.velocityY + amount * Math.sin(getAngle())
-	 *        | setVelocity(newVelocityX, newVelocityY)
-	 */
-	public void thrust(double amount) {
-		if (!isValidDouble(amount) || !isValidThrust(amount)) {
-			amount = 0;
-		}
-		double newVelocityX = this.getVelocityX() + amount * Math.cos(getAngle());
-		double newVelocityY = this.getVelocityY() + amount * Math.sin(getAngle());
-		setVelocity(newVelocityX, newVelocityY);
-	}
-
-	/**
-	 * Check whether the amount of thrust is more or equal to zero
-	 * 
-	 * @param amount
-	 *           the amount that has to be checked.
-	 * @return true if the amount of thrust is more or equal to zero
-	 * 		   | result == amount >= 0
-	 */
-	public boolean isValidThrust(double amount) {
-		return amount >= 0;
-	}
-	
 	/**
 	 *Turns the ship by adding the given angle to the current angle.
 	 * 
@@ -173,7 +155,55 @@ public class Ship  extends ObjectInSpace{
 	public void turn(double angle) {
 		this.setAngle(this.getAngle()+angle);
 	}
+	
+	/**
+	 * Checks if the thruster is active or not
+	 * 
+	 * @return true if the thruster is active
+	 * 			| result == thrustEnabled
+	 */
+	public boolean checkIfThrustIsEnabled(){
+		return thrustEnabled;
+	}
+	
+	/**
+	 * 
+	 * @param active
+	 * 			the new state of the thruster of this ship
+	 * @post sets the thruster on the given state
+	 * 			| new.thrustEnabled = active
+	 */
+	public void setThrusterActive(boolean active){
+		thrustEnabled = active;
+	}
+			
+	/**
+	 * if the time is a valid number and the thrust is enabled, this ship accelerates within the given time in the current direction.
+	 * 
+	 * @param dt
+	 *        the amount of time you want to give to accelerate the ship
+	 * @effect this ship accelerates within the given time in the current direction if the time is valid and the thrust is enabled.
+	 * 			| if(isValidTime(dt) && checkIfThrustIsEnabled())
+	 * 			| then newVelocityX = this.getVelocityX() +  (Math.cos(getAngle()) * Math.pow(dt, 2)*THRUST)/getMass();
+	 *		  	| newVelocityY = this.getVelocityY() +  (Math.sin(getAngle()) * Math.pow(dt, 2)*THRUST)/getMass();
+	 *        	| setVelocity(newVelocityX, newVelocityY)
+	 */
+	public void thrust(double dt) {
+		if(checkIfThrustIsEnabled()){
+			if (isValidTime(dt)) {
+				double newVelocityX = this.getVelocityX() +  (Math.cos(getAngle()) * Math.pow(dt, 2)*THRUST)/getMass();
+				double newVelocityY = this.getVelocityY() +  (Math.sin(getAngle()) * Math.pow(dt, 2)*THRUST)/getMass();
+				setVelocity(newVelocityX, newVelocityY);
+			}
+		}
+	}
 
+	/**
+	 * Fires a Bullet of this ship
+	 * 
+	 * @return Bullet 
+	 * 			the bullet that you fire
+	 */
 	public Bullet firebullet(){
 		return new Bullet(this);
 	}

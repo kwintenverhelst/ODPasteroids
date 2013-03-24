@@ -124,19 +124,17 @@ public class Facade implements IFacade<World, Ship, Asteroid, Bullet> {
 
 	@Override
 	public World getShipWorld(Ship ship) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean isShipThrusterActive(Ship ship) {
-		// TODO Auto-generated method stub
-		return false;
+		return ship.checkIfThrustIsEnabled();
 	}
 
 	@Override
 	public void setThrusterActive(Ship ship, boolean active) {
-		// TODO Auto-generated method stub
+		ship.setThrusterActive(active);
 		
 	}
 
@@ -147,7 +145,7 @@ public class Facade implements IFacade<World, Ship, Asteroid, Bullet> {
 
 	@Override
 	public void fireBullet(Ship ship) {
-		// TODO Auto-generated method stub
+		ship.firebullet();
 		
 	}
 
@@ -250,8 +248,7 @@ public class Facade implements IFacade<World, Ship, Asteroid, Bullet> {
 
 	@Override
 	public Ship getBulletSource(Bullet bullet) {
-		// TODO Auto-generated method stub
-		return null;
+		return bullet.getShip();
 	}
 
 }
