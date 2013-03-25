@@ -1,10 +1,6 @@
 package asteroids.model;
 
-import Ownable;
-import Purchase;
-
 import java.util.*;
-
 import asteroids.Util;
 import be.kuleuven.cs.som.annotate.*;
 
