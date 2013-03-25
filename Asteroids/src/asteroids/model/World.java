@@ -1,6 +1,11 @@
 package asteroids.model;
 
+import Ownable;
+import Purchase;
+
 import java.util.*;
+
+import asteroids.Util;
 import be.kuleuven.cs.som.annotate.*;
 
 
@@ -12,6 +17,15 @@ import be.kuleuven.cs.som.annotate.*;
  */
 
 public class World {
+	
+	public World(double height, double width) throws IllegalArgumentException{
+		if(!isValidHeight(height))
+			throw new IllegalArgumentException("not a valid height");
+		this.height=height;
+		if(!isValidWidth(width))
+			throw new IllegalArgumentException("not a valid width");
+		this.width=width;
+	}
 	
 	/**
 	 * 
@@ -27,8 +41,8 @@ public class World {
 	 * 
 	 * @return
 	 */
-	public boolean isValidHeight(){
-		return (height >= 0 && height <= heightLimit);
+	public boolean isValidHeight(double height){
+		return (height >= 0 && height <= heightLimit && height!=Double.NaN);
 	}
 	
 	private final double height;
@@ -59,8 +73,8 @@ public class World {
 	 * 
 	 * @return
 	 */
-	public boolean isValidWidth(){
-		return (width >= 0 && width <= widthLimit);
+	public boolean isValidWidth(double width){
+		return (width >= 0 && width <= widthLimit && width!=Double.NaN);
 	}
 	
 	private final double width;
@@ -94,13 +108,31 @@ public class World {
 	public boolean CanHaveAsObjectInSpace (ObjectInSpace objectInSpace){
 		if((objectInSpace == null)||(this.isTerminated())||(objectInSpace.isTerminated()))
 			return false;
-		 if(!objectInSpace.liesInWorld())
+		 if(!isFullyInWorld(objectInSpace))
 			 return false;
 		 for (ObjectInSpace otherInSpace: objectsInSpace){
 			 if(objectInSpace.overlap(otherInSpace))
 				 return false;
 		 }
 		return true;	 
+	}
+	
+	/**
+	 * 
+	 * @param objectInSpace
+	 * @return
+	 */
+	public boolean isFullyInWorld(ObjectInSpace objectInSpace){
+		if(Util.fuzzyLessThanOrEqualTo(getWidth(), (objectInSpace.getX()+objectInSpace.getRadius())))
+			return false;
+		if(Util.fuzzyLessThanOrEqualTo((objectInSpace.getX()-objectInSpace.getRadius()),0))
+			return false;
+		if(Util.fuzzyLessThanOrEqualTo(getHeight(),(objectInSpace.getY()+objectInSpace.getRadius())))
+			return false;
+		if(Util.fuzzyLessThanOrEqualTo((objectInSpace.getY()-objectInSpace.getRadius()),0))
+			return false;
+		return true;
+		
 	}
 	
 	
@@ -143,6 +175,15 @@ public class World {
 			throw new IllegalArgumentException("this object is not in the world");
 		if (objectInSpace.getWorld()==null)
 			objectsInSpace.remove(objectInSpace);			
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	@Basic
+	public Set<ObjectInSpace> getAllObjectsInSpace() {
+		return new HashSet<ObjectInSpace>(objectsInSpace);
 	}
 	
 	private final Set<ObjectInSpace> objectsInSpace = new HashSet<ObjectInSpace>(); 
@@ -193,23 +234,33 @@ public class World {
 		return bullets;
 	}
 	
-
-	
-	public void evolve(){
-		//TODO
-	}
-	
+	/**
+	 * 
+	 */
 	public void Terminate(){
-		//TODO
+		if (!isTerminated()) {
+			for (ObjectInSpace objectInSpace : getAllObjectsInSpace())
+				objectInSpace.terminate();
+			this.isTerminated = true;
+		}
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isTerminated(){
 		return isTerminated;
 	}
 	
 	private boolean isTerminated = false;
 		
-
+	/**
+	 * 
+	 */
+	public void evolve(double time){
+		
+	}
 
 }
 
