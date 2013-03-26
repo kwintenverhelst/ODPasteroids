@@ -5,13 +5,17 @@ import be.kuleuven.cs.som.annotate.Immutable;
 
 public class Bullet extends ObjectInSpace {
 
-
 	public Bullet(Ship ship) {
 		super(3);
 		double radius = 3;
 		this.ship = ship;
-		setPosition(ship.getX()-(radius+ship.getRadius())*Math.cos(ship.getAngle()), ship.getY()-(radius+ship.getRadius())*Math.sin(ship.getAngle()));
-		setVelocity(250*Math.cos(ship.getAngle()), 250*Math.sin(ship.getAngle()));
+		setPosition(
+				ship.getX() - (radius + ship.getRadius())
+						* Math.cos(ship.getAngle()),
+				ship.getY() - (radius + ship.getRadius())
+						* Math.sin(ship.getAngle()));
+		setVelocity(250 * Math.cos(ship.getAngle()),
+				250 * Math.sin(ship.getAngle()));
 		setMass(calculateMass(radius));
 	}
 
@@ -23,13 +27,15 @@ public class Bullet extends ObjectInSpace {
 	 */
 	private final Ship ship;
 
+	private int countCollision;
+
 	/**
 	 * Terminate this bullet.
 	 */
-	public  void terminate(){
-		
+	public void terminate() {
+
 	}
-		
+
 	/**
 	 * return the ship of this bullet
 	 * 
@@ -44,8 +50,7 @@ public class Bullet extends ObjectInSpace {
 	 * 
 	 * @param ship
 	 *            The ship to check
-	 * @return true if ship 
-	 * 			| result == ship != null
+	 * @return true if ship | result == ship != null
 	 */
 	public boolean isValidShip(Ship ship) {
 		if (ship != null) {
@@ -55,7 +60,6 @@ public class Bullet extends ObjectInSpace {
 		}
 
 	}
-
 
 	/**
 	 * Returns the density in km/km³.
@@ -69,5 +73,29 @@ public class Bullet extends ObjectInSpace {
 	public double calculateMass(double radius) {
 
 		return 4 * Math.PI * Math.pow(radius, 3) * getDensity() / 3;
+	}
+
+	public int getCountCollision() {
+		return countCollision;
+	}
+
+	public void addCountCollision() {
+		countCollision = getCountCollision() + 1;
+	}
+
+	public void collideWithWand() {
+		int wand = collisionWithWhichWand();
+		if (getCountCollision() == 0) {
+			this.addCountCollision();
+			if (wand == 1) {
+				this.setVelocity(this.getVelocityX(), -(this.getVelocityY()));
+			} else if (wand == 2) {
+				this.setVelocity(-(this.getVelocityX()), this.getVelocityY());
+			} else if (wand == 3) {
+				this.setVelocity(-(this.getVelocityX()), -(this.getVelocityY()));
+			}
+		} else {
+			this.terminate();
+		}
 	}
 }

@@ -1,5 +1,7 @@
 package asteroids.model;
 
+import java.util.Random;
+
 import asteroids.Util;
 import be.kuleuven.cs.som.annotate.Basic;
 import be.kuleuven.cs.som.annotate.Immutable;
@@ -451,29 +453,80 @@ public abstract class ObjectInSpace {
 		}
 
 	}
-	public double getTimeToCollisionWithWorldVerticalWand(){
-		getWorld().getHeight();
-		return 0;
-		
-	}
+	
+	/**
+	 * returns the time on which the object will collide with one of the horizontal wands
+	 * @return
+	 */
 	public double getTimeToCollisionWithWorldHorizentalWand(){
-		return 0;
-		
-	}
-	public boolean timeCollisionWandHorizentalIsEqualToVertical(){
-		return getTimeToCollisionWithWorldHorizentalWand() == getTimeToCollisionWithWorldVerticalWand();
+		double velocityY = this.getVelocityY();
+		if(velocityY > 0){
+			double afstand = getWorld().getHeight() - this.getY();
+			return afstand/velocityY;
+		} else if(velocityY < 0){
+			double afstand = 0 - this.getY();
+			return afstand/velocityY;
+		} else {
+			return Double.POSITIVE_INFINITY;
+		}
 	}
 	
-	public boolean collisionWithHorizentalWandFirst(){
-		return getTimeToCollisionWithWorldHorizentalWand() > getTimeToCollisionWithWorldVerticalWand(); 	
+	/**
+	 * returns the time on which the object will collide with one of the vertical wands
+	 * @return
+	 */
+	public double getTimeToCollisionWithWorldVerticalWand(){
+		double velocityX = this.getVelocityX();
+		if(velocityX > 0){
+			double afstand = getWorld().getWidth() - this.getX();
+			return afstand/velocityX;
+		} else if(velocityX < 0){
+			double afstand = 0 - this.getX();
+			return afstand/velocityX;
+		} else {
+			return Double.POSITIVE_INFINITY;
+		}
 	}
 	
+	/**
+	 * returns with which wand the object will first collide
+	 * @return
+	 */
+	public int collisionWithWhichWand(){
+		double timeHorizental = getTimeToCollisionWithWorldHorizentalWand();
+		double timeVertical = getTimeToCollisionWithWorldVerticalWand();
+		if(!Double.isInfinite(timeHorizental) && Double.isInfinite(timeVertical)){
+			return 1;
+		} else if(Double.isInfinite(timeHorizental) && !Double.isInfinite(timeVertical)){
+			return 2;
+		} else {
+			if(timeHorizental < timeVertical){
+				return 1;
+			} else if(timeHorizental > timeVertical){
+				return 2;
+			} else{
+				return 3;
+			}
+		}
+	}
+	
+	/**
+	 * returns the smallest time needed to collide with one of the wands
+	 * @return
+	 */
 	public double getTimeToCollisionWithWorldWand(){
-		return 0;
-		
+		int wand = collisionWithWhichWand();
+		if(wand == 1){
+			return getTimeToCollisionWithWorldHorizentalWand();
+		} else if(wand == 2){
+			return getTimeToCollisionWithWorldVerticalWand();
+		} else if(wand == 3){
+			return getTimeToCollisionWithWorldHorizentalWand();
+		} else{
+			return Double.POSITIVE_INFINITY;
+		}
 	}
 
-	
 	/**
 	 * returns the position where this object and the given object are going to collide
 	 * 
@@ -534,6 +587,13 @@ public abstract class ObjectInSpace {
 	}
 	
 	public void collideWithWand(){
-		
+		int wand = collisionWithWhichWand();
+		if(wand == 1){
+			this.setVelocity(this.getVelocityX(),-(this.getVelocityY()));
+		} else if(wand == 2){
+			this.setVelocity(-(this.getVelocityX()), this.getVelocityY());
+		} else if(wand == 3){
+			this.setVelocity(-(this.getVelocityX()),-(this.getVelocityY()));
+		} 
 	}
 }

@@ -1,5 +1,7 @@
 package asteroids.model;
 
+import java.util.Random;
+
 import be.kuleuven.cs.som.annotate.Basic;
 import be.kuleuven.cs.som.annotate.Immutable;
 
@@ -16,6 +18,13 @@ public class Asteroid extends ObjectInSpace {
 		setMass(calculateMass(radius));
 	}
 	
+	public Asteroid(double x, double y, double velocityX, double velocityY,
+			double radius, World world, Random random){
+		super(x,y,velocityX*random.nextDouble(),velocityY,radius, 1);
+		setMass(calculateMass(radius));
+		setWorld(world);
+	}
+	
 	private final static double DENSITY = 7.8*Math.pow(10, 12);
 	
 	/**
@@ -23,6 +32,16 @@ public class Asteroid extends ObjectInSpace {
 	 */
 	public  void terminate(){
 		
+	}
+	
+	/**
+	 * Terminate this asteroid.
+	 */
+	public  void Die(){
+		if(isValidWorld(this.getWorld()) && (this.getRadius() >=30)) {
+			
+		}
+		this.terminate();
 	}
 	
 	/**
