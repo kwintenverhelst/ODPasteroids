@@ -84,12 +84,7 @@ public class Ship  extends ObjectInSpace{
 	 */
 	private final double THRUST = 1.1*Math.pow(10, 18);
 	
-	/**
-	 * Terminate this ship.
-	 */
-	public  void terminate(){
-		
-	}
+	
 		
 	/**
 	 * Return the angle of the ship 

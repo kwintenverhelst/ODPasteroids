@@ -1,5 +1,7 @@
 package asteroids.model;
 
+import java.util.Random;
+
 import asteroids.Util;
 import be.kuleuven.cs.som.annotate.*;
 
@@ -52,6 +54,15 @@ public class Velocity extends VectorInSpace {
 
 	}
 
+	public static Velocity createVelocityInRandomDirection(double velocity, Random random) {
+		double randomDouble = random.nextDouble();
+		if(Util.fuzzyEquals(randomDouble, 1) ){
+			return  Velocity.createVelocityInRandomDirection(velocity, random);
+		}
+		return Velocity.createVelocity(velocity*Math.cos(2*Math.PI*randomDouble), velocity*Math.sin(2*Math.PI*randomDouble));
+
+	}
+	
 	/**
 	 * Returns the speed limit in km/s.
 	 */

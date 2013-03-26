@@ -29,12 +29,6 @@ public class Bullet extends ObjectInSpace {
 
 	private int countCollision;
 
-	/**
-	 * Terminate this bullet.
-	 */
-	public void terminate() {
-
-	}
 
 	/**
 	 * return the ship of this bullet
