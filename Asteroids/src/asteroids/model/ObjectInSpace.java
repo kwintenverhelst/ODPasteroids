@@ -91,6 +91,12 @@ public abstract class ObjectInSpace {
 	private final double radius;
 	
 	/**
+	 * variable registering the world of this object
+	 *
+	 */
+	private World world;
+
+	/**
 	 * Variable registering whether or not this object is
 	 * terminated.
 	 */
@@ -108,12 +114,7 @@ public abstract class ObjectInSpace {
 	 * Terminate this object.
 	 */
 	public abstract void terminate();
-	
-	/**
-	 * this object collides with the given object
-	 */
-	public abstract void collide(ObjectInSpace object);
-	
+		
 	/**
 	 * Returns the position of the this object
 	 */
@@ -274,6 +275,50 @@ public abstract class ObjectInSpace {
 			throw new IllegalArgumentException("the mass of the object must be valid");
 		}
 	}
+	
+	/**
+ 	 * return the world of this object
+ 	 *
+ 	 */
+	@Basic
+	public World getWorld() {
+		return world;
+	}
+
+	/**
+ 	 *  Check wheter world of this object is valid
+   	 *  @param world
+ 	 *         The world to check
+ 	 *  @return true if world 
+  	 *			| result == world != null
+	 */
+	public boolean isValidWorld (World world){
+		if(world != null) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	/**
+ 	 *  Set the world of this object with the given world
+ 	 * @param world
+ 	 * 			the new world of this object
+ 	 * @post the new world of this object is equal to the given world
+ 	 * 			|new.getWorld() == world
+ 	 * @throws NullPointerException
+ 	 * 			The given world is not a valid world
+ 	 * 		  	| !isValidWorld (world) 
+ 	 */
+	public void setWorld(World world) {
+		if(isValidWorld(world)) {
+			this.world = world;
+		} else {
+			throw new NullPointerException();
+		}
+	}
+	
 	/**
 	 * Let the object move within a given time period
 	 * 
@@ -406,6 +451,28 @@ public abstract class ObjectInSpace {
 		}
 
 	}
+	public double getTimeToCollisionWithWorldVerticalWand(){
+		getWorld().getHeight();
+		return 0;
+		
+	}
+	public double getTimeToCollisionWithWorldHorizentalWand(){
+		return 0;
+		
+	}
+	public boolean timeCollisionWandHorizentalIsEqualToVertical(){
+		return getTimeToCollisionWithWorldHorizentalWand() == getTimeToCollisionWithWorldVerticalWand();
+	}
+	
+	public boolean collisionWithHorizentalWandFirst(){
+		return getTimeToCollisionWithWorldHorizentalWand() > getTimeToCollisionWithWorldVerticalWand(); 	
+	}
+	
+	public double getTimeToCollisionWithWorldWand(){
+		return 0;
+		
+	}
+
 	
 	/**
 	 * returns the position where this object and the given object are going to collide
@@ -448,5 +515,25 @@ public abstract class ObjectInSpace {
 			return null;
 		}
 	
+	}
+	
+	/**
+	 * this object collides with the given object
+	 */
+	public void collide(ObjectInSpace object){
+		if(object != null){
+			if(Asteroid.class.isAssignableFrom(object.getClass())){
+				
+			} else if(Bullet.class.isAssignableFrom(object.getClass())){
+				
+			} else if(Ship.class.isAssignableFrom(object.getClass())){
+				
+			}
+			
+		}
+	}
+	
+	public void collideWithWand(){
+		
 	}
 }

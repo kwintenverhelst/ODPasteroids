@@ -29,23 +29,7 @@ public class Bullet extends ObjectInSpace {
 	public  void terminate(){
 		
 	}
-	
-	/**
-	 * this bullet collides with the given object
-	 */
-	public void collide(ObjectInSpace object){
-		if(object != null){
-			if(Asteroid.class.isAssignableFrom(object.getClass())){
-				
-			} else if(Bullet.class.isAssignableFrom(object.getClass())){
-				
-			} else if(Ship.class.isAssignableFrom(object.getClass())){
-				
-			}
-			
-		}
-	}
-	
+		
 	/**
 	 * return the ship of this bullet
 	 * 
