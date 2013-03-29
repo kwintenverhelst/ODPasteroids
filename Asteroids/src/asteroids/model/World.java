@@ -1,6 +1,7 @@
 package asteroids.model;
 
 import java.util.*;
+
 import asteroids.Util;
 import be.kuleuven.cs.som.annotate.*;
 
@@ -157,6 +158,7 @@ public class World {
 		if (!(objectInSpace.getWorld()==this||objectInSpace.getWorld()==null))
 			throw new IllegalArgumentException("The object belongs to another world");
 		objectsInSpace.add(objectInSpace);
+		addFirstCollision(objectInSpace);
 		}
 	
 	/**
@@ -170,7 +172,8 @@ public class World {
 		if (!this.HasAsObjectInSpace(objectInSpace))
 			throw new IllegalArgumentException("this object is not in the world");
 		if (objectInSpace.getWorld()==null)
-			objectsInSpace.remove(objectInSpace);			
+			objectsInSpace.remove(objectInSpace);
+			removeFirstCollision(objectInSpace);
 	}
 	
 	/**
@@ -250,13 +253,86 @@ public class World {
 	}
 	
 	private boolean isTerminated = false;
+	
+	/**
+	 * 
+	 * @param objectInSpace
+	 * @return
+	 */
+	public ObjectInSpace calculateFirstCollision(ObjectInSpace objectInSpace){
+		ObjectInSpace firstCollision = null;
+		double collisionTime = objectInSpace.getTimeToCollisionWithWorldWand();
+		for (ObjectInSpace otherObject : getAllObjectsInSpace())
+			if(objectInSpace.getTimeToCollision(otherObject)<collisionTime)
+				firstCollision = otherObject;
+		return firstCollision;
+	}
 		
 	/**
 	 * 
+	 * @param objectInSpace
+	 */
+	public void addFirstCollision(ObjectInSpace objectInSpace){
+		firstCollisions.put(objectInSpace, calculateFirstCollision(objectInSpace));
+	}
+	
+	/**
+	 * 
+	 * @param objectInSpace
+	 */
+	public void removeFirstCollision(ObjectInSpace objectInSpace){
+		for(ObjectInSpace otherObject : objectsInSpace){
+			if(firstCollisions.get(otherObject) == objectInSpace)
+				addFirstCollision(otherObject);
+		}
+		firstCollisions.remove(objectInSpace);
+	}
+	
+	private final Map<ObjectInSpace,ObjectInSpace> firstCollisions = new HashMap<ObjectInSpace, ObjectInSpace>();
+	
+	/**
+	 * 
+	 * @param time
 	 */
 	public void evolve(double time){
-		
+		double timeToFirstCollision = 0.0;
+		ObjectInSpace firstCollision = null;
+		ObjectInSpace firstCollisionOther = null;
+		for(ObjectInSpace objectInSpace: objectsInSpace){
+			if(objectInSpace.getTimeToCollision(firstCollisions.get(objectInSpace))>timeToFirstCollision){
+				timeToFirstCollision = objectInSpace.getTimeToCollision(firstCollisions.get(objectInSpace));
+				firstCollision = objectInSpace;
+				firstCollisionOther= firstCollisions.get(objectInSpace);
+			}
+		}
+		if(time > timeToFirstCollision){
+			for(ObjectInSpace objectInSpace: objectsInSpace){
+				objectInSpace.move(timeToFirstCollision-Util.EPSILON);
+				if(objectInSpace instanceof Ship && ((Ship) objectInSpace).checkIfThrustIsEnabled())
+					((Ship) objectInSpace).thrust(timeToFirstCollision-Util.EPSILON);
+					addFirstCollision(objectInSpace);
+			}
+			firstCollision.collide(firstCollisionOther);
+			if(!firstCollision.isTerminated()){
+				addFirstCollision(firstCollision);
+			}
+			if(!firstCollisionOther.isTerminated() && firstCollisionOther!= null){
+				addFirstCollision(firstCollisionOther);
+			}
+			double newTime = time - timeToFirstCollision;
+			evolve(newTime);
+		}
+		for(ObjectInSpace objectInSpace: objectsInSpace){
+			objectInSpace.move(time);
+			if(objectInSpace instanceof Ship && ((Ship) objectInSpace).checkIfThrustIsEnabled()){
+				((Ship) objectInSpace).thrust(time);
+				addFirstCollision(objectInSpace);
+			}
+		}
 	}
 
+	
+
 }
+
 
