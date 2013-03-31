@@ -28,12 +28,11 @@ public class Position extends VectorInSpace{
 	public Position(double x, double y) {
 		super(x,y);
 	}
-		
-	public static VectorInSpace vectorChange(VectorInSpace vector1,
-			VectorInSpace vector2) {
-		return VectorInSpace.vectorChange(vector1, vector2);
+	
+	@Override
+	public Position changeVector(double xCoordinate, double yCoordinate) {
+		return  new Position(xCoordinate, yCoordinate);
 	}
-
-
+	
 
 }

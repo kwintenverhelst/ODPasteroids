@@ -74,25 +74,7 @@ public class VectorInSpace {
 		return new VectorInSpace(xCoordinate, yCoordinate);
 	}
 
-	/**
-	 * Makes a new vector where the given x-coordinate and y-coordinate are add
-	 * by the respectivily the x-coorcdibate and y-coordinate of this vector
-	 * 
-	 * @param addXCoordinate
-	 * @param addYCoordinate
-	 * @return
-	 * @throws IllegalArgumentException
-	 */
-	public VectorInSpace addToVector(double addXCoordinate,
-			double addYCoordinate) throws IllegalArgumentException {
-		if (!isValidDouble(addXCoordinate) || !isValidDouble(addYCoordinate)) {
-			throw new IllegalArgumentException(
-					"the number must be a valid double");
-		}
-		return new VectorInSpace(getXCoordinate() + addXCoordinate,
-				getYCoordinate() + addYCoordinate);
-	}
-
+	
 	/**
 	 * Check whether this vector is equal to the given object
 	 * 

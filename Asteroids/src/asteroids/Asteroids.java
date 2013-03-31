@@ -7,7 +7,7 @@ import java.awt.Rectangle;
 
 import javax.swing.JFrame;
 
-@SuppressWarnings({ "serial", "hiding" })
+@SuppressWarnings("serial")
 public class Asteroids<World, Ship, Asteroid, Bullet> extends JFrame {
 
   private AsteroidsMenu<World, Ship, Asteroid, Bullet> menu;
@@ -132,9 +132,9 @@ public class Asteroids<World, Ship, Asteroid, Bullet> extends JFrame {
       System.out.println("no screen found");
       return;
     }
-    // <begin>
+    
     IFacade<asteroids.model.World, asteroids.model.Ship, asteroids.model.Asteroid, asteroids.model.Bullet> facade = new asteroids.model.Facade();
-    // <end>
+   
     GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
     GraphicsDevice screen = env.getDefaultScreenDevice();
     Asteroids<asteroids.model.World, asteroids.model.Ship, asteroids.model.Asteroid, asteroids.model.Bullet> asteroids;

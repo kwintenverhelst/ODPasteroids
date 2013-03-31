@@ -83,9 +83,7 @@ public class Ship  extends ObjectInSpace{
 	 * variable registering the amount of thrust this ship can make
 	 */
 	private final double THRUST = 1.1*Math.pow(10, 18);
-	
-	
-		
+			
 	/**
 	 * Return the angle of the ship 
 	 * the angle expresses in which angle, with the
@@ -123,6 +121,7 @@ public class Ship  extends ObjectInSpace{
 		assert isValidAngle(angle);
 		this.angle = angle;
 	}
+	
 	/**
 	 *Turns the ship by adding the given angle to the current angle.
 	 * 
@@ -170,8 +169,8 @@ public class Ship  extends ObjectInSpace{
 	public void thrust(double dt) {
 		if(checkIfThrustIsEnabled()){
 			if (isValidTime(dt)) {
-				double newVelocityX = this.getVelocityX() +  (Math.cos(getAngle()) * Math.pow(dt, 2)*THRUST)/getMass();
-				double newVelocityY = this.getVelocityY() +  (Math.sin(getAngle()) * Math.pow(dt, 2)*THRUST)/getMass();
+				double newVelocityX = this.getVelocityX() +  (Math.cos(this.getAngle()) * Math.pow(dt, 2)*THRUST)/(this.getMass());
+				double newVelocityY = this.getVelocityY() +  (Math.sin(this.getAngle()) * Math.pow(dt, 2)*THRUST)/(this.getMass());
 				setVelocity(newVelocityX, newVelocityY);
 			}
 		}
@@ -185,11 +184,15 @@ public class Ship  extends ObjectInSpace{
 	 */
 	public Bullet firebullet(){
 		Bullet bullet = new Bullet(this);
-		getWorld().addFirstCollision(bullet);
+		this.getWorld().AddObjectInSpace(bullet);
 		return bullet;
 	}
 
-	
+	/**
+	 * 
+	 * @param object
+	 * @return
+	 */
 	public static boolean isShip(Object object){
 		return Ship.class.isAssignableFrom(object.getClass());
 	}

@@ -17,6 +17,7 @@ public class Bullet extends ObjectInSpace {
 		setVelocity(250 * Math.cos(ship.getAngle()),
 				250 * Math.sin(ship.getAngle()));
 		setMass(calculateMass(radius));
+		setWorld(ship.getWorld());
 	}
 
 	private final static double DENSITY = 2.65 * Math.pow(10, 12);

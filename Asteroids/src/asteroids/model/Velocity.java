@@ -71,6 +71,11 @@ public class Velocity extends VectorInSpace {
 	public double getSpeedLimit() {
 		return speedLimit;
 	}
+	
+	@Override
+	public Velocity changeVector(double xCoordinate, double yCoordinate) {
+		return Velocity.createVelocity(xCoordinate, yCoordinate);
+	}
 
 	/**
 	 * Checks if the velocity is a valid number and if it is less or equal to
@@ -90,11 +95,4 @@ public class Velocity extends VectorInSpace {
 				getSpeedLimit());
 	}
 	
-	
-	public static VectorInSpace vectorChange(VectorInSpace vector1,
-			VectorInSpace vector2) {
-		return Velocity.createVelocity(vector1.getXCoordinate()
-				- vector2.getXCoordinate(), vector1.getYCoordinate()
-				- vector2.getYCoordinate());
-	}
 }

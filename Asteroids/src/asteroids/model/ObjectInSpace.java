@@ -158,7 +158,19 @@ public abstract class ObjectInSpace {
 	 *         |position.setPosition(x, y)
 	 */
 	public void setPosition(double x, double y) {
-		position = new Position(x, y);
+		if(this.getWorld() != null){
+			if(x > this.getWorld().getWidth() - this.getRadius()){
+				x = this.getWorld().getWidth() - this.getRadius();
+			} else if(x < this.getRadius()){
+				x = this.getRadius();
+			} 
+			if(y > this.getWorld().getHeight() - this.getRadius()){
+				y = this.getWorld().getHeight() - this.getRadius();
+			} else if(y < this.getRadius()){
+				y = this.getRadius();
+			}
+		}
+		position = position.changeVector(x, y);
 	}
 
 	/**
@@ -278,8 +290,7 @@ public abstract class ObjectInSpace {
 		if (isValidMass(mass)) {
 			this.mass = mass;
 		} else {
-			throw new IllegalArgumentException(
-					"the mass of the object must be valid");
+			this.mass = 0;
 		}
 	}
 
@@ -359,7 +370,7 @@ public abstract class ObjectInSpace {
 		} else if (object == null) {
 			throw new NullPointerException("the given object does not exist");
 		} else {
-			Position positionChange = (Position) Position.vectorChange(
+			VectorInSpace positionChange = Position.vectorChange(
 					this.getPosition(), object.getPosition());
 			return Position.norm(positionChange) - this.getRadius()
 					- object.getRadius();
@@ -421,11 +432,11 @@ public abstract class ObjectInSpace {
 	public double getTimeToCollision(ObjectInSpace object)
 			throws NullPointerException {
 		if (object == null) {
-			throw new NullPointerException();
+			return Double.POSITIVE_INFINITY;
 		}
-		Position positionChange = (Position) Position.vectorChange(
+		VectorInSpace positionChange = Position.vectorChange(
 				this.getPosition(), object.getPosition());
-		Velocity velocity = (Velocity) Velocity.vectorChange(
+		VectorInSpace velocity = Velocity.vectorChange(
 				this.getVelocity(), object.getVelocity());
 
 		double dvMultiDr = VectorInSpace.inProduct(velocity, positionChange);
@@ -461,12 +472,16 @@ public abstract class ObjectInSpace {
 	 */
 	public double getTimeToCollisionWithWorldHorizentalWand() {
 		double velocityY = this.getVelocityY();
-		if (velocityY > 0) {
-			double afstand = getWorld().getHeight() - this.getY();
-			return afstand / velocityY;
-		} else if (velocityY < 0) {
-			double afstand = 0 - this.getY();
-			return afstand / velocityY;
+		if(this.getWorld() != null){
+			if (velocityY > 0) {
+				double afstand = getWorld().getHeight() - this.getY();
+				return afstand / velocityY;
+			} else if (velocityY < 0) {
+				double afstand = 0 - this.getY();
+				return afstand / velocityY;
+			} else {
+				return Double.POSITIVE_INFINITY;
+			}
 		} else {
 			return Double.POSITIVE_INFINITY;
 		}
@@ -480,12 +495,16 @@ public abstract class ObjectInSpace {
 	 */
 	public double getTimeToCollisionWithWorldVerticalWand() {
 		double velocityX = this.getVelocityX();
-		if (velocityX > 0) {
-			double afstand = getWorld().getWidth() - this.getX();
-			return afstand / velocityX;
-		} else if (velocityX < 0) {
-			double afstand = 0 - this.getX();
-			return afstand / velocityX;
+		if(this.getWorld() != null){
+			if (velocityX > 0) {
+				double afstand = getWorld().getWidth() - this.getX();
+				return afstand / velocityX;
+			} else if (velocityX < 0) {
+				double afstand = 0 - this.getX();
+				return afstand / velocityX;
+			} else {
+				return Double.POSITIVE_INFINITY;
+			}
 		} else {
 			return Double.POSITIVE_INFINITY;
 		}

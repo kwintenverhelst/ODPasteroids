@@ -153,13 +153,12 @@ public class World {
 	 * @throws IllegalArgumentException
 	 */
 	public void AddObjectInSpace (ObjectInSpace objectInSpace) throws IllegalArgumentException{
-		if (!CanHaveAsObjectInSpace(objectInSpace))
-			throw new IllegalArgumentException("This is object can't be in the world");
-		if (!(objectInSpace.getWorld()==this||objectInSpace.getWorld()==null))
-			throw new IllegalArgumentException("The object belongs to another world");
+		//if (!CanHaveAsObjectInSpace(objectInSpace))
+			//throw new IllegalArgumentException("This is object can't be in the world");
+		objectInSpace.setWorld(this);
 		objectsInSpace.add(objectInSpace);
 		addFirstCollision(objectInSpace);
-		}
+	}
 	
 	/**
 	 * 
