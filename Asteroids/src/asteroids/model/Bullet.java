@@ -92,4 +92,8 @@ public class Bullet extends ObjectInSpace {
 			this.terminate();
 		}
 	}
+	
+	public static boolean isBullet(Object object){
+		return Bullet.class.isAssignableFrom(object.getClass());
+	}
 }

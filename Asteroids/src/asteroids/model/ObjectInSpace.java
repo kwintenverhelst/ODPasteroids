@@ -380,17 +380,10 @@ public abstract class ObjectInSpace {
 		if (this == object) {
 			return true;
 		} else {
-			if ((Bullet.class.isAssignableFrom(object.getClass())
-					&& Ship.class.isAssignableFrom(this.getClass()) && (((Bullet) object)
-					.getShip() == this))
-					|| (Bullet.class.isAssignableFrom(this.getClass())
-							&& Ship.class.isAssignableFrom(object.getClass()) && ((Bullet) this)
-							.getShip() == object)) {
-
+			if ((Bullet.isBullet(object) && Ship.isShip(this) && (((Bullet) object).getShip() == this))
+					|| (Bullet.isBullet(this) && Ship.isShip(object) && ((Bullet) this).getShip() == object)) {
 				return false;
-
 			} else {
-
 				double distance = this.getDistanceBetween(object);
 				if (Util.fuzzyLessThanOrEqualTo(distance, 0.0)) {
 					return true;
@@ -595,12 +588,11 @@ public abstract class ObjectInSpace {
 	 */
 	public void collide(ObjectInSpace object) {
 		if (object != null) {
-			if (Bullet.class.isAssignableFrom(object.getClass())
-					|| Bullet.class.isAssignableFrom(this.getClass())) {
-				if (Asteroid.class.isAssignableFrom(this.getClass())) {
+			if (Bullet.isBullet(object) || Bullet.isBullet(this)) {
+				if (Asteroid.isAsteroid(this)) {
 					((Asteroid) this).Die();
 					object.terminate();
-				} else if (Asteroid.class.isAssignableFrom(object.getClass())) {
+				} else if (Asteroid.isAsteroid(object)) {
 					((Asteroid) object).Die();
 					this.terminate();
 				} else {
@@ -608,19 +600,14 @@ public abstract class ObjectInSpace {
 					this.terminate();
 				}
 			} else {
-				if (Asteroid.class.isAssignableFrom(object.getClass())
-						&& Asteroid.class.isAssignableFrom(this.getClass())) {
+				if (Asteroid.isAsteroid(this) && Asteroid.isAsteroid(object)) {
 					this.bounce(this, object);
-				} else if (Ship.class.isAssignableFrom(object.getClass())
-						&& Ship.class.isAssignableFrom(this.getClass())) {
+				} else if (Ship.isShip(object) && Ship.isShip(this)) {
 					this.bounce(this, object);
 				} else {
-					if (Ship.class.isAssignableFrom(object.getClass())
-							&& Asteroid.class.isAssignableFrom(this.getClass())) {
+					if (Ship.isShip(object)	&& Asteroid.isAsteroid(this)) {
 						object.terminate();
-					} else if (Ship.class.isAssignableFrom(this.getClass())
-							&& Asteroid.class.isAssignableFrom(object
-									.getClass())) {
+					} else if (Ship.isShip(this) && Asteroid.isAsteroid(object)) {
 						this.terminate();
 					}
 				}
@@ -662,4 +649,5 @@ public abstract class ObjectInSpace {
 			this.setVelocity(-(this.getVelocityX()), -(this.getVelocityY()));
 		}
 	}
+	
 }

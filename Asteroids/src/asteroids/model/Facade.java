@@ -8,70 +8,65 @@ import asteroids.IFacade;
 
 public class Facade implements IFacade<World, Ship, Asteroid, Bullet> {
 
+	public Facade (){
+		
+	}
+	
 	@Override
 	public World createWorld(double width, double height) {
-		// TODO Auto-generated method stub
-		return null;
+		return new World(height, width);
 	}
 
 	@Override
 	public double getWorldWidth(World world) {
-		// TODO Auto-generated method stub
-		return 0;
+		return world.getWidth();
 	}
 
 	@Override
 	public double getWorldHeight(World world) {
-		// TODO Auto-generated method stub
-		return 0;
+		return world.getHeight();
 	}
 
 	@Override
 	public Set<Ship> getShips(World world) {
-		// TODO Auto-generated method stub
-		return null;
+		return world.getShips();
 	}
 
 	@Override
 	public Set<Asteroid> getAsteroids(World world) {
-		// TODO Auto-generated method stub
-		return null;
+		return world.getAsteroids();
 	}
 
 	@Override
 	public Set<Bullet> getBullets(World world) {
-		// TODO Auto-generated method stub
-		return null;
+		return world.getBullets();
 	}
 
 	@Override
 	public void addShip(World world, Ship ship) {
-		// TODO Auto-generated method stub
-		
+		world.AddObjectInSpace(ship);
 	}
 
 	@Override
 	public void addAsteroid(World world, Asteroid asteroid) {
-		// TODO Auto-generated method stub
-		
+		world.AddObjectInSpace(asteroid);
 	}
 
 	@Override
 	public void removeShip(World world, Ship ship) {
-		// TODO Auto-generated method stub
-		
+		world.RemoveObjectInSpace(ship);
 	}
 
 	@Override
 	public void removeAsteroid(World world, Asteroid asteroid) {
-		// TODO Auto-generated method stub
+		world.RemoveObjectInSpace(asteroid);
 		
 	}
 
 	@Override
 	public void evolve(World world, double dt,
 			CollisionListener collisionListener) {
-		// TODO Auto-generated method stub
+		world.evolve(dt);
 		
 	}
 
@@ -83,8 +78,7 @@ public class Facade implements IFacade<World, Ship, Asteroid, Bullet> {
 
 	@Override
 	public boolean isShip(Object o) {
-		// TODO Auto-generated method stub
-		return false;
+		return Ship.isShip(o);
 	}
 
 	@Override
@@ -124,7 +118,7 @@ public class Facade implements IFacade<World, Ship, Asteroid, Bullet> {
 
 	@Override
 	public World getShipWorld(Ship ship) {
-		return null;
+		return ship.getWorld();
 	}
 
 	@Override
@@ -158,14 +152,12 @@ public class Facade implements IFacade<World, Ship, Asteroid, Bullet> {
 	@Override
 	public Asteroid createAsteroid(double x, double y, double xVelocity,
 			double yVelocity, double radius, Random random) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean isAsteroid(Object o) {
-		// TODO Auto-generated method stub
-		return false;
+		return Asteroid.isAsteroid(o);
 	}
 
 	@Override
@@ -200,14 +192,12 @@ public class Facade implements IFacade<World, Ship, Asteroid, Bullet> {
 
 	@Override
 	public World getAsteroidWorld(Asteroid asteroid) {
-		// TODO Auto-generated method stub
-		return null;
+		return asteroid.getWorld();
 	}
 
 	@Override
 	public boolean isBullets(Object o) {
-		// TODO Auto-generated method stub
-		return false;
+		return Bullet.isBullet(o);
 	}
 
 	@Override
@@ -242,8 +232,7 @@ public class Facade implements IFacade<World, Ship, Asteroid, Bullet> {
 
 	@Override
 	public World getBulletWorld(Bullet bullet) {
-		// TODO Auto-generated method stub
-		return null;
+		return bullet.getWorld();
 	}
 
 	@Override

@@ -59,5 +59,7 @@ public class Asteroid extends ObjectInSpace {
 		return 4*Math.PI*Math.pow(radius, 3)*getDensity()/3;
 	}
 	
-	
+	public static boolean isAsteroid(Object object){
+		return Asteroid.class.isAssignableFrom(object.getClass());
+	}
 }

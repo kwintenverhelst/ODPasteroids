@@ -184,9 +184,15 @@ public class Ship  extends ObjectInSpace{
 	 * 			the bullet that you fire
 	 */
 	public Bullet firebullet(){
-		return new Bullet(this);
+		Bullet bullet = new Bullet(this);
+		getWorld().addFirstCollision(bullet);
+		return bullet;
 	}
 
+	
+	public static boolean isShip(Object object){
+		return Ship.class.isAssignableFrom(object.getClass());
+	}
 
 	
 }
