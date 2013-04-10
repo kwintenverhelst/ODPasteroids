@@ -99,7 +99,7 @@ public class World {
 	 * @param objectInSpace
 	 */
 	@Raw
-	public boolean HasAsObjectInSpace (@Raw ObjectInSpace objectInSpace){
+	public boolean hasAsObjectInSpace (@Raw ObjectInSpace objectInSpace){
 		return objectsInSpace.contains(objectInSpace);
 	}
 	
@@ -109,7 +109,7 @@ public class World {
 	 * @return
 	 */
 	@Raw
-	public boolean CanHaveAsObjectInSpace (ObjectInSpace objectInSpace){
+	public boolean canHaveAsObjectInSpace (ObjectInSpace objectInSpace){
 		if((objectInSpace == null)||(this.isTerminated())||(objectInSpace.isTerminated()))
 			return false;
 		if(objectInSpace.getWorld()!= this && objectInSpace.getWorld()!=null)
@@ -126,8 +126,12 @@ public class World {
 	/**
 	 * 
 	 * @param objectInSpace
-	 * @return
-	 */
+	 * @return ...
+	 * 		| result == (0<(objectInSpace.getX()-objectInSpace.getRadius()))
+	 * 		| && ((objectInSpace.getX()+objectInSpace.getRadius())<this.getWidth())
+	 * 		| && (0<(objectInSpace.getY()-objectInSpace.getRadius()))
+	 * 		| && ((objectInSpace.getY()+objectInSpace.getRadius())<this.getHeigth())
+	 */		
 	public boolean isFullyInWorld(ObjectInSpace objectInSpace){
 		if(Util.fuzzyLessThanOrEqualTo(getWidth(), (objectInSpace.getX()+objectInSpace.getRadius())))
 			return false;
@@ -146,9 +150,9 @@ public class World {
 	 * 
 	 * @return
 	 */
-	public boolean HasProperObjectsInSpace (){
+	public boolean hasProperObjectsInSpace (){
 		for(ObjectInSpace objectInSpace: this.objectsInSpace){
-			if(!CanHaveAsObjectInSpace(objectInSpace))
+			if(!canHaveAsObjectInSpace(objectInSpace))
 				return false;
 			if(objectInSpace.getWorld()!=this)
 				return false;
@@ -161,7 +165,7 @@ public class World {
 	 * @param objectInSpace
 	 * @throws IllegalArgumentException
 	 */
-	public void AddObjectInSpace (@Raw ObjectInSpace objectInSpace) throws IllegalArgumentException{
+	public void addObjectInSpace (@Raw ObjectInSpace objectInSpace) throws IllegalArgumentException{
 		//if (!CanHaveAsObjectInSpace(objectInSpace))
 			//throw new IllegalArgumentException("This is object can't be in the world");
 		objectInSpace.setWorld(this);
@@ -174,10 +178,10 @@ public class World {
 	 * @param objectInSpace
 	 * @throws IllegalArgumentException
 	 */
-	public void RemoveObjectInSpace (@Raw ObjectInSpace objectInSpace) throws NullPointerException , IllegalArgumentException {
+	public void removeObjectInSpace (@Raw ObjectInSpace objectInSpace) throws NullPointerException , IllegalArgumentException {
 		if (objectInSpace==null)
 			throw new NullPointerException("not a valid object");
-		if (!this.HasAsObjectInSpace(objectInSpace))
+		if (!this.hasAsObjectInSpace(objectInSpace))
 			throw new IllegalArgumentException("this object is not in the world");
 		if (objectInSpace.getWorld()==null)
 			objectsInSpace.remove(objectInSpace);
@@ -185,10 +189,11 @@ public class World {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * ...
+	 * @return ...
+	 * 		| for each objectInSpace in result :
+	 * 		| 	this.hasAsObjectInSpace(objectInSpace)
 	 */
-	@Basic
 	public Set<ObjectInSpace> getAllObjectsInSpace() {
 		return new HashSet<ObjectInSpace>(objectsInSpace);
 	}
@@ -196,9 +201,12 @@ public class World {
 	private final Set<ObjectInSpace> objectsInSpace = new HashSet<ObjectInSpace>(); 
 	
 	/**
-	 * 
-	 * @return
-	 * @throws IllegalStateException
+	 * ...
+	 * @return ...
+	 * 		| for each ship in result :
+	 * 		| 	(ship instanceof Ship) && this.hasAsObjectInSpace(ship)
+	 * @throws IllegalStateException ...
+	 * 		|isTerminated()
 	 */
 	public Set<Ship> getShips() throws IllegalStateException {
 		if (isTerminated())
@@ -212,8 +220,12 @@ public class World {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * ...
+	 * @return ...
+	 * 		| for each asteroid in result :
+	 * 		| 	(asteroid instanceof Asteroid) && this.hasAsObjectInSpace(asteroid)
+	 * @throws IllegalStateException ...
+	 * 		|isTerminated()
 	 */
 	public Set<Asteroid> getAsteroids(){
 		if (isTerminated())
@@ -227,8 +239,12 @@ public class World {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * ...
+	 * @return ...
+	 * 		| for each bullet in result :
+	 * 		| 	(bullet instanceof Bullet) && this.hasAsObjectInSpace(bullet)
+	 * @throws IllegalStateException ...
+	 * 		|isTerminated()
 	 */
 	public Set<Bullet> getBullets() {
 		if (isTerminated())
@@ -244,7 +260,7 @@ public class World {
 	/**
 	 * 
 	 */
-	public void Terminate(){
+	public void terminate(){
 		if (!isTerminated()) {
 			for (ObjectInSpace objectInSpace : getAllObjectsInSpace())
 				objectInSpace.terminate();

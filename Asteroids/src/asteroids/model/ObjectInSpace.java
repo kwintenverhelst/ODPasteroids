@@ -116,7 +116,7 @@ public abstract class ObjectInSpace {
 		isTerminated = true;
 		World world = this.getWorld();
 		this.setWorld(null);
-		world.RemoveObjectInSpace(this);
+		world.removeObjectInSpace(this);
 	}
 
 	/**
@@ -339,7 +339,7 @@ public abstract class ObjectInSpace {
 	@Raw
 	public boolean hasProperWorld() {
 		return canHaveAsWorld(getWorld())
-				&& ((getWorld() == null) || (getWorld().HasAsObjectInSpace(this)));
+				&& ((getWorld() == null) || (getWorld().hasAsObjectInSpace(this)));
 	}
 
 
