@@ -302,6 +302,46 @@ public abstract class ObjectInSpace {
 	public World getWorld() {
 		return world;
 	}
+	
+	/**
+	 * Check whether this objectInSpace can have the given world as
+	 * its world.
+	 * 
+	 * @param  world
+	 * 		   The world to check.
+	 * @return If this objectInSpace is terminated, returns true if the given world is null.
+	 *       | if (this.isTerminated())
+	 *       |   then result == (world == null)
+	 * @return If this objectInSpace is not terminated, returns true if the given world is
+	 * 		   not null and not terminated.
+	 *       | if (! this.isTerminated())
+	 *       |   then result ==
+	 *       |     (world != null) &&
+	 *       |     (! world.isTerminated())
+	 */
+	@Raw
+	public boolean canHaveAsWorld(World world) {
+		if (this.isTerminated())
+			return world == null;
+		return (world != null)
+				&& (!world.isTerminated());
+	}
+
+	/**
+	 * Check whether this objectInSpace has a proper world.
+	 * 
+	 * @return True if this objectInSpace can have this world as world and
+	 * 		   this world is either null or it has this objectInSpace as one of its objects.
+	 *       | result ==
+	 *       |   canHaveAsWorld(getWorld()) &&
+	 *       |   ( (getWorld() == null) || getWorld().hasAsObjectInSpace(this))
+	 */
+	@Raw
+	public boolean hasProperWorld() {
+		return canHaveAsWorld(getWorld())
+				&& ((getWorld() == null) || (getWorld().HasAsObjectInSpace(this)));
+	}
+
 
 	/**
 	 * Set the world of this object with the given world
@@ -310,8 +350,13 @@ public abstract class ObjectInSpace {
 	 *            the new world of this object
 	 * @post the new world of this object is equal to the given world
 	 *       |new.getWorld() == world
+ 	 * @throws IllegalArgumentException
+     *       This objectInSpace cannot have the given world as its world.
+	 *       | ! canHaveAsWorld(world)      
 	 */
 	public void setWorld(World world) {
+		if (!canHaveAsWorld(world))
+			throw new IllegalArgumentException("Inappropriate world");
 		this.world = world;
 	}
 

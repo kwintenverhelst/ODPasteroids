@@ -15,6 +15,17 @@ import be.kuleuven.cs.som.annotate.*;
 
 public class World {
 	
+	/**
+	 * 
+	 * @param height
+	 * @param width
+	 * @post ...
+	 * 		| (new this).getHeight() == height
+	 * @post ...
+	 * 		| (new this).getWidth() == width
+	 * @throws IllegalArgumentException ...
+	 * 		| (!isValidHeight(height)) || (!isValidWidth(width))
+	 */
 	public World(double height, double width) throws IllegalArgumentException{
 		if(!isValidHeight(height))
 			throw new IllegalArgumentException("not a valid height");
@@ -25,8 +36,7 @@ public class World {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * ...
 	 */
 	@Basic
 	@Immutable
@@ -35,18 +45,17 @@ public class World {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return ...
+	 * 		 | result == (height >= 0) && (height <= getHeightLimit()) && (!Double.isNaN(height))
 	 */
 	public boolean isValidHeight(double height){
-		return (height >= 0 && height <= heightLimit && height!=Double.NaN);
+		return (height >= 0 && height <= heightLimit && !Double.isNaN(height));
 	}
 	
 	private final double height;
 	
 	/**
-	 * 
-	 * @return
+	 * ...
 	 */
 	@Basic
 	@Immutable
@@ -57,8 +66,7 @@ public class World {
 	private final static double heightLimit = Double.MAX_VALUE;
 	
 	/**
-	 * 
-	 * @return
+	 * ...
 	 */
 	@Basic
 	@Immutable
@@ -67,18 +75,17 @@ public class World {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return ...
+	 * 		 | result == (width >= 0) && (width <= getWidthLimit()) && (!Double.isNaN(width))
 	 */
 	public boolean isValidWidth(double width){
-		return (width >= 0 && width <= widthLimit && width!=Double.NaN);
+		return (width >= 0 && width <= widthLimit && !Double.isNaN(width));
 	}
 	
 	private final double width;
 	
 	/**
-	 * 
-	 * @return
+	 * ...
 	 */
 	@Basic
 	@Immutable
@@ -89,11 +96,10 @@ public class World {
 	private final static double widthLimit = Double.MAX_VALUE;
 
 	/**
-	 * 
 	 * @param objectInSpace
-	 * @return
 	 */
-	public boolean HasAsObjectInSpace (ObjectInSpace objectInSpace){
+	@Raw
+	public boolean HasAsObjectInSpace (@Raw ObjectInSpace objectInSpace){
 		return objectsInSpace.contains(objectInSpace);
 	}
 	
@@ -102,12 +108,15 @@ public class World {
 	 * @param objectInSpace
 	 * @return
 	 */
+	@Raw
 	public boolean CanHaveAsObjectInSpace (ObjectInSpace objectInSpace){
 		if((objectInSpace == null)||(this.isTerminated())||(objectInSpace.isTerminated()))
 			return false;
-		 if(!isFullyInWorld(objectInSpace))
+		if(objectInSpace.getWorld()!= this && objectInSpace.getWorld()!=null)
+			return false;
+		if(!isFullyInWorld(objectInSpace))
 			 return false;
-		 for (ObjectInSpace otherInSpace: objectsInSpace){
+		for (ObjectInSpace otherInSpace: objectsInSpace){
 			 if(objectInSpace.overlap(otherInSpace))
 				 return false;
 		 }
@@ -152,7 +161,7 @@ public class World {
 	 * @param objectInSpace
 	 * @throws IllegalArgumentException
 	 */
-	public void AddObjectInSpace (ObjectInSpace objectInSpace) throws IllegalArgumentException{
+	public void AddObjectInSpace (@Raw ObjectInSpace objectInSpace) throws IllegalArgumentException{
 		//if (!CanHaveAsObjectInSpace(objectInSpace))
 			//throw new IllegalArgumentException("This is object can't be in the world");
 		objectInSpace.setWorld(this);
@@ -165,7 +174,7 @@ public class World {
 	 * @param objectInSpace
 	 * @throws IllegalArgumentException
 	 */
-	public void RemoveObjectInSpace (ObjectInSpace objectInSpace) throws NullPointerException , IllegalArgumentException {
+	public void RemoveObjectInSpace (@Raw ObjectInSpace objectInSpace) throws NullPointerException , IllegalArgumentException {
 		if (objectInSpace==null)
 			throw new NullPointerException("not a valid object");
 		if (!this.HasAsObjectInSpace(objectInSpace))
