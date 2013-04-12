@@ -7,9 +7,17 @@ import be.kuleuven.cs.som.annotate.*;
 
 
 /**
+ * ...
+ * 
+ * @invar ...
+ * 		| isValidHeight(getHeight())
+ * @invar ...
+ * 		| isValidWidth(getWidth())
+ * @invar ...
+ * 		| hasProperObjectsInSpace()
  * 
  * @author Mathieu Vermeire & Kwinten Verhelst
- * @version	2.0
+ * @version	2.1
  *
  */
 
@@ -26,6 +34,7 @@ public class World {
 	 * @throws IllegalArgumentException ...
 	 * 		| (!isValidHeight(height)) || (!isValidWidth(width))
 	 */
+	@Raw
 	public World(double height, double width) throws IllegalArgumentException{
 		if(!isValidHeight(height))
 			throw new IllegalArgumentException("not a valid height");
@@ -40,8 +49,9 @@ public class World {
 	 */
 	@Basic
 	@Immutable
+	@Raw
 	public double getHeight (){
-		return height;
+		return this.height;
 	}
 	
 	/**
@@ -70,8 +80,9 @@ public class World {
 	 */
 	@Basic
 	@Immutable
+	@Raw
 	public double getWidth (){
-		return width;
+		return this.width;
 	}
 	
 	/**
@@ -96,9 +107,10 @@ public class World {
 	private final static double widthLimit = Double.MAX_VALUE;
 
 	/**
-	 * @param objectInSpace
+	 * ...
 	 */
 	@Raw
+	@Basic
 	public boolean hasAsObjectInSpace (@Raw ObjectInSpace objectInSpace){
 		return objectsInSpace.contains(objectInSpace);
 	}
@@ -106,13 +118,18 @@ public class World {
 	/**
 	 * 
 	 * @param objectInSpace
-	 * @return
+	 * @return ...
+	 * 		| result = (objectInSpace != null) 
+	 * 		|		&& (objectInSpace.canHaveAsWorld(this)
+	 * 		|		&& (isFullyInWorld(objectInSpace))		
+	 * 		|		&& for each otherObject in objectsInSpace:
+	 * 		|			(!objectInSpace.overlap(otherObject)
 	 */
 	@Raw
 	public boolean canHaveAsObjectInSpace (ObjectInSpace objectInSpace){
-		if((objectInSpace == null)||(this.isTerminated())||(objectInSpace.isTerminated()))
+		if (objectInSpace == null)
 			return false;
-		if(objectInSpace.getWorld()!= this && objectInSpace.getWorld()!=null)
+		if (!objectInSpace.canHaveAsWorld(this))
 			return false;
 		if(!isFullyInWorld(objectInSpace))
 			 return false;
@@ -124,7 +141,7 @@ public class World {
 	}
 	
 	/**
-	 * 
+	 * ...
 	 * @param objectInSpace
 	 * @return ...
 	 * 		| result == (0<(objectInSpace.getX()-objectInSpace.getRadius()))
@@ -147,8 +164,12 @@ public class World {
 	
 	
 	/**
-	 * 
-	 * @return
+	 * ...
+	 * @return ...
+	 *        | for each objectInSpace in ObjectInSpace:
+     *        |   if (hasAsObjectInSpace(objectInSpace))
+     *        |     then canHaveAsObjectInSpace(objectInSpace)
+     *        |       && (objectInSpace.getWorld()==this)
 	 */
 	public boolean hasProperObjectsInSpace (){
 		for(ObjectInSpace objectInSpace: this.objectsInSpace){
@@ -161,31 +182,44 @@ public class World {
 	}
 	
 	/**
-	 * 
+	 * ...
 	 * @param objectInSpace
-	 * @throws IllegalArgumentException
+	 * @post ...
+	 * 		| (new this).hasAsObjectInSpace(objectInSpace)
+	 * @post ...
+	 * 		| (new objectInSpace).getWorld()== this
+	 * @throws IllegalArgumentException ...
+	 * 		| !canHaveAsObjectInSpace(objectInSpace)
 	 */
 	public void addObjectInSpace (@Raw ObjectInSpace objectInSpace) throws IllegalArgumentException{
-		//if (!CanHaveAsObjectInSpace(objectInSpace))
-			//throw new IllegalArgumentException("This is object can't be in the world");
+		if (!canHaveAsObjectInSpace(objectInSpace))
+			throw new IllegalArgumentException("This is object can't be in the world");
 		objectInSpace.setWorld(this);
 		objectsInSpace.add(objectInSpace);
 		addFirstCollision(objectInSpace);
 	}
 	
 	/**
-	 * 
+	 * ...
 	 * @param objectInSpace
-	 * @throws IllegalArgumentException
-	 */
-	public void removeObjectInSpace (@Raw ObjectInSpace objectInSpace) throws NullPointerException , IllegalArgumentException {
+	 * @post ...
+	 * 		| !(new this).hasAsObjectInSpace(objectInSpace)
+	 * @throws NullPointerException ...
+	 * 		| objectInSpace == null
+	 * @throws IllegalArgumentException ...
+	 * 		| !this.hasAsObjectInSpace(objectInSpace)
+	 * @throws IllegalStateException ...
+	 * 		| objectInSpace.getWorld()!=null
+	 */		
+	public void removeObjectInSpace (@Raw ObjectInSpace objectInSpace) throws NullPointerException , IllegalArgumentException, IllegalStateException {
 		if (objectInSpace==null)
 			throw new NullPointerException("not a valid object");
 		if (!this.hasAsObjectInSpace(objectInSpace))
 			throw new IllegalArgumentException("this object is not in the world");
-		if (objectInSpace.getWorld()==null)
-			objectsInSpace.remove(objectInSpace);
-			removeFirstCollision(objectInSpace);
+		if (objectInSpace.getWorld()!=null)
+			throw new IllegalStateException("this object still refers to this world");
+		objectsInSpace.remove(objectInSpace);
+		removeFirstCollision(objectInSpace);
 	}
 	
 	/**
@@ -198,6 +232,13 @@ public class World {
 		return new HashSet<ObjectInSpace>(objectsInSpace);
 	}
 	
+	/**
+	 * @invar ...
+	 * 		| objectsInSpace != null
+	 * @invar ...
+	 * 		| for each objectInSpace in objectsInSpace:
+	 * 		| 	((objectInSpace!=null) && (!objectInSpace.isTerminated())
+	 */
 	private final Set<ObjectInSpace> objectsInSpace = new HashSet<ObjectInSpace>(); 
 	
 	/**
@@ -258,7 +299,12 @@ public class World {
 	}
 	
 	/**
-	 * 
+	 * ...
+	 * @post ...
+	 * 		| (new this).isTerminated()
+	 * @post ...
+	 * 		| for each objectInSpace in objectsInSpace:
+	 * 		| (new objectInSpace).isTerminated()
 	 */
 	public void terminate(){
 		if (!isTerminated()) {
@@ -269,9 +315,9 @@ public class World {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * ...
 	 */
+	@Basic
 	public boolean isTerminated(){
 		return isTerminated;
 	}
@@ -281,28 +327,66 @@ public class World {
 	/**
 	 * 
 	 * @param objectInSpace
-	 * @return
+	 * @return ...
+	 * 		  |	for each otherObject in objectsInSpace:
+	 * 		  | 	if(Util.fuzzyLessThanOrEqualTo(objectInSpace.getTimeToCollisionWithWorldWand(),objectInSpace.getTimeToCollision(otherObject))
+	 * 		  |		result==null
+	 * @return ...
+	 * 		  | else for each otherObject in objectsInSpace:
+	 * 		  |		Util.fuzzyLessThanOrEqualTo(objectInSpace.getTimeToCollision(result),objectInSpace.getTimeToCollision(otherObject))       
 	 */
 	public ObjectInSpace calculateFirstCollision(ObjectInSpace objectInSpace){
 		ObjectInSpace firstCollision = null;
 		double collisionTime = objectInSpace.getTimeToCollisionWithWorldWand();
 		for (ObjectInSpace otherObject : getAllObjectsInSpace())
-			if(objectInSpace.getTimeToCollision(otherObject)<collisionTime)
+			if(Util.fuzzyLessThanOrEqualTo(objectInSpace.getTimeToCollision(otherObject),collisionTime))
 				firstCollision = otherObject;
 		return firstCollision;
 	}
+	
+	/**
+	 * ...
+	 * @param objectInSpace
+	 * @effect ...
+	 * 		| if(objectInSpace!=null)
+	 * 		| 	then for each otherObject in objectsInSpace:
+	 * 		|		addFirstCollision(otherObject)
+	 * @effect ...
+	 * 		| if(!objectInSpace.isTerminated())
+	 * 		|		addFirstCollision(objectInSpace)
+	 */
+	@Raw
+	public void updateFirstCollisions(ObjectInSpace objectInSpace){
+		if(objectInSpace!=null)
+			for (ObjectInSpace otherObject : getAllObjectsInSpace())
+				if(firstCollisions.get(otherObject) == objectInSpace)
+					addFirstCollision(otherObject);
+		if(!objectInSpace.isTerminated())
+			addFirstCollision(objectInSpace);
+	}
+	
+	/**
+	 *... 
+	 */
+	public boolean hasAsFirstCollision(@Raw ObjectInSpace objectInSpace){
+		return firstCollisions.containsKey(objectInSpace);
+	}
 		
 	/**
-	 * 
+	 * ...
 	 * @param objectInSpace
+	 * @post ...
+	 * 		| (new this).hasAsFirstCollision(objectInSpace)
 	 */
 	public void addFirstCollision(ObjectInSpace objectInSpace){
 		firstCollisions.put(objectInSpace, calculateFirstCollision(objectInSpace));
 	}
 	
 	/**
-	 * 
+	 * ...
 	 * @param objectInSpace
+	 * @post ...
+	 * 		| !(new this).hasAsFirstCollision(objectInSpace)
 	 */
 	public void removeFirstCollision(ObjectInSpace objectInSpace){
 		for(ObjectInSpace otherObject : objectsInSpace){
@@ -312,45 +396,78 @@ public class World {
 		firstCollisions.remove(objectInSpace);
 	}
 	
+	
+	/**
+	 * @invar ...
+	 * 		| firstCollisions != null
+	 * @invar ...
+	 * 		| for each key in firstCollisions.keySet():
+	 * 		| 	(canHaveAsObjectInSpace(key) && (key.getWorld()==this)
+	 * @invar ...
+	 * 		| for each key in firstCollisions.keySet():
+	 * 		| 	(!firstCollisions.get(key).isTerminated()) 
+	 * 		| 	&& (firstCollisions.get(key)!=key)
+	 * @invar ...
+	 * 		| for each key in firstCollisions.keySet():
+	 * 		| 	this.hasAsObjectInSpace(firstCollisions.get(key))
+	 * 		|   || (firstCollisions.get(key)==null)
+	 */
 	private final Map<ObjectInSpace,ObjectInSpace> firstCollisions = new HashMap<ObjectInSpace, ObjectInSpace>();
 	
 	/**
-	 * 
+	 * ...
 	 * @param time
+	 * @effect ...
+	 * 		| for each objectInSpace in objectsInSpace:
+	 * 		| 	if(Util.fuzzyLessThanOrEqualTo(objectInSpace.getTimeToCollision,time)){
+	 * 		|		then objectInSpace.collide(firstCollision.get(ObjectInSpace))
+	 * @effect
+	 * @effect
 	 */
 	public void evolve(double time){
-		double timeToFirstCollision = 0.0;
-		ObjectInSpace firstCollision = null;
-		ObjectInSpace firstCollisionOther = null;
+		double timeToFirstCollision = time;
+		ObjectInSpace firstCollider = null;
+		ObjectInSpace secondCollider = null;
 		for(ObjectInSpace objectInSpace: objectsInSpace){
-			if(objectInSpace.getTimeToCollision(firstCollisions.get(objectInSpace))>timeToFirstCollision){
-				timeToFirstCollision = objectInSpace.getTimeToCollision(firstCollisions.get(objectInSpace));
-				firstCollision = objectInSpace;
-				firstCollisionOther= firstCollisions.get(objectInSpace);
+			double timeToCollision;
+			if(firstCollisions.get(objectInSpace)==null){
+				timeToCollision = objectInSpace.getTimeToCollisionWithWorldWand();}
+			else {
+				timeToCollision = objectInSpace.getTimeToCollision(firstCollisions.get(objectInSpace));} 
+			if(Util.fuzzyLessThanOrEqualTo(timeToCollision, timeToFirstCollision)){
+				timeToFirstCollision = timeToCollision;
+				firstCollider = objectInSpace;
+				secondCollider= firstCollisions.get(objectInSpace);
 			}
 		}
-		if(time > timeToFirstCollision){
-			for(ObjectInSpace objectInSpace: objectsInSpace){
-				objectInSpace.move(timeToFirstCollision-Util.EPSILON);
-				if(objectInSpace instanceof Ship && ((Ship) objectInSpace).checkIfThrustIsEnabled())
-					((Ship) objectInSpace).thrust(timeToFirstCollision-Util.EPSILON);
-					addFirstCollision(objectInSpace);
+		if(firstCollider!=null){
+			if(!Util.fuzzyLessThanOrEqualTo(timeToFirstCollision, Util.EPSILON)){
+				for(ObjectInSpace objectInSpace: objectsInSpace){
+					objectInSpace.move(timeToFirstCollision-Util.EPSILON);
+					if(objectInSpace instanceof Ship && ((Ship) objectInSpace).checkIfThrustIsEnabled()){
+						((Ship) objectInSpace).thrust(timeToFirstCollision-Util.EPSILON);
+						updateFirstCollisions(objectInSpace);
+					}
+				}
 			}
-			firstCollision.collide(firstCollisionOther);
-			if(!firstCollision.isTerminated()){
-				addFirstCollision(firstCollision);
+			if(secondCollider==null){
+				firstCollider.collideWithWand();
 			}
-			if(!firstCollisionOther.isTerminated() && firstCollisionOther!= null){
-				addFirstCollision(firstCollisionOther);
+			else{
+			firstCollider.collide(secondCollider);
+			}
+			updateFirstCollisions(firstCollider);
+			updateFirstCollisions(secondCollider);
 			}
 			double newTime = time - timeToFirstCollision;
 			evolve(newTime);
-		}
-		for(ObjectInSpace objectInSpace: objectsInSpace){
-			objectInSpace.move(time);
-			if(objectInSpace instanceof Ship && ((Ship) objectInSpace).checkIfThrustIsEnabled()){
-				((Ship) objectInSpace).thrust(time);
-				addFirstCollision(objectInSpace);
+		if(Util.fuzzyEquals(time, 0.0)){
+			for(ObjectInSpace objectInSpace: objectsInSpace){
+				objectInSpace.move(time);
+				if(objectInSpace instanceof Ship && ((Ship) objectInSpace).checkIfThrustIsEnabled()){
+					((Ship) objectInSpace).thrust(time);
+					updateFirstCollisions(objectInSpace);
+				}
 			}
 		}
 	}
