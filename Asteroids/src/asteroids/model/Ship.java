@@ -82,8 +82,12 @@ public class Ship  extends ObjectInSpace{
 	/**
 	 * variable registering the amount of thrust this ship can make
 	 */
-	private final double THRUST = 1.1*Math.pow(10, 18);
-			
+	private final double THRUST = 10.1*Math.pow(10, 18);
+		
+	public void die(){
+		this.terminate();
+	}
+	
 	/**
 	 * Return the angle of the ship 
 	 * the angle expresses in which angle, with the

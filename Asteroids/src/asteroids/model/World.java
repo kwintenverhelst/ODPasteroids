@@ -359,12 +359,16 @@ public class World {
 	 */
 	@Raw
 	public void updateFirstCollisions(ObjectInSpace objectInSpace) {
-		if (objectInSpace != null)
-			for (ObjectInSpace otherObject : getAllObjectsInSpace())
-				if (firstCollisions.get(otherObject) == objectInSpace)
+		if (objectInSpace != null) {
+			for (ObjectInSpace otherObject : getAllObjectsInSpace()) {
+				if (firstCollisions.get(otherObject) == objectInSpace) {
 					addFirstCollision(otherObject);
-		if (!objectInSpace.isTerminated())
-			addFirstCollision(objectInSpace);
+				}
+			}
+			if (!objectInSpace.isTerminated()) {
+				addFirstCollision(objectInSpace);
+			}
+		}
 	}
 
 	/**
@@ -519,17 +523,18 @@ public class World {
 			updateFirstCollisions(secondCollider);
 			double newTime = time - timeToFirstCollision;
 			evolve(newTime);
-		}
-		
-		
-			for (ObjectInSpace objectInSpace : objectsInSpace) {
-				objectInSpace.move(time);
-				if (objectInSpace instanceof Ship
-						&& ((Ship) objectInSpace).checkIfThrustIsEnabled()) {
-					((Ship) objectInSpace).thrust(time);
-					updateFirstCollisions(objectInSpace);
+		} else {
+			if (!(Util.fuzzyLessThanOrEqualTo(time, Util.EPSILON))) {
+				for (ObjectInSpace objectInSpace : objectsInSpace) {
+					objectInSpace.move(time);
+					if (objectInSpace instanceof Ship
+							&& ((Ship) objectInSpace).checkIfThrustIsEnabled()) {
+						((Ship) objectInSpace).thrust(time);
+						updateFirstCollisions(objectInSpace);
+					}
+
 				}
-			
+			}
 		}
 	}
 

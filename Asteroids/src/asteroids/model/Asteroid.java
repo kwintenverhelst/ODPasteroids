@@ -2,6 +2,7 @@ package asteroids.model;
 
 import java.util.Random;
 
+import asteroids.Util;
 import be.kuleuven.cs.som.annotate.Basic;
 import be.kuleuven.cs.som.annotate.Immutable;
 
@@ -31,14 +32,17 @@ public class Asteroid extends ObjectInSpace {
 	/**
 	 * Terminate this asteroid.
 	 */
-	public  void die(){
+	public void die(){
 		if(this.getRadius() >=30) {
 			Random random = new Random();
-			Velocity newVelocity = Velocity.createVelocityInRandomDirection(1.5*Velocity.norm(Velocity.createVelocity(this.getVelocityX(), this.getVelocityY())), random);
 			double randomDouble = random.nextDouble();
-			double newRadius = this.getRadius();
+			if(Util.fuzzyEquals(randomDouble, 1) ){
+				die();
+			}
+			Velocity newVelocity = Velocity.createVelocityInRandomDirection(1.5*Velocity.norm(Velocity.createVelocity(this.getVelocityX(), this.getVelocityY())), randomDouble);
+			double newRadius = this.getRadius()/2;
 			Asteroid asteroid1 = new Asteroid(this.getX()+newRadius*Math.cos(Math.PI*2*randomDouble), this.getY()+newRadius*Math.sin(Math.PI*2*randomDouble), newVelocity.getXCoordinate(), newVelocity.getYCoordinate(), newRadius, this.getWorld());
-			Asteroid asteroid2 = new Asteroid(this.getX()-newRadius*Math.cos(Math.PI*2*randomDouble), this.getY()-newRadius*Math.sin(Math.PI*2*randomDouble), newVelocity.getXCoordinate(), newVelocity.getYCoordinate(), newRadius, this.getWorld());
+			Asteroid asteroid2 = new Asteroid(this.getX()-newRadius*Math.cos(Math.PI*2*randomDouble), this.getY()-newRadius*Math.sin(Math.PI*2*randomDouble), -newVelocity.getXCoordinate(), -newVelocity.getYCoordinate(), newRadius, this.getWorld());
 			this.getWorld().addObjectInSpace(asteroid1);
 			this.getWorld().addObjectInSpace(asteroid2);
 		}

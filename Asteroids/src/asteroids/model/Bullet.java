@@ -48,12 +48,20 @@ public class Bullet extends ObjectInSpace {
 	 * @return true if ship | result == ship != null
 	 */
 	public boolean isValidShip(Ship ship) {
-		if (ship != null) {
-			return true;
+		return Ship.isShip(ship);
+
+	}
+	
+	public boolean isShipFromBullet(ObjectInSpace object){
+		if(Ship.isShip(object)){
+			return (this.getShip() ==  object);
 		} else {
 			return false;
 		}
-
+	}
+	
+	public void die(){
+		this.terminate();
 	}
 
 	/**

@@ -109,6 +109,8 @@ public abstract class ObjectInSpace {
 		return this.isTerminated;
 	}
 
+	public abstract void die();
+
 	/**
 	 * Terminate this asteroid.
 	 */
@@ -158,15 +160,15 @@ public abstract class ObjectInSpace {
 	 *         |position.setPosition(x, y)
 	 */
 	public void setPosition(double x, double y) {
-		if(this.getWorld() != null){
-			if(x > this.getWorld().getWidth() - this.getRadius()){
+		if (this.getWorld() != null) {
+			if (x > this.getWorld().getWidth() - this.getRadius()) {
 				x = this.getWorld().getWidth() - this.getRadius();
-			} else if(x < this.getRadius()){
+			} else if (x < this.getRadius()) {
 				x = this.getRadius();
-			} 
-			if(y > this.getWorld().getHeight() - this.getRadius()){
+			}
+			if (y > this.getWorld().getHeight() - this.getRadius()) {
 				y = this.getWorld().getHeight() - this.getRadius();
-			} else if(y < this.getRadius()){
+			} else if (y < this.getRadius()) {
 				y = this.getRadius();
 			}
 		}
@@ -302,46 +304,41 @@ public abstract class ObjectInSpace {
 	public World getWorld() {
 		return world;
 	}
-	
+
 	/**
-	 * Check whether this objectInSpace can have the given world as
-	 * its world.
+	 * Check whether this objectInSpace can have the given world as its world.
 	 * 
-	 * @param  world
-	 * 		   The world to check.
-	 * @return If this objectInSpace is terminated, returns true if the given world is null.
-	 *       | if (this.isTerminated())
-	 *       |   then result == (world == null)
-	 * @return If this objectInSpace is not terminated, returns true if the given world is
-	 * 		   not null and not terminated.
-	 *       | if (! this.isTerminated())
-	 *       |   then result ==
-	 *       |     (world != null) &&
-	 *       |     (! world.isTerminated())
+	 * @param world
+	 *            The world to check.
+	 * @return If this objectInSpace is terminated, returns true if the given
+	 *         world is null. | if (this.isTerminated()) | then result == (world
+	 *         == null)
+	 * @return If this objectInSpace is not terminated, returns true if the
+	 *         given world is not null and not terminated. | if (!
+	 *         this.isTerminated()) | then result == | (world != null) && | (!
+	 *         world.isTerminated())
 	 */
 	@Raw
 	public boolean canHaveAsWorld(World world) {
 		if (this.isTerminated())
 			return world == null;
-		return (world != null)
-				&& (!world.isTerminated());
+		return (world != null) && (!world.isTerminated());
 	}
 
 	/**
 	 * Check whether this objectInSpace has a proper world.
 	 * 
-	 * @return True if this objectInSpace can have this world as world and
-	 * 		   this world is either null or it has this objectInSpace as one of its objects.
-	 *       | result ==
-	 *       |   canHaveAsWorld(getWorld()) &&
-	 *       |   ( (getWorld() == null) || getWorld().hasAsObjectInSpace(this))
+	 * @return True if this objectInSpace can have this world as world and this
+	 *         world is either null or it has this objectInSpace as one of its
+	 *         objects. | result == | canHaveAsWorld(getWorld()) && | (
+	 *         (getWorld() == null) || getWorld().hasAsObjectInSpace(this))
 	 */
 	@Raw
 	public boolean hasProperWorld() {
 		return canHaveAsWorld(getWorld())
-				&& ((getWorld() == null) || (getWorld().hasAsObjectInSpace(this)));
+				&& ((getWorld() == null) || (getWorld()
+						.hasAsObjectInSpace(this)));
 	}
-
 
 	/**
 	 * Set the world of this object with the given world
@@ -350,9 +347,9 @@ public abstract class ObjectInSpace {
 	 *            the new world of this object
 	 * @post the new world of this object is equal to the given world
 	 *       |new.getWorld() == world
- 	 * @throws IllegalArgumentException
-     *       This objectInSpace cannot have the given world as its world.
-	 *       | ! canHaveAsWorld(world)      
+	 * @throws IllegalArgumentException
+	 *             This objectInSpace cannot have the given world as its world.
+	 *             | ! canHaveAsWorld(world)
 	 */
 	public void setWorld(World world) {
 		if (!canHaveAsWorld(world))
@@ -436,12 +433,14 @@ public abstract class ObjectInSpace {
 		if (this == object) {
 			return true;
 		} else {
-			if ((Bullet.isBullet(object) && Ship.isShip(this) && (((Bullet) object).getShip() == this))
-					|| (Bullet.isBullet(this) && Ship.isShip(object) && ((Bullet) this).getShip() == object)) {
+			if ((Bullet.isBullet(object) && Ship.isShip(this) && (((Bullet) object)
+					.getShip() == this))
+					|| (Bullet.isBullet(this) && Ship.isShip(object) && ((Bullet) this)
+							.getShip() == object)) {
 				return false;
 			} else {
 				double distance = this.getDistanceBetween(object);
-				if (Util.fuzzyLessThanOrEqualTo(distance, 0.0)) {
+				if (Util.fuzzyLessThanOrEqualTo(distance, Util.EPSILON)) {
 					return true;
 				} else {
 					return false;
@@ -481,8 +480,8 @@ public abstract class ObjectInSpace {
 		}
 		VectorInSpace positionChange = Position.vectorChange(
 				this.getPosition(), object.getPosition());
-		VectorInSpace velocity = Velocity.vectorChange(
-				this.getVelocity(), object.getVelocity());
+		VectorInSpace velocity = Velocity.vectorChange(this.getVelocity(),
+				object.getVelocity());
 
 		double dvMultiDr = VectorInSpace.inProduct(velocity, positionChange);
 		double dvMultiDv = VectorInSpace.inProduct(velocity, velocity);
@@ -517,12 +516,12 @@ public abstract class ObjectInSpace {
 	 */
 	public double getTimeToCollisionWithWorldHorizentalWand() {
 		double velocityY = this.getVelocityY();
-		if(this.getWorld() != null){
+		if (this.getWorld() != null) {
 			if (velocityY > 0) {
-				double afstand = getWorld().getHeight() - this.getY();
+				double afstand = getWorld().getHeight() - this.getY() - this.getRadius() ;
 				return afstand / velocityY;
 			} else if (velocityY < 0) {
-				double afstand = 0 - this.getY();
+				double afstand = this.getY() - this.getRadius();
 				return afstand / velocityY;
 			} else {
 				return Double.POSITIVE_INFINITY;
@@ -540,12 +539,12 @@ public abstract class ObjectInSpace {
 	 */
 	public double getTimeToCollisionWithWorldVerticalWand() {
 		double velocityX = this.getVelocityX();
-		if(this.getWorld() != null){
+		if (this.getWorld() != null) {
 			if (velocityX > 0) {
-				double afstand = getWorld().getWidth() - this.getX();
+				double afstand = getWorld().getWidth() - this.getX() - this.getRadius();
 				return afstand / velocityX;
 			} else if (velocityX < 0) {
-				double afstand = 0 - this.getX();
+				double afstand = this.getX() - this.getRadius();
 				return afstand / velocityX;
 			} else {
 				return Double.POSITIVE_INFINITY;
@@ -627,8 +626,8 @@ public abstract class ObjectInSpace {
 					* object.getVelocityX(), object.getY() + time
 					* object.getVelocityY());
 
-			Position positionChanged = (Position) Position.vectorChange(
-					position2, position1);
+			VectorInSpace positionChanged = Position.vectorChange(position2,
+					position1);
 			double directionChanged = Position.getDirection(positionChanged);
 
 			double r1 = this.getRadius();
@@ -651,28 +650,22 @@ public abstract class ObjectInSpace {
 	 * this object collides with the given object
 	 */
 	public void collide(ObjectInSpace object) {
-		if (object != null) {
+		if (object != null ) {
 			if (Bullet.isBullet(object) || Bullet.isBullet(this)) {
-				if (Asteroid.isAsteroid(this)) {
-					((Asteroid) this).die();
-					object.terminate();
-				} else if (Asteroid.isAsteroid(object)) {
-					((Asteroid) object).die();
-					this.terminate();
-				} else {
-					object.terminate();
-					this.terminate();
-				}
+				
+					object.die();
+					this.die();
+				
 			} else {
 				if (Asteroid.isAsteroid(this) && Asteroid.isAsteroid(object)) {
 					this.bounce(this, object);
 				} else if (Ship.isShip(object) && Ship.isShip(this)) {
 					this.bounce(this, object);
 				} else {
-					if (Ship.isShip(object)	&& Asteroid.isAsteroid(this)) {
-						object.terminate();
+					if (Ship.isShip(object) && Asteroid.isAsteroid(this)) {
+						object.die();
 					} else if (Ship.isShip(this) && Asteroid.isAsteroid(object)) {
-						this.terminate();
+						this.die();
 					}
 				}
 			}
@@ -680,6 +673,7 @@ public abstract class ObjectInSpace {
 		}
 	}
 
+	
 	public void bounce(ObjectInSpace object1, ObjectInSpace object2) {
 		double mass1 = object1.getMass();
 		double mass2 = object2.getMass();
@@ -688,14 +682,13 @@ public abstract class ObjectInSpace {
 		double vx2 = object2.getVelocityX();
 		double vy2 = object2.getVelocityY();
 		double afstand = object1.getRadius() + object2.getRadius();
-		Position positionChange = (Position) Position.vectorChange(
+		VectorInSpace positionChange = Position.vectorChange(
 				object1.getPosition(), object2.getPosition());
-		Velocity velocity = (Velocity) Velocity.vectorChange(
-				object1.getVelocity(), object2.getVelocity());
+		VectorInSpace velocity = Velocity.vectorChange(object1.getVelocity(),
+				object2.getVelocity());
 		double dvMultiDr = VectorInSpace.inProduct(velocity, positionChange);
 
-		double j = (2 * mass1 * mass2 * dvMultiDr)
-				/ (afstand * (mass1 + mass2));
+		double j = (2 * mass1 * mass2 * dvMultiDr) / (afstand * (mass1 + mass2));
 		double jx = (j * positionChange.getXCoordinate()) / afstand;
 		double jy = (j * positionChange.getYCoordinate()) / afstand;
 
@@ -713,5 +706,5 @@ public abstract class ObjectInSpace {
 			this.setVelocity(-(this.getVelocityX()), -(this.getVelocityY()));
 		}
 	}
-	
+
 }
