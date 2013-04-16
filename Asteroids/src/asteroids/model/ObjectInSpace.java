@@ -654,10 +654,10 @@ public abstract class ObjectInSpace {
 		if (object != null) {
 			if (Bullet.isBullet(object) || Bullet.isBullet(this)) {
 				if (Asteroid.isAsteroid(this)) {
-					((Asteroid) this).Die();
+					((Asteroid) this).die();
 					object.terminate();
 				} else if (Asteroid.isAsteroid(object)) {
-					((Asteroid) object).Die();
+					((Asteroid) object).die();
 					this.terminate();
 				} else {
 					object.terminate();

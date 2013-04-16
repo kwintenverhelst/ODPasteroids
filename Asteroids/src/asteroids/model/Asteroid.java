@@ -31,7 +31,7 @@ public class Asteroid extends ObjectInSpace {
 	/**
 	 * Terminate this asteroid.
 	 */
-	public  void Die(){
+	public  void die(){
 		if(this.getRadius() >=30) {
 			Random random = new Random();
 			Velocity newVelocity = Velocity.createVelocityInRandomDirection(1.5*Velocity.norm(Velocity.createVelocity(this.getVelocityX(), this.getVelocityY())), random);
