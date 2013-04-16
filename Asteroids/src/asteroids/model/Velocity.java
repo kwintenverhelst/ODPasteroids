@@ -89,4 +89,11 @@ public class Velocity extends VectorInSpace {
 				getSpeedLimit());
 	}
 	
+	public static Velocity vectorChange(Velocity vector1,
+			Velocity vector2) {
+		return Velocity.createVelocity(vector1.getXCoordinate()
+				- vector2.getXCoordinate(), vector1.getYCoordinate()
+				- vector2.getYCoordinate());
+	}
+	
 }

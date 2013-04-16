@@ -118,7 +118,6 @@ public abstract class ObjectInSpace {
 		isTerminated = true;
 		World world = this.getWorld();
 		this.setWorld(null);
-		System.out.println(world);
 		world.removeObjectInSpace(this);
 	}
 
@@ -428,18 +427,19 @@ public abstract class ObjectInSpace {
 	 */
 	public boolean overlap(ObjectInSpace object) {
 		if (this == object) {
-			return true;
+			return false;
 		} else {
-			if ((Bullet.isBullet(object) && Ship.isShip(this) && (((Bullet) object)
-					.getShip() == this))
-					|| (Bullet.isBullet(this) && Ship.isShip(object) && ((Bullet) this)
-							.getShip() == object)) {
+			if ((Bullet.isBullet(object) && Ship.isShip(this) && ((Bullet) object).getShip() == this)
+					|| (Bullet.isBullet(this) && Ship.isShip(object) && ((Bullet) this).getShip() == object)) {
+				System.out.println(1);
 				return false;
 			} else {
 				double distance = this.getDistanceBetween(object);
 				if (Util.fuzzyLessThanOrEqualTo(distance, Util.EPSILON)) {
+					System.out.println(2);
 					return true;
 				} else {
+					System.out.println(3);
 					return false;
 				}
 			}
@@ -488,7 +488,7 @@ public abstract class ObjectInSpace {
 		}
 		VectorInSpace positionChange = Position.vectorChange(
 				this.getPosition(), object.getPosition());
-		VectorInSpace velocity = Velocity.vectorChange(this.getVelocity(),
+		Velocity velocity = Velocity.vectorChange(this.getVelocity(),
 				object.getVelocity());
 
 		double dvMultiDr = VectorInSpace.inProduct(velocity, positionChange);
@@ -715,9 +715,9 @@ public abstract class ObjectInSpace {
 		double afstand = object1.getRadius() + object2.getRadius();
 
 		VectorInSpace positionChange = Position.vectorChange(
-				object1.getPosition(), object2.getPosition());
-		VectorInSpace velocity = Velocity.vectorChange(object1.getVelocity(),
-				object2.getVelocity());
+				object2.getPosition(), object1.getPosition());
+		Velocity velocity = Velocity.vectorChange(object2.getVelocity(),
+				object1.getVelocity());
 
 		double dvMultiDr = VectorInSpace.inProduct(velocity, positionChange);
 
@@ -725,7 +725,7 @@ public abstract class ObjectInSpace {
 				/ (afstand * (mass1 + mass2));
 		double jx = (j * positionChange.getXCoordinate()) / afstand;
 		double jy = (j * positionChange.getYCoordinate()) / afstand;
-
+		
 		object1.setVelocity(vx1 + (jx / mass1), vy1 + (jy / mass1));
 		object2.setVelocity(vx2 - (jx / mass2), vy2 - (jy / mass2));
 

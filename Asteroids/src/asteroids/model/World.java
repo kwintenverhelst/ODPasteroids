@@ -125,10 +125,7 @@ public class World {
 			return false;
 		if (!isFullyInWorld(objectInSpace))
 			return false;
-		for (ObjectInSpace otherInSpace : objectsInSpace) {
-			if (objectInSpace.overlap(otherInSpace))
-				return false;
-		}
+
 		return true;
 	}
 
@@ -190,12 +187,18 @@ public class World {
 	 */
 	public void addObjectInSpace(@Raw ObjectInSpace objectInSpace)
 			throws IllegalArgumentException {
-		//if (!canHaveAsObjectInSpace(objectInSpace)){
-			//throw new IllegalArgumentException("This is object can't be in the world");
-		//}
+		if (!canHaveAsObjectInSpace(objectInSpace)){
+			throw new IllegalArgumentException("This is object can't be in the world");
+		}
 		objectInSpace.setWorld(this);
 		objectsInSpace.add(objectInSpace);
 		addFirstCollision(objectInSpace);
+		for (ObjectInSpace otherInSpace : objectsInSpace) {
+			if (objectInSpace.overlap(otherInSpace)){
+				System.out.println(otherInSpace);
+				objectInSpace.collide(otherInSpace);
+			}
+		}
 	}
 
 	/**
@@ -215,9 +218,7 @@ public class World {
 			IllegalStateException {
 		if (objectInSpace == null)
 			throw new NullPointerException("not a valid object");
-		if (!this.hasAsObjectInSpace(objectInSpace))
-			throw new IllegalArgumentException(
-					"this object is not in the world");
+		
 		if (objectInSpace.getWorld() != null)
 			throw new IllegalStateException(
 					"this object still refers to this world");

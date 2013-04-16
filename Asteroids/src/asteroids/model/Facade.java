@@ -8,10 +8,10 @@ import asteroids.IFacade;
 
 public class Facade implements IFacade<World, Ship, Asteroid, Bullet> {
 
-	public Facade (){
-		
+	public Facade() {
+
 	}
-	
+
 	@Override
 	public World createWorld(double width, double height) {
 		return new World(height, width);
@@ -44,12 +44,20 @@ public class Facade implements IFacade<World, Ship, Asteroid, Bullet> {
 
 	@Override
 	public void addShip(World world, Ship ship) {
-		world.addObjectInSpace(ship);
+		try {
+			world.addObjectInSpace(ship);
+		} catch (IllegalArgumentException exc) {
+
+		}
 	}
 
 	@Override
 	public void addAsteroid(World world, Asteroid asteroid) {
-		world.addObjectInSpace(asteroid);
+		try {
+			world.addObjectInSpace(asteroid);
+		} catch (IllegalArgumentException exc) {
+
+		}
 	}
 
 	@Override
@@ -60,14 +68,14 @@ public class Facade implements IFacade<World, Ship, Asteroid, Bullet> {
 	@Override
 	public void removeAsteroid(World world, Asteroid asteroid) {
 		world.removeObjectInSpace(asteroid);
-		
+
 	}
 
 	@Override
 	public void evolve(World world, double dt,
 			CollisionListener collisionListener) {
 		world.evolve(dt);
-		
+
 	}
 
 	@Override
@@ -129,7 +137,7 @@ public class Facade implements IFacade<World, Ship, Asteroid, Bullet> {
 	@Override
 	public void setThrusterActive(Ship ship, boolean active) {
 		ship.setThrusterActive(active);
-		
+
 	}
 
 	@Override
@@ -140,7 +148,7 @@ public class Facade implements IFacade<World, Ship, Asteroid, Bullet> {
 	@Override
 	public void fireBullet(Ship ship) {
 		ship.firebullet();
-		
+
 	}
 
 	@Override
