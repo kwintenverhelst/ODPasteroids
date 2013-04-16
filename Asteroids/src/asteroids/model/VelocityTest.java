@@ -46,7 +46,8 @@ public class VelocityTest {
 	@Test
 	public final void constructor_RandomCase() {
 		Random random = new Random();
-		Velocity newVelocity = Velocity.createVelocityInRandomDirection(500, random);
+		double randomDouble = random.nextDouble();
+		Velocity newVelocity = Velocity.createVelocityInRandomDirection(500, randomDouble);
 		assertTrue(newVelocity.hasValidVelocity());
 		assertEquals(500, Velocity.norm(newVelocity),Util.EPSILON);
 		

@@ -118,6 +118,7 @@ public abstract class ObjectInSpace {
 		isTerminated = true;
 		World world = this.getWorld();
 		this.setWorld(null);
+		System.out.println(world);
 		world.removeObjectInSpace(this);
 	}
 
@@ -368,14 +369,10 @@ public abstract class ObjectInSpace {
 	 * @throws IllegalArgumentException
 	 *             The given time is not a valid time |!isValidTime(dt)
 	 */
-	public void move(double dt) throws NullPointerException,
-			IllegalArgumentException {
+	public void move(double dt) {
 		if (isValidTime(dt)) {
 			setPosition(this.getVelocityX() * dt + this.getX(),
 					this.getVelocityY() * dt + this.getY());
-		} else {
-			throw new IllegalArgumentException(
-					"the time must be more then zero");
 		}
 	}
 
@@ -477,6 +474,17 @@ public abstract class ObjectInSpace {
 			throws NullPointerException {
 		if (object == null) {
 			return Double.POSITIVE_INFINITY;
+
+		}
+		if (Bullet.isBullet(this)) {
+			if (((Bullet) this).isShipFromBullet(object)) {
+				return Double.POSITIVE_INFINITY;
+			}
+		}
+		if (Bullet.isBullet(object)) {
+			if (((Bullet) object).isShipFromBullet(this)) {
+				return Double.POSITIVE_INFINITY;
+			}
 		}
 		VectorInSpace positionChange = Position.vectorChange(
 				this.getPosition(), object.getPosition());
@@ -518,10 +526,11 @@ public abstract class ObjectInSpace {
 		double velocityY = this.getVelocityY();
 		if (this.getWorld() != null) {
 			if (velocityY > 0) {
-				double afstand = getWorld().getHeight() - this.getY() - this.getRadius() ;
+				double afstand = getWorld().getHeight() - this.getY()
+						- this.getRadius();
 				return afstand / velocityY;
 			} else if (velocityY < 0) {
-				double afstand = 0- this.getY() - this.getRadius();
+				double afstand = 0 - this.getY() + this.getRadius();
 				return afstand / velocityY;
 			} else {
 				return Double.POSITIVE_INFINITY;
@@ -541,10 +550,11 @@ public abstract class ObjectInSpace {
 		double velocityX = this.getVelocityX();
 		if (this.getWorld() != null) {
 			if (velocityX > 0) {
-				double afstand = getWorld().getWidth() - this.getX() - this.getRadius();
+				double afstand = getWorld().getWidth() - this.getX()
+						- this.getRadius();
 				return afstand / velocityX;
 			} else if (velocityX < 0) {
-				double afstand = 0 - this.getX() - this.getRadius();
+				double afstand = 0 - this.getX() + this.getRadius();
 				return afstand / velocityX;
 			} else {
 				return Double.POSITIVE_INFINITY;
@@ -650,12 +660,11 @@ public abstract class ObjectInSpace {
 	 * this object collides with the given object
 	 */
 	public void collide(ObjectInSpace object) {
-		if (object != null ) {
-			if (Bullet.isBullet(object) || Bullet.isBullet(this)) {
-				
-					object.die();
-					this.die();
-				
+		if (object != null) {
+			if (Bullet.isBullet(this) || Bullet.isBullet(object)) {
+				object.die();
+				this.die();
+
 			} else {
 				if (Asteroid.isAsteroid(this) && Asteroid.isAsteroid(object)) {
 					this.bounce(this, object);
@@ -673,7 +682,29 @@ public abstract class ObjectInSpace {
 		}
 	}
 
-	
+	/**
+	 * double mass1 = object1.getMass(); double mass2 = object2.getMass();
+	 * double vx1 = object1.getVelocityX(); double vy1 = object1.getVelocityY();
+	 * double vx2 = object2.getVelocityX(); double vy2 = object2.getVelocityY();
+	 * double afstand = object1.getRadius() + object2.getRadius();
+	 * 
+	 * VectorInSpace positionChange =
+	 * Position.vectorChange(object1.getPosition(), object2.getPosition());
+	 * VectorInSpace velocity =
+	 * Velocity.vectorChange(object1.getVelocity(),object2.getVelocity());
+	 * 
+	 * double dvMultiDr = VectorInSpace.inProduct(velocity, positionChange);
+	 * 
+	 * double j = (2 * mass1 * mass2 * dvMultiDr) / (afstand * (mass1 + mass2));
+	 * double jx = (j * positionChange.getXCoordinate()) / afstand; double jy =
+	 * (j * positionChange.getYCoordinate()) / afstand;
+	 * 
+	 * object1.setVelocity(vx1 + (jx / mass1), vy1 + (jy / mass1));
+	 * object2.setVelocity(vx2 - (jx / mass2), vy2 - (jy / mass2));
+	 * 
+	 * @param object1
+	 * @param object2
+	 */
 	public void bounce(ObjectInSpace object1, ObjectInSpace object2) {
 		double mass1 = object1.getMass();
 		double mass2 = object2.getMass();
@@ -682,18 +713,22 @@ public abstract class ObjectInSpace {
 		double vx2 = object2.getVelocityX();
 		double vy2 = object2.getVelocityY();
 		double afstand = object1.getRadius() + object2.getRadius();
+
 		VectorInSpace positionChange = Position.vectorChange(
 				object1.getPosition(), object2.getPosition());
 		VectorInSpace velocity = Velocity.vectorChange(object1.getVelocity(),
 				object2.getVelocity());
+
 		double dvMultiDr = VectorInSpace.inProduct(velocity, positionChange);
 
-		double j = (2 * mass1 * mass2 * dvMultiDr) / (afstand * (mass1 + mass2));
+		double j = (2 * mass1 * mass2 * dvMultiDr)
+				/ (afstand * (mass1 + mass2));
 		double jx = (j * positionChange.getXCoordinate()) / afstand;
 		double jy = (j * positionChange.getYCoordinate()) / afstand;
 
 		object1.setVelocity(vx1 + (jx / mass1), vy1 + (jy / mass1));
-		object2.setVelocity(vx2 + (jx / mass2), vy2 + (jy / mass2));
+		object2.setVelocity(vx2 - (jx / mass2), vy2 - (jy / mass2));
+
 	}
 
 	public void collideWithWand() {

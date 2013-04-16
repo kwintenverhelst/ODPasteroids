@@ -190,9 +190,9 @@ public class World {
 	 */
 	public void addObjectInSpace(@Raw ObjectInSpace objectInSpace)
 			throws IllegalArgumentException {
-		// if (!canHaveAsObjectInSpace(objectInSpace))
-		// throw new
-		// IllegalArgumentException("This is object can't be in the world");
+		//if (!canHaveAsObjectInSpace(objectInSpace)){
+			//throw new IllegalArgumentException("This is object can't be in the world");
+		//}
 		objectInSpace.setWorld(this);
 		objectsInSpace.add(objectInSpace);
 		addFirstCollision(objectInSpace);
@@ -488,32 +488,25 @@ public class World {
 		for (ObjectInSpace objectInSpace : objectsInSpace) {
 			double timeToCollision;
 			if (firstCollisions.get(objectInSpace) == null) {
-				timeToCollision = objectInSpace
-						.getTimeToCollisionWithWorldWand();
+				timeToCollision = objectInSpace.getTimeToCollisionWithWorldWand();
 			} else {
-				timeToCollision = objectInSpace
-						.getTimeToCollision(firstCollisions.get(objectInSpace));
+				timeToCollision = objectInSpace.getTimeToCollision(firstCollisions.get(objectInSpace));
 			}
-			if (Util.fuzzyLessThanOrEqualTo(timeToCollision,
-					timeToFirstCollision)) {
+			if (Util.fuzzyLessThanOrEqualTo(timeToCollision,timeToFirstCollision)) {
 				timeToFirstCollision = timeToCollision;
 				firstCollider = objectInSpace;
 				secondCollider = firstCollisions.get(objectInSpace);
 			}
 		}
 		if (firstCollider != null) {
-			if (!Util
-					.fuzzyLessThanOrEqualTo(timeToFirstCollision, Util.EPSILON)) {
-				for (ObjectInSpace objectInSpace : objectsInSpace) {
-					objectInSpace.move(timeToFirstCollision - Util.EPSILON);
-					if (objectInSpace instanceof Ship
-							&& ((Ship) objectInSpace).checkIfThrustIsEnabled()) {
-						((Ship) objectInSpace).thrust(timeToFirstCollision
-								- Util.EPSILON);
-						updateFirstCollisions(objectInSpace);
-					}
+			for (ObjectInSpace objectInSpace : objectsInSpace) {
+				objectInSpace.move(timeToFirstCollision);
+				if (objectInSpace instanceof Ship && ((Ship) objectInSpace).checkIfThrustIsEnabled()) {
+					((Ship) objectInSpace).thrust(timeToFirstCollision);
+					updateFirstCollisions(objectInSpace);
 				}
 			}
+
 			if (secondCollider == null) {
 				firstCollider.collideWithWand();
 			} else {
@@ -524,11 +517,10 @@ public class World {
 			double newTime = time - timeToFirstCollision;
 			evolve(newTime);
 		} else {
-			if (!(Util.fuzzyLessThanOrEqualTo(time, Util.EPSILON))) {
+			if (!(Util.fuzzyLessThanOrEqualTo(time, 0.0))) {
 				for (ObjectInSpace objectInSpace : objectsInSpace) {
 					objectInSpace.move(time);
-					if (objectInSpace instanceof Ship
-							&& ((Ship) objectInSpace).checkIfThrustIsEnabled()) {
+					if (objectInSpace instanceof Ship && ((Ship) objectInSpace).checkIfThrustIsEnabled()) {
 						((Ship) objectInSpace).thrust(time);
 						updateFirstCollisions(objectInSpace);
 					}
