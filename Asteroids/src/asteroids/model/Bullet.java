@@ -10,9 +10,9 @@ public class Bullet extends ObjectInSpace {
 		double radius = 3;
 		this.ship = ship;
 		setPosition(
-				ship.getX() - (radius + ship.getRadius())
+				ship.getX() + (radius + ship.getRadius())
 						* Math.cos(ship.getAngle()),
-				ship.getY() - (radius + ship.getRadius())
+				ship.getY() + (radius + ship.getRadius())
 						* Math.sin(ship.getAngle()));
 		setVelocity(250 * Math.cos(ship.getAngle()),
 				250 * Math.sin(ship.getAngle()));

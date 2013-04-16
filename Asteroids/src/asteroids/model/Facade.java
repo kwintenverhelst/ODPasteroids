@@ -44,22 +44,22 @@ public class Facade implements IFacade<World, Ship, Asteroid, Bullet> {
 
 	@Override
 	public void addShip(World world, Ship ship) {
-		world.AddObjectInSpace(ship);
+		world.addObjectInSpace(ship);
 	}
 
 	@Override
 	public void addAsteroid(World world, Asteroid asteroid) {
-		world.AddObjectInSpace(asteroid);
+		world.addObjectInSpace(asteroid);
 	}
 
 	@Override
 	public void removeShip(World world, Ship ship) {
-		world.RemoveObjectInSpace(ship);
+		world.removeObjectInSpace(ship);
 	}
 
 	@Override
 	public void removeAsteroid(World world, Asteroid asteroid) {
-		world.RemoveObjectInSpace(asteroid);
+		world.removeObjectInSpace(asteroid);
 		
 	}
 

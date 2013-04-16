@@ -184,7 +184,7 @@ public class Ship  extends ObjectInSpace{
 	 */
 	public Bullet firebullet(){
 		Bullet bullet = new Bullet(this);
-		this.getWorld().AddObjectInSpace(bullet);
+		this.getWorld().addObjectInSpace(bullet);
 		return bullet;
 	}
 

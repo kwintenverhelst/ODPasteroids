@@ -39,8 +39,8 @@ public class Asteroid extends ObjectInSpace {
 			double newRadius = this.getRadius();
 			Asteroid asteroid1 = new Asteroid(this.getX()+newRadius*Math.cos(Math.PI*2*randomDouble), this.getY()+newRadius*Math.sin(Math.PI*2*randomDouble), newVelocity.getXCoordinate(), newVelocity.getYCoordinate(), newRadius, this.getWorld());
 			Asteroid asteroid2 = new Asteroid(this.getX()-newRadius*Math.cos(Math.PI*2*randomDouble), this.getY()-newRadius*Math.sin(Math.PI*2*randomDouble), newVelocity.getXCoordinate(), newVelocity.getYCoordinate(), newRadius, this.getWorld());
-			this.getWorld().AddObjectInSpace(asteroid1);
-			this.getWorld().AddObjectInSpace(asteroid2);
+			this.getWorld().addObjectInSpace(asteroid1);
+			this.getWorld().addObjectInSpace(asteroid2);
 		}
 		this.terminate();
 	}
