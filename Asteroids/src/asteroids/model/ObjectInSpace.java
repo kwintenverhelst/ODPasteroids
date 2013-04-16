@@ -521,7 +521,7 @@ public abstract class ObjectInSpace {
 				double afstand = getWorld().getHeight() - this.getY() - this.getRadius() ;
 				return afstand / velocityY;
 			} else if (velocityY < 0) {
-				double afstand = this.getY() - this.getRadius();
+				double afstand = 0- this.getY() - this.getRadius();
 				return afstand / velocityY;
 			} else {
 				return Double.POSITIVE_INFINITY;
@@ -544,7 +544,7 @@ public abstract class ObjectInSpace {
 				double afstand = getWorld().getWidth() - this.getX() - this.getRadius();
 				return afstand / velocityX;
 			} else if (velocityX < 0) {
-				double afstand = this.getX() - this.getRadius();
+				double afstand = 0 - this.getX() - this.getRadius();
 				return afstand / velocityX;
 			} else {
 				return Double.POSITIVE_INFINITY;
