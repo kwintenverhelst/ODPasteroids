@@ -42,7 +42,7 @@ public class Asteroid extends ObjectInSpace {
 			double angle = 2 * Math.PI * randomDouble;
 			
 			Asteroid asteroid1 = new Asteroid( this.getX() + newRadius * Math.cos(angle) + Util.EPSILON, this.getY() + newRadius * Math.sin(angle) + Util.EPSILON,  newVelocity.getXCoordinate() + Util.EPSILON, newVelocity.getYCoordinate() + Util.EPSILON, newRadius, thisWorld);
-			Asteroid asteroid2 = new Asteroid( this.getX() - newRadius * Math.cos(angle) - Util.EPSILON, this.getY() - newRadius * Math.sin(angle) - Util.EPSILON,  newVelocity.getXCoordinate() - Util.EPSILON, newVelocity.getYCoordinate() - Util.EPSILON, newRadius, thisWorld);
+			Asteroid asteroid2 = new Asteroid( this.getX() - newRadius * Math.cos(angle) - Util.EPSILON, this.getY() - newRadius * Math.sin(angle) - Util.EPSILON,  -newVelocity.getXCoordinate() - Util.EPSILON, -newVelocity.getYCoordinate() - Util.EPSILON, newRadius, thisWorld);
 			
 			thisWorld.addObjectInSpace(asteroid1);
 			thisWorld.addObjectInSpace(asteroid2);
