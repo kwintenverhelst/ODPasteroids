@@ -132,9 +132,9 @@ public class Asteroids<World, Ship, Asteroid, Bullet> extends JFrame {
       System.out.println("no screen found");
       return;
     }
-    
+    // <begin>
     IFacade<asteroids.model.World, asteroids.model.Ship, asteroids.model.Asteroid, asteroids.model.Bullet> facade = new asteroids.model.Facade();
-   
+    // <end>
     GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
     GraphicsDevice screen = env.getDefaultScreenDevice();
     Asteroids<asteroids.model.World, asteroids.model.Ship, asteroids.model.Asteroid, asteroids.model.Bullet> asteroids;
