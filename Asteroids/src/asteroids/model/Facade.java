@@ -53,11 +53,9 @@ public class Facade implements IFacade<World, Ship, Asteroid, Bullet> {
 
 	@Override
 	public void addAsteroid(World world, Asteroid asteroid) {
-		try {
+		
 			world.addObjectInSpace(asteroid);
-		} catch (IllegalArgumentException exc) {
-
-		}
+		
 	}
 
 	@Override

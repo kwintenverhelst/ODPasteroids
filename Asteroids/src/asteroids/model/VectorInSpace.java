@@ -124,7 +124,7 @@ public class VectorInSpace {
 	}
 
 	public static double norm(VectorInSpace vector) {
-		return Math.hypot(vector.getXCoordinate(), vector.getYCoordinate());
+		return Math.hypot(Math.abs(vector.getXCoordinate()), Math.abs(vector.getYCoordinate()));
 	}
 
 	/**

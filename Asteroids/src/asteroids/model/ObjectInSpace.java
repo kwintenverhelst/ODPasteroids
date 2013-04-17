@@ -426,23 +426,26 @@ public abstract class ObjectInSpace {
 	 *         (Util.fuzzyLessThanOrEqualTo(distance, 0.0))
 	 */
 	public boolean overlap(ObjectInSpace object) {
-		if (this == object) {
-			return false;
-		} else {
-			if ((Bullet.isBullet(object) && Ship.isShip(this) && ((Bullet) object).getShip() == this)
-					|| (Bullet.isBullet(this) && Ship.isShip(object) && ((Bullet) this).getShip() == object)) {
-				System.out.println(1);
+		if (object != null) {
+			if (this == object) {
 				return false;
 			} else {
-				double distance = this.getDistanceBetween(object);
-				if (Util.fuzzyLessThanOrEqualTo(distance, Util.EPSILON)) {
-					System.out.println(2);
-					return true;
-				} else {
-					System.out.println(3);
+				if ((Bullet.isBullet(object) && Ship.isShip(this) && ((Bullet) object)
+						.getShip() == this)
+						|| (Bullet.isBullet(this) && Ship.isShip(object) && ((Bullet) this)
+								.getShip() == object)) {
 					return false;
+				} else {
+					double distance = this.getDistanceBetween(object);
+					if (Util.fuzzyLessThanOrEqualTo(distance, Util.EPSILON)) {
+						return true;
+					} else {
+						return false;
+					}
 				}
 			}
+		} else {
+			return false;
 		}
 	}
 
@@ -662,23 +665,32 @@ public abstract class ObjectInSpace {
 	public void collide(ObjectInSpace object) {
 		if (object != null) {
 			if (Bullet.isBullet(this) || Bullet.isBullet(object)) {
+				System.out.println(this + "  this b");
+				System.out.println(object + "  object b");
 				object.die();
 				this.die();
-
 			} else {
 				if (Asteroid.isAsteroid(this) && Asteroid.isAsteroid(object)) {
-					this.bounce(this, object);
+					System.out.println(this + "  this aa");
+					System.out.println(object + "  object aa");
+					ObjectInSpace.bounce(this, object);
+
 				} else if (Ship.isShip(object) && Ship.isShip(this)) {
-					this.bounce(this, object);
+					System.out.println(this + "  this ss");
+					System.out.println(object + "  object ss");
+					ObjectInSpace.bounce(this, object);
 				} else {
 					if (Ship.isShip(object) && Asteroid.isAsteroid(this)) {
+						System.out.println(this + "  this as");
+						System.out.println(object + "  object as");
 						object.die();
 					} else if (Ship.isShip(this) && Asteroid.isAsteroid(object)) {
-						this.die();
+						System.out.println(this + "  this sa");
+						System.out.println(object + "  object sa");
+						this.die();						
 					}
 				}
 			}
-
 		}
 	}
 
@@ -705,7 +717,7 @@ public abstract class ObjectInSpace {
 	 * @param object1
 	 * @param object2
 	 */
-	public void bounce(ObjectInSpace object1, ObjectInSpace object2) {
+	public static void bounce(ObjectInSpace object1, ObjectInSpace object2) {
 		double mass1 = object1.getMass();
 		double mass2 = object2.getMass();
 		double vx1 = object1.getVelocityX();
@@ -725,7 +737,7 @@ public abstract class ObjectInSpace {
 				/ (afstand * (mass1 + mass2));
 		double jx = (j * positionChange.getXCoordinate()) / afstand;
 		double jy = (j * positionChange.getYCoordinate()) / afstand;
-		
+
 		object1.setVelocity(vx1 + (jx / mass1), vy1 + (jy / mass1));
 		object2.setVelocity(vx2 - (jx / mass2), vy2 - (jy / mass2));
 

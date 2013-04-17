@@ -190,14 +190,26 @@ public class World {
 		if (!canHaveAsObjectInSpace(objectInSpace)){
 			throw new IllegalArgumentException("This is object can't be in the world");
 		}
-		objectInSpace.setWorld(this);
-		objectsInSpace.add(objectInSpace);
-		addFirstCollision(objectInSpace);
+		boolean noProblems = true;
 		for (ObjectInSpace otherInSpace : objectsInSpace) {
-			if (objectInSpace.overlap(otherInSpace)){
-				System.out.println(otherInSpace);
-				objectInSpace.collide(otherInSpace);
+			if(objectInSpace.overlap(otherInSpace)){
+				System.out.println(objectInSpace.getDistanceBetween(otherInSpace));
+				if(Util.absoluteError(objectInSpace.getDistanceBetween(otherInSpace), 0) <= 0.01){
+					objectInSpace.collide(otherInSpace);
+					System.out.println(objectInSpace + "  object COLLIDE ");
+					System.out.println(otherInSpace + "  other COLLIDE ");
+				}
+				else{
+					noProblems = false;
+					System.out.println(objectInSpace + "  object PROBLEM ");
+					System.out.println(otherInSpace + "  other PROBLEM ");
+				}
 			}
+		}
+		if(noProblems){
+			objectInSpace.setWorld(this);
+			objectsInSpace.add(objectInSpace);
+			addFirstCollision(objectInSpace);
 		}
 	}
 
