@@ -5,6 +5,21 @@ import be.kuleuven.cs.som.annotate.Basic;
 import be.kuleuven.cs.som.annotate.Immutable;
 import be.kuleuven.cs.som.annotate.Raw;
 
+/**
+ * A class to create objects in space for playing asteroids. 
+ * A object has 2D coordinates (where the x-axis is horizontal and the y-axis is vertical)
+ * in km for its position, a velocity in km/s, a mass, a world and a radius.
+ * The objects are able to move.
+ * This class can also predict time and place of collision between 2 objects or the wand of the world the object is in.
+ * 
+ * @invar The radius must be a valid radius
+ * 		| isValidRadius(this.getRadius())
+ * @invar The mass must be a valid mass
+ * 		| isValidMass(this.getMass())
+ * 
+ * @version 1.1
+ * @author Mathieu Vermeire en Kwinten Verhelst
+ */
 public abstract class ObjectInSpace {
 
 	/**

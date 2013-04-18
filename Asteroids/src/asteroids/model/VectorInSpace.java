@@ -5,10 +5,13 @@ import be.kuleuven.cs.som.annotate.*;
 
 /**
  * A class to create a vector in a 2D setting and with a x-coordinate
- * and a y-coordinate
+ * and a y-coordinate (where the x-axis is horizontal and the y-axis is vertical)
+ * this class has also a few methods linked to vectors, like the norm, subtract two vectors,
+ * get de direction and the inProduct between two vectors
+ * this class is also a value class meaning you cannot change the coordinates of a vector unless you create another
  * 
  * @invar the x-coordinate and the y-coordinate doubles must be valid numbers.
- * 		| isValidDouble(getXCoordinate()()) && isValidDouble(getYCoordinate()())
+ * 		| isValidDouble(this.getXCoordinate()()) && isValidDouble(this.getYCoordinate()())
  * 
  * @version 1.1
  * @author Mathieu Vermeire en Kwinten Verhelst

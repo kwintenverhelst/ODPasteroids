@@ -4,10 +4,11 @@ import be.kuleuven.cs.som.annotate.*;
 
 /**
  * A class to create Spaceships for playing asteroids. 
- * A ship has 2D coordinates in km for its position, a velocity in km/s,
- * a radius and a direction.
+ * A ship has 2D coordinates  (where the x-axis is horizontal and the y-axis is vertical)
+ * in km for its position, a velocity in km/s, a radius and a direction.
  * The ships are able to move, turn and accelerate.
- * This class can also predict time and place of collision between 2 ships.
+ * This class can also predict time and place of collision between 2 objects or the wand of the world the object is in.
+ * Ship is a subclass of ObjectInSpace
  * 
  * @invar Angle must be a valid angle
  * 		| isValidAngle(getAngle())

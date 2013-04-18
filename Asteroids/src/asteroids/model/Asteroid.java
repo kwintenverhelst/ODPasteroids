@@ -6,6 +6,18 @@ import asteroids.Util;
 import be.kuleuven.cs.som.annotate.Basic;
 import be.kuleuven.cs.som.annotate.Immutable;
 
+/**
+ * A class to create asteroids in space for playing asteroids. 
+ * A object has 2D coordinates (where the x-axis is horizontal and the y-axis is vertical)
+ * in km for its position, a velocity in km/s, a mass, a world and a radius.
+ * The objects are able to move, turn.
+ * This class can also predict time and place of collision between 2 objects or the wand of the world the object is in.
+ * When a asteroid dies it spawns two lesser asteroids
+ * Asteroid is a subclass of ObjectInSpace
+ * 
+ * @version 1.1
+ * @author Mathieu Vermeire en Kwinten Verhelst
+ */
 public class Asteroid extends ObjectInSpace {
 	
 	

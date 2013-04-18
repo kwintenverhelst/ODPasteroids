@@ -3,6 +3,24 @@ package asteroids.model;
 import be.kuleuven.cs.som.annotate.Basic;
 import be.kuleuven.cs.som.annotate.Immutable;
 
+/**
+ * A class to create bullets in space for playing asteroids. 
+ * A bullet has 2D coordinates (where the x-axis is horizontal and the y-axis is vertical)
+ * in km for its position, a velocity in km/s, a mass, a world and a radius.
+ * The bullets are able to move.
+ * This class can also predict time and place of collision between 2 objects or the wand of the world the object is in.
+ * bullets can hit 2 times a wand
+ * bullets cannot be intitialized with given variable but need a ship to get their variables
+ * Bullet is a subclass of ObjectInSpace
+ * 
+ * @invar The radius must be a valid radius
+ * 		| isValidRadius(this.getRadius())
+ * @invar The mass must be a valid mass
+ * 		| isValidMass(this.getMass())
+ * 
+ * @version 1.1
+ * @author Mathieu Vermeire en Kwinten Verhelst
+ */
 public class Bullet extends ObjectInSpace {
 
 	/**
