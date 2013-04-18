@@ -72,7 +72,7 @@ public class Facade implements IFacade<World, Ship, Asteroid, Bullet> {
 	@Override
 	public void evolve(World world, double dt,
 			CollisionListener collisionListener) {
-		world.evolve(dt);
+		world.evolve(dt, collisionListener);
 
 	}
 
