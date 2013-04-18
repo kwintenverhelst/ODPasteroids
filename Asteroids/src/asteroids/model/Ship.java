@@ -19,10 +19,7 @@ import be.kuleuven.cs.som.annotate.*;
  */
 public class Ship  extends ObjectInSpace{
 	
-	public Ship() {
-		super();
-		setAngle(0);
-	}
+	
 	
 	/**
 	 * Initialize a new ship with given x-coordinate, given y-coordinate, given

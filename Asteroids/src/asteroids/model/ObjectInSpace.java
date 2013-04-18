@@ -8,18 +8,9 @@ import be.kuleuven.cs.som.annotate.Raw;
 public abstract class ObjectInSpace {
 
 	/**
-	 * Initialize a new default object
 	 * 
-	 * @post the radius of this new object is set on default | (new this).radius
-	 *       == 1
-	 * @effect the position of this new object is set on default |setPosition()
-	 * @effect the velocity of this new object is set on default |setVelocity()
-	 * 
+	 * @param radius
 	 */
-	public ObjectInSpace() {
-		this(0, 0, 0, 0, 1, 1);
-	}
-
 	public ObjectInSpace(double radius) {
 		this(0, 0, 0, 0, radius, 1);
 	}
@@ -215,7 +206,7 @@ public abstract class ObjectInSpace {
 	 * 
 	 */
 	public void setVelocity(double velocityX, double velocityY) {
-		velocity = Velocity.createVelocity(velocityX, velocityY);
+		velocity = velocity.changeVector(velocityX, velocityY);
 	}
 
 	/**
@@ -743,6 +734,9 @@ public abstract class ObjectInSpace {
 
 	}
 
+	/**
+	 * 
+	 */
 	public void collideWithWand() {
 		int wand = collisionWithWhichWand();
 		if (wand == 1) {

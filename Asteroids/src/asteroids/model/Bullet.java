@@ -5,6 +5,10 @@ import be.kuleuven.cs.som.annotate.Immutable;
 
 public class Bullet extends ObjectInSpace {
 
+	/**
+	 * 
+	 * @param ship
+	 */
 	public Bullet(Ship ship) {
 		super(3);
 		double radius = 3;
@@ -19,6 +23,9 @@ public class Bullet extends ObjectInSpace {
 		setMass(calculateMass(radius));
 	}
 
+	/**
+	 * 
+	 */
 	private final static double DENSITY = 2.65 * Math.pow(10, 12);
 
 	/**
@@ -51,6 +58,11 @@ public class Bullet extends ObjectInSpace {
 
 	}
 	
+	/**
+	 * 
+	 * @param object
+	 * @return
+	 */
 	public boolean isShipFromBullet(ObjectInSpace object){
 		if(Ship.isShip(object)){
 			return (this.getShip() ==  object);
@@ -59,6 +71,9 @@ public class Bullet extends ObjectInSpace {
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	public void die(){
 		this.terminate();
 	}
@@ -72,19 +87,34 @@ public class Bullet extends ObjectInSpace {
 		return DENSITY;
 	}
 
+	/**
+	 * 
+	 * @param radius
+	 * @return
+	 */
 	public double calculateMass(double radius) {
 
 		return 4 * Math.PI * Math.pow(radius, 3) * getDensity() / 3;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public int getCountCollision() {
 		return countCollision;
 	}
 
+	/**
+	 * 
+	 */
 	public void addCountCollision() {
 		countCollision = getCountCollision() + 1;
 	}
 
+	/**
+	 * 
+	 */
 	public void collideWithWand() {
 		int wand = collisionWithWhichWand();
 		if (getCountCollision() == 0) {
@@ -101,6 +131,11 @@ public class Bullet extends ObjectInSpace {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param object
+	 * @return
+	 */
 	public static boolean isBullet(Object object){
 		return Bullet.class.isAssignableFrom(object.getClass());
 	}

@@ -3,9 +3,27 @@ package asteroids.model;
 import asteroids.Util;
 import be.kuleuven.cs.som.annotate.*;
 
+/**
+ * A class to create a vector in a 2D setting and with a x-coordinate
+ * and a y-coordinate
+ * 
+ * @invar the x-coordinate and the y-coordinate doubles must be valid numbers.
+ * 		| isValidDouble(getXCoordinate()()) && isValidDouble(getYCoordinate()())
+ * 
+ * @version 1.1
+ * @author Mathieu Vermeire en Kwinten Verhelst
+ */
 @Value
 public class VectorInSpace {
 
+	/**
+	 * Initialize a new vector with the given the x- and y-coordinate
+	 * 
+	 * @param xCoordinate
+	 * 			 the x-coordinate of this vector
+	 * @param yCoordinate
+	 * 			 the y-coordinate of this vector
+	 */
 	protected VectorInSpace(double xCoordinate, double yCoordinate) {
 		if (!isValidDouble(xCoordinate)) {
 			xCoordinate = 0;
@@ -110,7 +128,7 @@ public class VectorInSpace {
 	/**
 	 * Returns a textual representation of this vector
 	 * 
-	 * @return 
+	 * @return a textual representation of this vector
 	 */
 	@Override
 	public String toString() {
@@ -118,25 +136,54 @@ public class VectorInSpace {
 				+ Double.toString(getYCoordinate()) + ">";
 	}
 
+	/**
+	 * returns the value of the inProduct between two given vectors
+	 * 
+	 * @param vector1
+	 * 			the first vector that you want in the inProduct
+	 * @param vector2
+	 * 			the second vector that you want in the inProduct
+	 * @return he value of the inProduct between two vectors
+	 */
 	public static double inProduct(VectorInSpace vector1, VectorInSpace vector2) {
 		return ((vector1.getXCoordinate() * vector2.getXCoordinate()) + (vector1
 				.getYCoordinate() * vector2.getYCoordinate()));
 	}
 
+	/**
+	 * returns the norm of the given vector, the norm is length of a vector
+	 * 
+	 * @param vector
+	 * 			the vector from which you want to know the norm
+	 * @return the norm of the given vector
+	 */
 	public static double norm(VectorInSpace vector) {
 		return Math.hypot(Math.abs(vector.getXCoordinate()), Math.abs(vector.getYCoordinate()));
 	}
 
 	/**
-	 * returns the angle of this vector
+	 * returns the angle of the given vector and the positive x-as
 	 * 
-	 * @return the angle of the vector | result ==
-	 *         Math.atan(getYCoordinate() / getXCoordinate())
+	 * @param vector
+	 * 		the vector from which you want to know the angle with the positive x-as 
+	 * 
+	 * @return the angle of the vector 
+	 * 			| result == Math.atan(getYCoordinate() / getXCoordinate())
 	 */
 	public static double getDirection(VectorInSpace vector) {
 		return Math.atan( vector.getYCoordinate() / vector.getXCoordinate());
 	}
 	
+	/**
+	 * returns the subtract of the second given vector from the first given vector
+	 * 
+	 * @param vector1
+	 * 			the vector from which you want to subtract the other vector
+	 * @param vector2
+	 * 			the vector that you subtract from the first
+	 * @return the subtract of the second given vector from the first given vector
+	 * 			
+	 */
 	public static VectorInSpace vectorChange(VectorInSpace vector1,
 			VectorInSpace vector2) {
 		return new VectorInSpace(vector1.getXCoordinate()
