@@ -103,7 +103,7 @@ public abstract class ObjectInSpace {
 	public abstract void die();
 
 	/**
-	 * Terminate this asteroid.
+	 * Terminate this object.
 	 */
 	public void terminate() {
 		isTerminated = true;
@@ -735,7 +735,18 @@ public abstract class ObjectInSpace {
 	}
 
 	/**
+	 * let this object collide with the wand of the world
 	 * 
+	 * @effect if the wand is horizontal then the velocity in the vertical direction will be reversed
+	 * 			| if collisionWithWhichWand() == 1
+	 * 			| then this.setVelocity(this.getVelocityX(), -(this.getVelocityY()))
+	 * @effect if the wand is vertical then the velocity in the horizontal direction will be reversed
+	 * 			| if collisionWithWhichWand() == 2
+	 * 			| then this.setVelocity(-(this.getVelocityX()), this.getVelocityY())
+	 * @effect if it collides in a corner (it collides simultaneously with the horizontal and vertical wand) 
+	 * 			then the velocity in the horizontal and vertical direction will be reversed
+	 * 			| if collisionWithWhichWand() == 3
+	 * 			| then this.setVelocity(-(this.getVelocityX()), -(this.getVelocityY()))
 	 */
 	public void collideWithWand() {
 		int wand = collisionWithWhichWand();
