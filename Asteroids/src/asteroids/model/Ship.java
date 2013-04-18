@@ -69,7 +69,7 @@ public class Ship  extends ObjectInSpace{
 	/**
 	 * variable registering the amount of thrust this ship can make
 	 */
-	private final double THRUST = 10.1*Math.pow(10, 18);
+	private final double THRUST = 1.1*Math.pow(10, 19);
 		
 	/**
 	 * terminates this bullet
@@ -184,7 +184,11 @@ public class Ship  extends ObjectInSpace{
 	 */
 	public Bullet firebullet(){
 		Bullet bullet = new Bullet(this);
-		this.getWorld().addObjectInSpace(bullet);
+		try{
+			this.getWorld().addObjectInSpace(bullet);
+		} catch (IllegalArgumentException exc) {
+			return null;
+		}
 		return bullet;
 	}
 

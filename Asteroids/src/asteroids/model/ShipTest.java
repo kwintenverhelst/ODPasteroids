@@ -28,7 +28,8 @@ public class ShipTest {
 		ship1 = new Ship(20, 30, 50, 40, 15, 5E15, Math.PI);
 		ship2 = new Ship(500, 800, 50, 40, 15, 5E15, Math.PI);
 		world = new World(1280, 720);
-		asteroid = new Asteroid(100, 200, 50, 40, 20, world);
+		asteroid = new Asteroid(100, 200, 50, 40, 20);
+		asteroid.setWorld(world);
 		ship1.setWorld(world);
 		ship2.setWorld(world);
 	}
