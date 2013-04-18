@@ -5,11 +5,30 @@ import be.kuleuven.cs.som.annotate.Basic;
 import be.kuleuven.cs.som.annotate.Immutable;
 import be.kuleuven.cs.som.annotate.Raw;
 
+/**
+ * A class to create objects in space for playing asteroids. 
+ * A object has 2D coordinates (where the x-axis is horizontal and the y-axis is vertical)
+ * in km for its position, a velocity in km/s, a mass, a world and a radius.
+ * The objects are able to move.
+ * This class can also predict time and place of collision between 2 objects or the wand of the world the object is in.
+ * 
+ * @invar The radius must be a valid radius
+ * 		| isValidRadius(this.getRadius())
+ * @invar The mass must be a valid mass
+ * 		| isValidMass(this.getMass())
+ * 
+ * @version 1.1
+ * @author Mathieu Vermeire en Kwinten Verhelst
+ */
 public abstract class ObjectInSpace {
 
 	/**
+	 * Initialize a new object with given radius and every other variable is on default
 	 * 
 	 * @param radius
+	 * 			The radius for this new object.
+	 * @effect a new object with given radius and evrything else on default
+	 * 			| this(0, 0, 0, 0, radius, 1)
 	 */
 	public ObjectInSpace(double radius) {
 		this(0, 0, 0, 0, radius, 1);
@@ -30,18 +49,23 @@ public abstract class ObjectInSpace {
 	 *            The velocity in the y direction for this new object.
 	 * @param radius
 	 *            The radius for this new object.
-	 * @post the given radius is set as the radius of this new object | (new
-	 *       this).radius == radius
+	 *            
+	 * @post the given radius is set as the radius of this new object 
+	 * 		| (new this).radius == radius
+	 * 
 	 * @effect the given x-coordinate and the given y-coordinate is set as the
 	 *         x-coordinate and the y-coordinate of this new object
 	 *         |setPosition(x, y)
+	 *         
 	 * @effect the given velocity in the x direction and the given velocity in
 	 *         the y direction is set as the velocity in the x direction and the
 	 *         velocity in the y direction of this new object
 	 *         |setVelocity(velocityX, velocityY)
+	 *         
 	 * @throws IllegalArgumentException
 	 *             The given radius is not a valid radius for this new object.
 	 *             |!isValidRadius(radius)
+	 *             
 	 * @throws NullPointerException
 	 *             one of the given coordinates or the radius is not an number
 	 *             |!isValidDouble(radius)
@@ -103,7 +127,7 @@ public abstract class ObjectInSpace {
 	public abstract void die();
 
 	/**
-	 * Terminate this asteroid.
+	 * Terminate this object.
 	 */
 	public void terminate() {
 		isTerminated = true;
@@ -124,7 +148,7 @@ public abstract class ObjectInSpace {
 	 * Returns the x coordinate of the this object's position expressed in km
 	 * 
 	 * @return the x coordinate of the this object's position expressed in km
-	 *         |result == getPosition().getX()
+	 *         |result == getPosition().getXCoordinate()
 	 */
 	public double getX() {
 		return getPosition().getXCoordinate();
@@ -134,7 +158,7 @@ public abstract class ObjectInSpace {
 	 * Returns the y coordinate of the this object's position expressed in km
 	 * 
 	 * @return the y coordinate of the this object's position expressed in km
-	 *         |result == getPosition().getY()
+	 *         |result == getPosition().getYCoordinate()
 	 */
 	public double getY() {
 		return getPosition().getYCoordinate();
@@ -148,21 +172,9 @@ public abstract class ObjectInSpace {
 	 * @param y
 	 *            The y-coordinate in km of the new position
 	 * @effect the new position of the object has the given x- and y-coordinates
-	 *         |position.setPosition(x, y)
+	 *         | position.changeVector(x, y)
 	 */
 	public void setPosition(double x, double y) {
-		if (this.getWorld() != null) {
-			if (x > this.getWorld().getWidth() - this.getRadius()) {
-				x = this.getWorld().getWidth() - this.getRadius();
-			} else if (x < this.getRadius()) {
-				x = this.getRadius();
-			}
-			if (y > this.getWorld().getHeight() - this.getRadius()) {
-				y = this.getWorld().getHeight() - this.getRadius();
-			} else if (y < this.getRadius()) {
-				y = this.getRadius();
-			}
-		}
 		position = position.changeVector(x, y);
 	}
 
@@ -177,8 +189,8 @@ public abstract class ObjectInSpace {
 	/**
 	 * Returns the velocity of this object in the x direction in km/s.
 	 * 
-	 * @return the velocity of this object in the x direction in km/s |result ==
-	 *         getVelocity().getVelocityX()
+	 * @return the velocity of this object in the x direction in km/s 
+	 *    		|result == getVelocity().getXCoordinate()
 	 */
 	public double getVelocityX() {
 		return getVelocity().getXCoordinate();
@@ -187,8 +199,8 @@ public abstract class ObjectInSpace {
 	/**
 	 * Returns the velocity of this object in the y direction in km/s.
 	 * 
-	 * @return the velocity of this object in the y direction in km/s |result ==
-	 *         getVelocity().getVelocityY()
+	 * @return the velocity of this object in the y direction in km/s 
+	 * 			|result == getVelocity().getYCoordinate()
 	 */
 	public double getVelocityY() {
 		return getVelocity().getYCoordinate();
@@ -202,7 +214,7 @@ public abstract class ObjectInSpace {
 	 * @param VelocityY
 	 *            The y-velocity in km of the new velocity
 	 * @effect the new velocity of the object has the given x- and y-coordinates
-	 *         |velocity.setVelocity(velocityX, velocityY)
+	 *         |velocity = velocity.changeVector(velocityX, velocityY)
 	 * 
 	 */
 	public void setVelocity(double velocityX, double velocityY) {
@@ -263,7 +275,8 @@ public abstract class ObjectInSpace {
 	 * 
 	 * @param mass
 	 *            The mass to check
-	 * @return true if mass | result == isValidDouble(mass) && mass > 0
+	 * @return true if mass a valid number and is bigger then zero
+	 * 			| result == isValidDouble(mass) && mass > 0
 	 */
 	public boolean isValidMass(double mass) {
 		return isValidDouble(mass) && mass > 0;
@@ -283,13 +296,12 @@ public abstract class ObjectInSpace {
 		if (isValidMass(mass)) {
 			this.mass = mass;
 		} else {
-			this.mass = 0;
+			 throw new IllegalArgumentException("mass of this object must be bigger then zero");
 		}
 	}
 
 	/**
 	 * return the world of this object
-	 * 
 	 */
 	@Basic
 	public World getWorld() {
@@ -302,12 +314,13 @@ public abstract class ObjectInSpace {
 	 * @param world
 	 *            The world to check.
 	 * @return If this objectInSpace is terminated, returns true if the given
-	 *         world is null. | if (this.isTerminated()) | then result == (world
-	 *         == null)
+	 *         world is null. 
+	 *         | if (this.isTerminated()) 
+	 *         | then result == (world  == null)
 	 * @return If this objectInSpace is not terminated, returns true if the
-	 *         given world is not null and not terminated. | if (!
-	 *         this.isTerminated()) | then result == | (world != null) && | (!
-	 *         world.isTerminated())
+	 *         given world is not null and not terminated. 
+	 *         | if (!this.isTerminated()) 
+	 *         | then result == (world != null) && (!world.isTerminated())
 	 */
 	@Raw
 	public boolean canHaveAsWorld(World world) {
@@ -321,14 +334,13 @@ public abstract class ObjectInSpace {
 	 * 
 	 * @return True if this objectInSpace can have this world as world and this
 	 *         world is either null or it has this objectInSpace as one of its
-	 *         objects. | result == | canHaveAsWorld(getWorld()) && | (
-	 *         (getWorld() == null) || getWorld().hasAsObjectInSpace(this))
+	 *         objects. 
+	 *         | result == canHaveAsWorld(getWorld()) &&  
+	 *         | ((getWorld() == null) || getWorld().hasAsObjectInSpace(this))
 	 */
 	@Raw
 	public boolean hasProperWorld() {
-		return canHaveAsWorld(getWorld())
-				&& ((getWorld() == null) || (getWorld()
-						.hasAsObjectInSpace(this)));
+		return canHaveAsWorld(getWorld()) && ((getWorld() == null) || (getWorld().hasAsObjectInSpace(this)));
 	}
 
 	/**
@@ -343,21 +355,20 @@ public abstract class ObjectInSpace {
 	 *             | ! canHaveAsWorld(world)
 	 */
 	public void setWorld(World world) {
-		if (!canHaveAsWorld(world))
+		if (!canHaveAsWorld(world)){
 			throw new IllegalArgumentException("Inappropriate world");
+		}
 		this.world = world;
 	}
 
 	/**
 	 * Let the object move within a given time period
 	 * 
-	 * @effect the object has moved in the given time period
-	 *         |this.setPosition(this.getVelocityX()*dt + this.getX(),
-	 *         this.getVelocityY()*dt + this.getY())
+	 * @effect the object has moved in the given time period if the time is valid
+	 *         |if isValidTime(dt) 
+	 *         | then this.setPosition(this.getVelocityX()*dt + this.getX(),this.getVelocityY()*dt + this.getY())
 	 * @param dt
 	 *            the time in which the object needs to move
-	 * @throws IllegalArgumentException
-	 *             The given time is not a valid time |!isValidTime(dt)
 	 */
 	public void move(double dt) {
 		if (isValidTime(dt)) {
@@ -371,8 +382,8 @@ public abstract class ObjectInSpace {
 	 * 
 	 * @param dt
 	 *            the time to check
-	 * @return true if time is more or equal to zero and a number |result == dt
-	 *         >= 0 && isValidDouble(dt)
+	 * @return true if time is more or equal to zero and a number 
+	 * 			|result == dt  >= 0 && isValidDouble(dt)
 	 */
 	public boolean isValidTime(double dt) {
 		return dt >= 0 && isValidDouble(dt);
@@ -384,12 +395,13 @@ public abstract class ObjectInSpace {
 	 * @param object
 	 *            The object between which you calculate the distance
 	 * @return Returns the distance between this object and the given object.
-	 *         |result == Math.hypot((this.getX() - object.getX()), (this.getY()
-	 *         - object.getY()))- this.getRadius() - object.getRadius()
+	 *         |result == Position.norm(Position.vectorChange(this.getPosition(), object.getPosition())) - this.getRadius() - object.getRadius()
 	 * @throws IllegalArgumentException
-	 *             the given object is this object |this == object
+	 *             the given object is this object 
+	 *             |this == object
 	 * @throws NullPointerException
-	 *             the given object is null |object == null
+	 *             the given object is null 
+	 *             |object == null
 	 */
 	public double getDistanceBetween(ObjectInSpace object)
 			throws IllegalArgumentException, NullPointerException {
@@ -411,10 +423,12 @@ public abstract class ObjectInSpace {
 	 * 
 	 * @param object
 	 *            The object which to check if it overlaps with this object
-	 * @return True if this object is the given object or if the distance
-	 *         between the 2 objects equals 0. |distance =
-	 *         this.getDistanceBetween(object) |result == ((this==object) ||
-	 *         (Util.fuzzyLessThanOrEqualTo(distance, 0.0))
+	 *            
+	 * @return True if this object is not null and not the given object and if the distance between the 2 objects equals or less then Util.EPSILON
+	 * 			or if the 2 objects are not a ship and a bullet from this ship. 
+	 *         |distance = this.getDistanceBetween(object) 
+	 *         |result == (object != null) && (this!=object) && (Util.fuzzyLessThanOrEqualTo(distance, Util.EPSILON) || !(Bullet.isBullet(object) && Ship.isShip(this) && ((Bullet) object)
+						.getShip() == this)|| (Bullet.isBullet(this) && Ship.isShip(object) && ((Bullet) this).getShip() == object))
 	 */
 	public boolean overlap(ObjectInSpace object) {
 		if (object != null) {
@@ -441,28 +455,32 @@ public abstract class ObjectInSpace {
 	}
 
 	/**
-	 * returns the time in which this object collides with the given object, if
-	 * they never collide it will give infinite back
-	 * 
-	 * @param object
-	 *            the object from which we need to know when it will collide
-	 *            with this object
-	 * @return the time in which this object collides with the given object, if
-	 *         they never collide it will give infinite back | with
-	 *         object1==this position == (x1,y1) velocity == (vx1,vy1) | and
-	 *         object2 position == (x2,y2) velocity == (vx2,vy2) | and DeltaR==
-	 *         (DeltaX,DeltaY), DeltaV== (DeltaVX,DeltaVY), DeltaR*DeltaR==
-	 *         (DeltaX)^2+(DeltaY)^2 | and DeltaV*DeltaV==
-	 *         (DeltaVX)^2+(DeltaVY)^2 and DeltaV*DeltaR==
-	 *         (DeltaVX)*(DeltaX)+(DeltaVY)*(DeltaY) | and Sigma==
-	 *         this.getRadius() + object2.getRadius() | and d==
-	 *         (DeltaV*DeltaR)^2 - (DeltaV*DeltaV)*(DeltaR*DeltaR -Sigma^2) |
-	 *         if(DeltaV*DeltaR >= 0) | then result == Double.POSITIVE_INFINITY
-	 *         | else if(d <= 0) | then result == Double.POSITIVE_INFINITY |
-	 *         else | then result ==
-	 *         -((DeltaV*DeltaR)+Math.sqrt(d))/(DeltaV*DeltaV)
-	 * @throws NullPointerException
-	 *             the given object is null |object == null
+	 * Return the time it will take for this object to collide with the object.
+	 *  
+	 * @param   object
+	 *          The object to collide with.
+	 * @return  The resulting time is not negative and different from Double.NaN
+	 *        | Util.fuzzyLeq(0.0,result) && (! Double.isNaN(result))
+	 * @return  If the resulting time is finite, the distance between both
+	 *          objects would be fuzzy equal to zero if they would both move
+	 *          during the resulting time.
+	 *        | if (result < Double.POSITIVE_INFINITY) then
+	 *        |   Util.fuzzyEquals(this.distanceBetween(object,result),0.0)
+	 * @return  If the resulting distance is finite, the distance between both objects
+	 *          would be fuzzy different from zero if they would move for a time shorter than the
+	 *          resulting time.
+	 *        | if (result < Double.POSITIVE_INFINITY) then
+	 *        |   for each time in 0.0..result:
+	 *        |     if (time < result)
+	 *        |       then ! Util.fuzzyEquals(this.distanceBetween(object,time),0.0)
+	 * @return  If the resulting time is infinite, this object is the same as the
+	 *          object or the distance between both
+	 *          objects would be different from zero for each finite time they would move or the given object is null
+	 *        | if (result == Double.POSITIVE_INFINITY) then
+	 *        |   (this == object) ||
+	 *        |   (for each time in 0.0..Double.POSITIVE_INFINITY:
+	 *        |     if (! Double.isInfinite(time)) then
+	 *        |       (! Util.fuzzyEquals(this.distanceBetween(object,time),0.0)) || object == null
 	 */
 	public double getTimeToCollision(ObjectInSpace object)
 			throws NullPointerException {
@@ -514,7 +532,11 @@ public abstract class ObjectInSpace {
 	 * returns the time on which the object will collide with one of the
 	 * horizontal wands
 	 * 
-	 * @return
+	 * @return if the resulting time is finite then the velocity in the vertical direction is not zero and this object has a world
+	 * 			| if (this.getWorld() != null) && (this.getVelocityY() =! 0)
+	 * 			| then if (this.getVelocityY() > 0)
+	 * 			| 		then result == (getWorld().getHeight() - this.getY()- this.getRadius()) / this.getVelocityY()
+	 * 			|		else result == (0 - this.getY() + this.getRadius()) / this.getVelocityY()
 	 */
 	public double getTimeToCollisionWithWorldHorizentalWand() {
 		double velocityY = this.getVelocityY();
@@ -538,7 +560,11 @@ public abstract class ObjectInSpace {
 	 * returns the time on which the object will collide with one of the
 	 * vertical wands
 	 * 
-	 * @return
+	 * @return if the resulting time is finite then the velocity in the horizontal direction is not zero and this object has a world
+	 * 			| if (this.getWorld() != null) && (this.getVelocityX() =! 0)
+	 * 			| then if (this.getVelocityX() > 0)
+	 * 			| 		then result == (getWorld().getWidth() - this.getX()- this.getRadius()) / this.getVelocityX()
+	 * 			|		else result == (0 - this.getX() + this.getRadius()) / this.getVelocityX()
 	 */
 	public double getTimeToCollisionWithWorldVerticalWand() {
 		double velocityX = this.getVelocityX();
@@ -561,7 +587,19 @@ public abstract class ObjectInSpace {
 	/**
 	 * returns with which wand the object will first collide
 	 * 
-	 * @return
+	 * @return 1 if it will collide with the horizontal wand, 2 if it will collide with the vertical wand
+	 * 			and 3 if it will collide with the horizontal wand and the vertical wand at the same time
+	 * 			and 4 if it never will hit a wand (object stands still or has no world)
+	 * 			| double timeHorizental = getTimeToCollisionWithWorldHorizentalWand()
+	 * 			| double timeVertical = getTimeToCollisionWithWorldVerticalWand();
+	 * 			| if(result == 1)
+	 * 			| then (!Double.isInfinite(timeHorizental) && Double.isInfinite(timeVertical)) && (timeHorizental < timeVertical)
+	 * 			| if(result == 2)
+	 * 			| then (Double.isInfinite(timeHorizental) && !Double.isInfinite(timeVertical)) && (timeHorizental > timeVertical)
+	 * 			| if(result == 3)
+	 * 			| then (!Double.isInfinite(timeHorizental) && !Double.isInfinite(timeVertical)) && (timeHorizental == timeVertical)
+	 * 			| if(result == 4)
+	 * 			| then (Double.isInfinite(timeHorizental) && Double.isInfinite(timeVertical))
 	 */
 	public int collisionWithWhichWand() {
 		double timeHorizental = getTimeToCollisionWithWorldHorizentalWand();
@@ -572,7 +610,10 @@ public abstract class ObjectInSpace {
 		} else if (Double.isInfinite(timeHorizental)
 				&& !Double.isInfinite(timeVertical)) {
 			return 2;
-		} else {
+		} else if (Double.isInfinite(timeHorizental)
+				&& Double.isInfinite(timeVertical)) {
+			return 4;
+		}else {
 			if (timeHorizental < timeVertical) {
 				return 1;
 			} else if (timeHorizental > timeVertical) {
@@ -586,7 +627,16 @@ public abstract class ObjectInSpace {
 	/**
 	 * returns the smallest time needed to collide with one of the wands
 	 * 
-	 * @return
+	 * @return the smallest time needed to collide with one of the wands
+	 * 			| if (wand == 1)
+	 * 			| then result == getTimeToCollisionWithWorldHorizentalWand()
+	 * 			| if (wand == 2)
+	 * 			| then result == getTimeToCollisionWithWorldVerticalWand()
+	 * 			| if (wand == 3)
+	 * 			| then result == getTimeToCollisionWithWorldHorizentalWand()
+	 * 			| if (wand == 4)
+	 * 			| then result == Double.POSITIVE_INFINITY
+	 * 			
 	 */
 	public double getTimeToCollisionWithWorldWand() {
 		int wand = collisionWithWhichWand();
@@ -609,10 +659,20 @@ public abstract class ObjectInSpace {
 	 *            the object from which we need to know at which place it will
 	 *            collide with this object
 	 * @return the position where this object and the given object are going to
-	 *         collide
-	 * 
+	 *         collide if the time to collission is not infinite
+	 * 			| if(!Double.isInfinite(getTimeToCollision(object)))
+	 * 			| then Position position1 = new Position(this.getX() + time * this.getVelocityX(), this.getY() + time * this.getVelocityY())
+	 *			|	Position position2 = new Position(object.getX() + time * object.getVelocityX(), object.getY() + time * object.getVelocityY())
+	 *			|	VectorInSpace positionChanged = Position.vectorChange(position2,position1)
+	 *			| 	double directionChanged = Position.getDirection(positionChanged)
+	 *			| 	double r1 = this.getRadius()
+	 *			| 	double[] collisionPoint = new double[2]; * Math.cos(directionChanged)
+	 *			|	collisionPoint[1] = position1.getYCoordinate() + r1 * Math.sin(directionChanged)
+	 *			| 	result == collisionPoint;
+	 * 			| else result == null
 	 * @throws NullPointerException
-	 *             the given object is null |object == null
+	 *             the given object is null 
+	 *             |object == null
 	 */
 	public double[] getCollisionPosition(ObjectInSpace object)
 			throws NullPointerException {
@@ -652,32 +712,42 @@ public abstract class ObjectInSpace {
 
 	/**
 	 * this object collides with the given object
+	 * 
+	 * @effect if the given object is not null and if this object or the given object is a bullet then both objects die
+	 * 			| if(Bullet.isBullet(this) || Bullet.isBullet(object))
+	 * 			| then object.die() && this.die()
+	 * 
+	 * @effect if the given object is not null and if this object and the given object are both asteroids and then they bounce of each other
+	 * 			| if(Asteroid.isAsteroid(this) && Asteroid.isAsteroid(object))
+	 * 			| ObjectInSpace.bounce(this, object)
+	 * 
+	 * @effect if the given object is not null and if this object and the given object are both ships then they bounce of each other
+	 * 			| if(Ship.isShip(object) && Ship.isShip(this))
+	 * 			| ObjectInSpace.bounce(this, object)
+	 * 
+	 * @effect if the given object is not null and if this object is a ship and the given object is an asteroid then the ship dies
+	 * 			| if(Ship.isShip(this) && Asteroid.isAsteroid(object))
+	 * 			| then this.die()
+	 * 
+	 * @effect if the given object is not null and if this object is a asteroid and the given object is an ship then the ship dies
+	 * 			| if(Ship.isShip(object) && Asteroid.isAsteroid(this))
+	 * 			| then object.die() 
 	 */
 	public void collide(ObjectInSpace object) {
 		if (object != null) {
 			if (Bullet.isBullet(this) || Bullet.isBullet(object)) {
-				System.out.println(this + "  this b");
-				System.out.println(object + "  object b");
 				object.die();
 				this.die();
 			} else {
 				if (Asteroid.isAsteroid(this) && Asteroid.isAsteroid(object)) {
-					System.out.println(this + "  this aa");
-					System.out.println(object + "  object aa");
 					ObjectInSpace.bounce(this, object);
 
 				} else if (Ship.isShip(object) && Ship.isShip(this)) {
-					System.out.println(this + "  this ss");
-					System.out.println(object + "  object ss");
 					ObjectInSpace.bounce(this, object);
 				} else {
 					if (Ship.isShip(object) && Asteroid.isAsteroid(this)) {
-						System.out.println(this + "  this as");
-						System.out.println(object + "  object as");
 						object.die();
 					} else if (Ship.isShip(this) && Asteroid.isAsteroid(object)) {
-						System.out.println(this + "  this sa");
-						System.out.println(object + "  object sa");
 						this.die();						
 					}
 				}
@@ -686,27 +756,28 @@ public abstract class ObjectInSpace {
 	}
 
 	/**
-	 * double mass1 = object1.getMass(); double mass2 = object2.getMass();
-	 * double vx1 = object1.getVelocityX(); double vy1 = object1.getVelocityY();
-	 * double vx2 = object2.getVelocityX(); double vy2 = object2.getVelocityY();
-	 * double afstand = object1.getRadius() + object2.getRadius();
-	 * 
-	 * VectorInSpace positionChange =
-	 * Position.vectorChange(object1.getPosition(), object2.getPosition());
-	 * VectorInSpace velocity =
-	 * Velocity.vectorChange(object1.getVelocity(),object2.getVelocity());
-	 * 
-	 * double dvMultiDr = VectorInSpace.inProduct(velocity, positionChange);
-	 * 
-	 * double j = (2 * mass1 * mass2 * dvMultiDr) / (afstand * (mass1 + mass2));
-	 * double jx = (j * positionChange.getXCoordinate()) / afstand; double jy =
-	 * (j * positionChange.getYCoordinate()) / afstand;
-	 * 
-	 * object1.setVelocity(vx1 + (jx / mass1), vy1 + (jy / mass1));
-	 * object2.setVelocity(vx2 - (jx / mass2), vy2 - (jy / mass2));
+	 * let two objects bounce of each other
 	 * 
 	 * @param object1
+	 * 			one of the objects that bounce of each other
 	 * @param object2
+	 * 			one of the objects that bounce of each other
+	 * 
+	 * @effect let two objects bounce of each other
+	 * 			| double mass1 = object1.getMass(); double mass2 = object2.getMass()
+	 * 			| double vx1 = object1.getVelocityX() 
+	 * 			| double vy1 = object1.getVelocityY()
+	 * 			| double vx2 = object2.getVelocityX() 
+	 * 			| double vy2 = object2.getVelocityY()
+	 * 			| double afstand = object1.getRadius() + object2.getRadius()
+	 * 			| VectorInSpace positionChange = Position.vectorChange(object1.getPosition(), object2.getPosition())
+	 * 			| VectorInSpace velocity = Velocity.vectorChange(object1.getVelocity(),object2.getVelocity())
+	 * 			| double dvMultiDr = VectorInSpace.inProduct(velocity, positionChange)
+	 * 			| double j = (2 * mass1 * mass2 * dvMultiDr) / (afstand * (mass1 + mass2))
+	 * 			| double jx = (j * positionChange.getXCoordinate()) / afstand 
+	 * 			| double jy = (j * positionChange.getYCoordinate()) / afstand
+	 * 			| object1.setVelocity(vx1 + (jx / mass1), vy1 + (jy / mass1))
+	 * 			| object2.setVelocity(vx2 - (jx / mass2), vy2 - (jy / mass2))
 	 */
 	public static void bounce(ObjectInSpace object1, ObjectInSpace object2) {
 		double mass1 = object1.getMass();
@@ -735,7 +806,18 @@ public abstract class ObjectInSpace {
 	}
 
 	/**
+	 * let this object collide with the wand of the world
 	 * 
+	 * @effect if the wand is horizontal then the velocity in the vertical direction will be reversed
+	 * 			| if collisionWithWhichWand() == 1
+	 * 			| then this.setVelocity(this.getVelocityX(), -(this.getVelocityY()))
+	 * @effect if the wand is vertical then the velocity in the horizontal direction will be reversed
+	 * 			| if collisionWithWhichWand() == 2
+	 * 			| then this.setVelocity(-(this.getVelocityX()), this.getVelocityY())
+	 * @effect if it collides in a corner (it collides simultaneously with the horizontal and vertical wand) 
+	 * 			then the velocity in the horizontal and vertical direction will be reversed
+	 * 			| if collisionWithWhichWand() == 3
+	 * 			| then this.setVelocity(-(this.getVelocityX()), -(this.getVelocityY()))
 	 */
 	public void collideWithWand() {
 		int wand = collisionWithWhichWand();

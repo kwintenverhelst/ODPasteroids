@@ -4,11 +4,9 @@ package asteroids.model;
 import be.kuleuven.cs.som.annotate.*;
 
 /** 
- * A class to create a position in a 2D setting with a x-coordinate and a y-coordinate in km
- * 
- * @invar x-coordinate, y-coordinate doubles must be valid numbers.
- * 		| isValidDouble(getXCoordinate()()) && isValidDouble(getYCoordinate()())
- * 
+ * A class to create a position in a 2D setting with a x-coordinate and a y-coordinate in km  (where the x-axis is horizontal and the y-axis is vertical)
+ * this class is a subclass of VectorInSpace class
+ *  
  * @version 1.1
  * @author Mathieu Vermeire en Kwinten Verhelst
  */

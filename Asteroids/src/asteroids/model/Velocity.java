@@ -5,10 +5,11 @@ import be.kuleuven.cs.som.annotate.*;
 
 /**
  * A class to create velocity in a 2D setting and with a velocity in the x
- * direction, a velocity in the y direction and a speedlimit in km/s
+ * direction, a velocity in the y direction and a speedlimit in km/s 
+ * you cannot make a velocity that has is greater then the speedlimit 
+ * (where the x-axis is horizontal and the y-axis is vertical)
+ * this class is a subclass of VectorInSpace class
  * 
- * @invar VelocityX, Velocity Y doubles must be valid numbers. |
- *        isValidDouble(getVelocityX()) && isValidDouble(getVelocityY())
  * @invar The velocity must be a valid velocity, less than the speed limit. |
  *        isValidVelocity(getVelocityX(),getVelocityY())
  * 

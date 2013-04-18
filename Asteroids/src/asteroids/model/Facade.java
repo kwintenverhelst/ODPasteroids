@@ -5,6 +5,7 @@ import java.util.Set;
 
 import asteroids.CollisionListener;
 import asteroids.IFacade;
+import asteroids.ModelException;
 
 public class Facade implements IFacade<World, Ship, Asteroid, Bullet> {
 
@@ -53,9 +54,11 @@ public class Facade implements IFacade<World, Ship, Asteroid, Bullet> {
 
 	@Override
 	public void addAsteroid(World world, Asteroid asteroid) {
-		
+		try {
 			world.addObjectInSpace(asteroid);
-		
+		} catch (IllegalArgumentException exc) {
+
+		}
 	}
 
 	@Override
@@ -79,7 +82,13 @@ public class Facade implements IFacade<World, Ship, Asteroid, Bullet> {
 	@Override
 	public Ship createShip(double x, double y, double xVelocity,
 			double yVelocity, double radius, double direction, double mass) {
-		return new Ship(x, y, xVelocity, yVelocity, radius, mass, direction);
+		try {
+			return new Ship(x, y, xVelocity, yVelocity, radius, mass, direction);
+		} catch (IllegalArgumentException iExc) {
+			throw new ModelException(iExc.getMessage());
+		} catch (NullPointerException nExc) {
+			throw new ModelException(nExc.getMessage());
+		}
 	}
 
 	@Override
@@ -152,7 +161,14 @@ public class Facade implements IFacade<World, Ship, Asteroid, Bullet> {
 	@Override
 	public Asteroid createAsteroid(double x, double y, double xVelocity,
 			double yVelocity, double radius) {
-		return new Asteroid(x, y, xVelocity, yVelocity, radius);
+		try {
+			return new Asteroid(x, y, xVelocity, yVelocity, radius);
+		} catch (IllegalArgumentException iExc) {
+			throw new ModelException(iExc.getMessage());
+		} catch (NullPointerException nExc) {
+			throw new ModelException(nExc.getMessage());
+		}
+
 	}
 
 	@Override
