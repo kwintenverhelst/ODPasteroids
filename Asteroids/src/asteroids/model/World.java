@@ -120,12 +120,15 @@ public class World {
 	 *  	| && ((new this).isFullyInWorld(objectInSpace)) 
 	 */
 	public boolean canHaveAsObjectInSpace(ObjectInSpace objectInSpace) {
-		if (objectInSpace == null)
+		if (objectInSpace == null){
 			return false;
-		if (!objectInSpace.canHaveAsWorld(this))
+		}
+		if (!objectInSpace.canHaveAsWorld(this)){
 			return false;
-		if (!isFullyInWorld(objectInSpace))
+		}
+		if (!isFullyInWorld(objectInSpace)){
 			return false;
+		}
 
 		return true;
 	}
