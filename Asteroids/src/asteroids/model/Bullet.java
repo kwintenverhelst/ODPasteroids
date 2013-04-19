@@ -31,9 +31,14 @@ public class Bullet extends ObjectInSpace {
 	 * 			the ship from which the bullet comes from
 	 * 
 	 * @effect the radius is set as 3
+	 * 			| super(3)
 	 * @effect the position is set on the border of the ship on the angle of the ship
+	 * 			|setPosition(ship.getX() + (radius + ship.getRadius()) * Math.cos(ship.getAngle()),
+	 *			|				ship.getY() + (radius + ship.getRadius()) * Math.sin(ship.getAngle()))
 	 * @effect the velocity is set as 250 in the direction of the angle of the ship
+	 * 			| setVelocity(250 * Math.cos(ship.getAngle()),	250 * Math.sin(ship.getAngle()))
 	 * @effect the mass is calculated on the basis of the radius of the bullet which is 3 at the moment
+	 * 			| setMass(calculateMass(radius))
 	 */
 	public Bullet(Ship ship) {
 		super(3);
@@ -78,7 +83,8 @@ public class Bullet extends ObjectInSpace {
 	 * 
 	 * @param ship
 	 *            The ship to check
-	 * @return true if ship | result == ship != null
+	 * @return true if ship
+	 * 			| result == ship != null
 	 */
 	public boolean isValidShip(Ship ship) {
 		return Ship.isShip(ship);
@@ -91,6 +97,7 @@ public class Bullet extends ObjectInSpace {
 	 * @param object
 	 * 			the object to check
 	 * @return true if the given object is the ship of this bullet
+	 * 			| result == (Ship.isShip(object) && this.getShip() ==  object)
 	 */
 	public boolean isShipFromBullet(ObjectInSpace object){
 		if(Ship.isShip(object)){
@@ -104,6 +111,7 @@ public class Bullet extends ObjectInSpace {
 	 * terminates this bullet
 	 * 
 	 * @effect terminates this bullet
+	 * 			| this.terminate()
 	 */
 	public void die(){
 		this.terminate();
@@ -125,6 +133,7 @@ public class Bullet extends ObjectInSpace {
 	 * 			the radius of the bullet you want to calculate the mass from
 	 * 
 	 * @return the mass of this bullet on the basis of the radius
+	 * 			| result == 4 * Math.PI * Math.pow(radius, 3) * getDensity() / 3
 	 */
 	public double calculateMass(double radius) {
 
@@ -143,6 +152,7 @@ public class Bullet extends ObjectInSpace {
 	 * add a collision to the amount of time the bullet has collide with the wand
 	 * 
 	 * @post he amount of time the bullet has collide with the wand is plus one
+	 * 			| getCountCollision() + 1
 	 */
 	public void addCountCollision() {
 		countCollision = getCountCollision() + 1;
@@ -152,13 +162,18 @@ public class Bullet extends ObjectInSpace {
 	 * let this bullet collide with the wand of the world
 	 * 
 	 * @effect if the bullet collides with the wand for the second time it will be terminated
-	 * 
+	 * 			| if (getCountCollision() > 0)
+	 * 			| then this.die()
 	 * @effect if this is the first time the bullet collides with the wand and the wand is horizontal then the velocity in the vertical direction will be reversed
-	 * 
+	 * 			| if (getCountCollision() == 0 && wand == 1)
+	 * 			| then this.setVelocity(this.getVelocityX(), -(this.getVelocityY()))
 	 * @effect if this is the first time the bullet collides with the wand and the wand is vertical then the velocity in the horizontal direction will be reversed
-	 * 
+	 * 			| if (getCountCollision() == 0 && wand == 2)
+	 * 			| then this.setVelocity(-(this.getVelocityX()), this.getVelocityY())
 	 * @effect if this is the first time the bullet collides with the wand and it collides in a corner (it collides simultaneously with the horizontal and vertical wand) 
 	 * 			then the velocity in the horizontal and vertical direction will be reversed
+	 * 			| if (getCountCollision() == 0 && wand == 3)
+	 * 			| then this.setVelocity(-(this.getVelocityX()), -(this.getVelocityY()))
 	 */
 	@Override
 	public void collideWithWand() {
@@ -173,7 +188,7 @@ public class Bullet extends ObjectInSpace {
 				this.setVelocity(-(this.getVelocityX()), -(this.getVelocityY()));
 			}
 		} else {
-			this.terminate();
+			this.die();
 		}
 	}
 	
@@ -184,6 +199,7 @@ public class Bullet extends ObjectInSpace {
 	 * 			the object you want to check	 
 	 *  
 	 * @return true if the class of the given object is Bullet or a subclass of Bullet
+	 * 			| result == Bullet.class.isAssignableFrom(object.getClass()) 
 	 */
 	public static boolean isBullet(Object object){
 		return Bullet.class.isAssignableFrom(object.getClass());

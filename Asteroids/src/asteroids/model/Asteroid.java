@@ -74,8 +74,9 @@ public class Asteroid extends ObjectInSpace {
 	 *     		the velocity in the y direction and the radius of this new asteroid
 	 *     
 	 * @effect the mass is calculated on the basis of the radius of this new asteroid
-	 * 
+	 * 			| setMass(calculateMass(radius))
 	 * @post the given parent is the parent of this asteroid
+	 * 			|(new this).getParent() == asteroidParent
 	 */
 	private Asteroid(double x, double y, double velocityX, double velocityY,
 			double radius, Asteroid asteroidParent) {
@@ -99,9 +100,18 @@ public class Asteroid extends ObjectInSpace {
 	 * Let this asteroid die. Meaning that the asteroid will split in two if the radius is big enough.
 	 * 
 	 * @effect this asteroid is terminated 
+	 * 			| this.terminate()
 	 * @effect if the radius of this asteroid is bigger or equal to 30 there will be two asteroids been add to the world of this asteroid
 	 * 			they will have a radius that is halve of the radius of this asteroid, their speed will be 150 multiplied the speed of this asteroid and have a random direction opposite from each other 
 	 * 			and they will spawn on a distance of the halve radius of this asteroid from this asteroids center on a single line which has a random angle with the x-axis (it is the same angle as the velocity)
+	 * 			|if(this.getRadius() >= 30)
+	 * 			|then 	double angle = 2 * Math.PI * random.nextDouble()
+	 *					Velocity newVelocity = Velocity.createVelocityInRandomDirection(1.5 * Velocity.norm(Velocity.createVelocity(this.getVelocityX(), this.getVelocityY())),angle)
+	 *					double newRadius = this.getRadius() / 2
+	 * 					Asteroid asteroid1 = new Asteroid( this.getX() + newRadius * Math.cos(angle) + Util.EPSILON, this.getY() + newRadius * Math.sin(angle) + Util.EPSILON,  newVelocity.getXCoordinate() + Util.EPSILON, newVelocity.getYCoordinate() + Util.EPSILON, newRadius, this)
+	 *				  	Asteroid asteroid2 = new Asteroid( this.getX() - newRadius * Math.cos(angle) - Util.EPSILON, this.getY() - newRadius * Math.sin(angle) - Util.EPSILON,  -newVelocity.getXCoordinate() - Util.EPSILON, -newVelocity.getYCoordinate() - Util.EPSILON, newRadius, this)
+	 *					thisWorld.addObjectInSpace(asteroid1)
+	 *					thisWorld.addObjectInSpace(asteroid2)
 	 */
 	public void die() {
 		World thisWorld = this.getWorld();
@@ -146,6 +156,7 @@ public class Asteroid extends ObjectInSpace {
 	 * 			the radius of the asteroid you want to calculate the mass from
 	 * 
 	 * @return the mass of this asteroid on the basis of the radius
+	 * 			| result == 4 * Math.PI * Math.pow(radius, 3) * getDensity() / 3
 	 */
 	public double calculateMass(double radius) {
 
@@ -158,6 +169,7 @@ public class Asteroid extends ObjectInSpace {
 	 * @param object
 	 * 			the object you want to check	 
 	 * @return true if the class of the given object is Asteroid or a subclass of Asteroid
+	 * 			| result ==  Asteroid.class.isAssignableFrom(object.getClass())
 	 */
 	public static boolean isAsteroid(Object object) {
 		return Asteroid.class.isAssignableFrom(object.getClass());

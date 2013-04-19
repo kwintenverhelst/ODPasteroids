@@ -41,6 +41,7 @@ public class Position extends VectorInSpace{
 	 * @param yCoordinate
 	 * 
 	 * @return a new position with given x-coordinate and y-coordinate
+	 * 			| result == new Position(xCoordinate, yCoordinate)
 	 */
 	@Override
 	public Position changeVector(double xCoordinate, double yCoordinate) {

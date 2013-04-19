@@ -10,8 +10,8 @@ import be.kuleuven.cs.som.annotate.*;
  * (where the x-axis is horizontal and the y-axis is vertical)
  * this class is a subclass of VectorInSpace class
  * 
- * @invar The velocity must be a valid velocity, less than the speed limit. |
- *        isValidVelocity(getVelocityX(),getVelocityY())
+ * @invar The velocity must be a valid velocity, less than the speed limit. 
+ * 			| isValidVelocity(getVelocityX(),getVelocityY())
  * 
  * @version 1.1
  * @author Mathieu Vermeire en Kwinten Verhelst
@@ -56,6 +56,9 @@ public class Velocity extends VectorInSpace {
 	 *            the y-coordinate of this velocity
 	 *
 	 * @return a new velocity that is less or equal then the speedlimit
+	 * 			| if(new Velocity(velocityX, velocityY).hasValidVelocity()))
+	 * 			| then result == new Velocity(velocityX, velocityY).hasValidVelocity())
+	 * 			| else result == new Velocity(velocity.getSpeedLimit()*Math.cos(direction), velocity.getSpeedLimit()*Math.sin(direction));
 	 */
 	public static Velocity createVelocity(double velocityX, double velocityY) {
 		Velocity velocity = new Velocity(velocityX, velocityY);
@@ -75,6 +78,7 @@ public class Velocity extends VectorInSpace {
 	 * @param direction
 	 * 			determs in which direction of this new velocity is
 	 * @return a new velocity with the given value and with the angle equal to the second given number 
+	 * 			| result == Velocity.createVelocity(velocity*Math.cos(direction), velocity*Math.sin(direction))
 	 */
 	public static Velocity createVelocityInRandomDirection(double velocity, double direction) {
 		return Velocity.createVelocity(velocity*Math.cos(direction), velocity*Math.sin(direction));
@@ -98,6 +102,7 @@ public class Velocity extends VectorInSpace {
 	 * @param yCoordinate
 	 * 
 	 * @return a new velocity with given x-coordinate and y-coordinate
+	 * 			| result == Velocity.createVelocity(xCoordinate, yCoordinate)
 	 */
 	@Override
 	public Velocity changeVector(double xCoordinate, double yCoordinate) {
@@ -130,6 +135,8 @@ public class Velocity extends VectorInSpace {
 	 * @param vector2
 	 * 			the velocity that you subtract from the first
 	 * @return the subtract of the second given velocity from the first given velocity
+	 * 			| result == Velocity.createVelocity(vector1.getXCoordinate() - vector2.getXCoordinate(),
+	 * 			|     		 vector1.getYCoordinate() - vector2.getYCoordinate())
 	 * 			
 	 */
 	public static Velocity vectorChange(Velocity vector1,

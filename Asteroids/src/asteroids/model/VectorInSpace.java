@@ -90,6 +90,7 @@ public class VectorInSpace {
 	 * @param yCoordinate
 	 * 
 	 * @return a new vector with given x-coordinate and y-coordinate
+	 * 			| result ==  new VectorInSpace(xCoordinate, yCoordinate)
 	 */
 	public VectorInSpace changeVector(double xCoordinate, double yCoordinate) {
 		return new VectorInSpace(xCoordinate, yCoordinate);
@@ -103,6 +104,9 @@ public class VectorInSpace {
 	 *         and the given object belong to the same class and if this vector
 	 *         and the other object interpreted as a vector have equal
 	 *         x-coordinate and y-coordinate
+	 *         | result == Util.fuzzyEquals(this.getXCoordinate(),otherVectorInSpace.getXCoordinate())
+					&& Util.fuzzyEquals(this.getYCoordinate(),otherVectorInSpace.getYCoordinate())
+					&& other != null && this.getClass() == other.getClass()
 	 */
 	@Override
 	public boolean equals(Object other) {
@@ -121,6 +125,9 @@ public class VectorInSpace {
 
 	/**
 	 * Returns the hash code for this vector
+	 * 
+	 * @return	the hash code for this vector
+	 * 			| result == Double.valueOf(getXCoordinate()).hashCode() + Double.valueOf(getYCoordinate()).hashCode()
 	 */
 	@Override
 	public int hashCode() {
@@ -132,6 +139,7 @@ public class VectorInSpace {
 	 * Returns a textual representation of this vector
 	 * 
 	 * @return a textual representation of this vector
+	 * 			| result == "<" + Double.toString(getXCoordinate()) + "," + Double.toString(getYCoordinate()) + ">";
 	 */
 	@Override
 	public String toString() {
@@ -147,6 +155,7 @@ public class VectorInSpace {
 	 * @param vector2
 	 * 			the second vector that you want in the inProduct
 	 * @return he value of the inProduct between two vectors
+	 * 			| result ==  ((vector1.getXCoordinate() * vector2.getXCoordinate()) + (vector1.getYCoordinate() * vector2.getYCoordinate()))
 	 */
 	public static double inProduct(VectorInSpace vector1, VectorInSpace vector2) {
 		return ((vector1.getXCoordinate() * vector2.getXCoordinate()) + (vector1
@@ -159,6 +168,7 @@ public class VectorInSpace {
 	 * @param vector
 	 * 			the vector from which you want to know the norm
 	 * @return the norm of the given vector
+	 * 			| result == Math.hypot(Math.abs(vector.getXCoordinate()), Math.abs(vector.getYCoordinate()))
 	 */
 	public static double norm(VectorInSpace vector) {
 		return Math.hypot(Math.abs(vector.getXCoordinate()), Math.abs(vector.getYCoordinate()));
@@ -184,7 +194,9 @@ public class VectorInSpace {
 	 * 			the vector from which you want to subtract the other vector
 	 * @param vector2
 	 * 			the vector that you subtract from the first
-	 * @return the subtract of the second given vector from the first given vector
+	 * @return the subtract of the second given vector from the first given vector7
+	 * 			| result == new VectorInSpace(vector1.getXCoordinate() - vector2.getXCoordinate(),µ
+	 * 			| vector1.getYCoordinate() - vector2.getYCoordinate())
 	 * 			
 	 */
 	public static VectorInSpace vectorChange(VectorInSpace vector1,

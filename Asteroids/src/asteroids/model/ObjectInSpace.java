@@ -51,7 +51,7 @@ public abstract class ObjectInSpace {
 	 *            The radius for this new object.
 	 *            
 	 * @post the given radius is set as the radius of this new object 
-	 * 		| (new this).radius == radius
+	 * 		| (new this).getRadius() == radius
 	 * 
 	 * @effect the given x-coordinate and the given y-coordinate is set as the
 	 *         x-coordinate and the y-coordinate of this new object
@@ -148,7 +148,7 @@ public abstract class ObjectInSpace {
 	 * Returns the x coordinate of the this object's position expressed in km
 	 * 
 	 * @return the x coordinate of the this object's position expressed in km
-	 *         |result == getPosition().getXCoordinate()
+	 *         |result == this.getPosition().getXCoordinate()
 	 */
 	public double getX() {
 		return getPosition().getXCoordinate();
@@ -158,7 +158,7 @@ public abstract class ObjectInSpace {
 	 * Returns the y coordinate of the this object's position expressed in km
 	 * 
 	 * @return the y coordinate of the this object's position expressed in km
-	 *         |result == getPosition().getYCoordinate()
+	 *         |result == this.getPosition().getYCoordinate()
 	 */
 	public double getY() {
 		return getPosition().getYCoordinate();
@@ -171,8 +171,9 @@ public abstract class ObjectInSpace {
 	 *            The x-coordinate in km of the new position
 	 * @param y
 	 *            The y-coordinate in km of the new position
-	 * @effect the new position of the object has the given x- and y-coordinates
-	 *         | position.changeVector(x, y)
+	 * @post the new position of the object has the given x- and y-coordinates
+	 *         | (new this).getX() == x &&
+	 *         | (new this).getY() == y
 	 */
 	public void setPosition(double x, double y) {
 		position = position.changeVector(x, y);
@@ -213,9 +214,10 @@ public abstract class ObjectInSpace {
 	 *            The x-velocity in km of the new velocity
 	 * @param VelocityY
 	 *            The y-velocity in km of the new velocity
-	 * @effect the new velocity of the object has the given x- and y-coordinates
-	 *         |velocity = velocity.changeVector(velocityX, velocityY)
-	 * 
+	 * @post the new velocity of the object has the given x- and y-coordinates
+	 *         | (new this).getVelocityX() == velocityX &&
+	 *         | (new this).getVelocityY() == velocityY
+	 *         
 	 */
 	public void setVelocity(double velocityX, double velocityY) {
 		velocity = velocity.changeVector(velocityX, velocityY);
@@ -235,8 +237,8 @@ public abstract class ObjectInSpace {
 	 * 
 	 * @param radius
 	 *            The radius to check
-	 * @return true if radius is larger then the lower bound radius | result ==
-	 *         (radius > 0) && (isValidDouble(radius))
+	 * @return true if radius is larger then the lower bound radius 
+	 * 			| result == (radius > 0) && (isValidDouble(radius))
 	 */
 	public boolean isValidRadius(double radius) {
 		return radius > 0 && isValidDouble(radius);
@@ -248,7 +250,7 @@ public abstract class ObjectInSpace {
 	 * @param number
 	 *            The number in double format to verify.
 	 * @return True if double is a valid number otherwise it is false.
-	 *         |result!=Double.isNaN(number)
+	 *         |result != Double.isNaN(number)
 	 */
 	public boolean isValidDouble(double number) {
 
@@ -288,7 +290,7 @@ public abstract class ObjectInSpace {
 	 * @param mass
 	 *            the new mass of this object
 	 * @post the new mass of this object is equal to the given mass
-	 *       |new.getMass() == mass
+	 *       | new.getMass() == mass
 	 * @throws IllegalArgumentException
 	 *             the given mass is not a valid mass | !isValidMass(mass)
 	 */
