@@ -140,7 +140,7 @@ public class World {
 	 * 		| && (0<(objectInSpace.getY()-objectInSpace.getRadius())) 
 	 * 		| && ((objectInSpace.getY()+objectInSpace.getRadius())<this.getHeigth())
 	 */
-	public boolean isFullyInWorld(ObjectInSpace objectInSpace) {
+	private boolean isFullyInWorld(ObjectInSpace objectInSpace) {
 		if (Util.fuzzyLessThanOrEqualTo(getWidth(),(objectInSpace.getX() + objectInSpace.getRadius())))
 			return false;
 		if (Util.fuzzyLessThanOrEqualTo((objectInSpace.getX() - objectInSpace.getRadius()), 0))
