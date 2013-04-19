@@ -117,7 +117,7 @@ public class World {
 	 * @return ... 
 	 * 		| result = (objectInSpace != null) 
 	 * 		| && (objectInSpace.canHaveAsWorld(this)
-	 *  	| && (isFullyInWorld(objectInSpace)) 
+	 *  	| && ((new this).isFullyInWorld(objectInSpace)) 
 	 */
 	public boolean canHaveAsObjectInSpace(ObjectInSpace objectInSpace) {
 		if (objectInSpace == null)
@@ -177,37 +177,28 @@ public class World {
 	 * 
 	 * @param objectInSpace
 	 * @post ...
-	 * 		 | (new this).hasAsObjectInSpace(objectInSpace)
+	 * 		| (new this).hasAsObjectInSpace(objectInSpace)
 	 * @post ...
-	 * 		 | (new objectInSpace).getWorld()== this
+	 * 		| (new objectInSpace).getWorld()== this
+	 * @post ...
+	 * 		| for each otherObject in objectsInSpace:
+	 * 		|	if(objectInSpace.overlap(otherObject)) && (otherObject != null)
+	 * 		|		then objectInSpace.collide(otherObject)   
 	 * @throws IllegalArgumentException ...
-	 * 		 | !canHaveAsObjectInSpace(objectInSpace)
+	 * 		| !canHaveAsObjectInSpace(objectInSpace)
 	 */
 	public void addObjectInSpace(ObjectInSpace objectInSpace)
 			throws IllegalArgumentException {
 		if (!canHaveAsObjectInSpace(objectInSpace)){
 			throw new IllegalArgumentException("This is object can't be in the world");
-		}
-		boolean noProblems = true;
+		}	
+		objectInSpace.setWorld(this);
+		objectsInSpace.add(objectInSpace);
+		addFirstCollision(objectInSpace);
 		for (ObjectInSpace otherInSpace : objectsInSpace) {
-			if(objectInSpace.overlap(otherInSpace)){
-				System.out.println(objectInSpace.getDistanceBetween(otherInSpace));
-				if(Util.absoluteError(objectInSpace.getDistanceBetween(otherInSpace), 0) <= 0.01){
+			if(otherInSpace != null && objectInSpace.overlap(otherInSpace)){
 					objectInSpace.collide(otherInSpace);
-					System.out.println(objectInSpace + "  object COLLIDE ");
-					System.out.println(otherInSpace + "  other COLLIDE ");
-				}
-				else{
-					noProblems = false;
-					System.out.println(objectInSpace + "  object PROBLEM ");
-					System.out.println(otherInSpace + "  other PROBLEM ");
-				}
 			}
-		}
-		if(noProblems){
-			objectInSpace.setWorld(this);
-			objectsInSpace.add(objectInSpace);
-			addFirstCollision(objectInSpace);
 		}
 	}
 
@@ -224,6 +215,7 @@ public class World {
 	 * @throws IllegalStateException ...
 	 * 		| objectInSpace.getWorld()!=null
 	 */
+	@Raw
 	public void removeObjectInSpace(ObjectInSpace objectInSpace)
 			throws NullPointerException, IllegalArgumentException,
 			IllegalStateException {
@@ -261,10 +253,10 @@ public class World {
 	 * ...
 	 * 
 	 * @return ... 
-	 * 		| for each ship in Ship : 
-	 * 		| (this.hasAsObjectInSpace(ship)) && (result.contains(ship))
+	 * 		| for each ship in result :
+	 * 		| 	Ship.isShip(ship) && this.hasAsObjectInSpace(ship)
 	 * @throws IllegalStateException ...
-	 *      |isTerminated()
+	 *      |this.isTerminated()
 	 */
 	public Set<Ship> getShips() throws IllegalStateException {
 		if (isTerminated())
@@ -281,10 +273,10 @@ public class World {
 	 * ...
 	 * 
 	 * @return ... 
-	 * 		| for each asteroid in Asteroid : 
-	 *      |   (this.hasAsObjectInSpace(asteroid)) && (result.contains(asteroid))
+	 * 		| for each asteroid in result :
+	 * 		| 	Asteroid.isAsteroid(asteroid) && this.hasAsObjectInSpace(asteroid)
 	 * @throws IllegalStateException ...
-	 * 		|isTerminated()
+	 * 		|this.isTerminated()
 	 */
 	public Set<Asteroid> getAsteroids() {
 		if (isTerminated())
@@ -301,10 +293,10 @@ public class World {
 	 * ...
 	 * 
 	 * @return ... 
-	 * 		| for each bullet in Bullet :
-	 *      |  (this.hasAsObjectInSpace(bullet)) && (result.contains(bullet))
+	 * 		| for each bullet in result :
+	 * 		| 	Bullet.isBullet(bullet) && this.hasAsObjectInSpace(bullet)
 	 * @throws IllegalStateException ...
-	 *      |isTerminated()
+	 *      |this.isTerminated()
 	 */
 	public Set<Bullet> getBullets() {
 		if (isTerminated())
@@ -326,6 +318,7 @@ public class World {
 	 * 		| for each objectInSpace in objectsInSpace: 
 	 * 		| (new objectInSpace).isTerminated()
 	 */
+	@Raw
 	public void terminate() {
 		if (!isTerminated()) {
 			for (ObjectInSpace objectInSpace : getAllObjectsInSpace())
@@ -355,7 +348,7 @@ public class World {
 	 * 		| else for each otherObject in objectsInSpace: 
 	 *      |  Util.fuzzyLessThanOrEqualTo(objectInSpace.getTimeToCollision(result),objectInSpace.getTimeToCollision(otherObject))
 	 */
-	public ObjectInSpace calculateFirstCollision(ObjectInSpace objectInSpace) {
+	private ObjectInSpace calculateFirstCollision(ObjectInSpace objectInSpace) {
 		ObjectInSpace firstCollision = null;
 		double collisionTime = objectInSpace.getTimeToCollisionWithWorldWand();
 		for (ObjectInSpace otherObject : getAllObjectsInSpace())
@@ -378,7 +371,6 @@ public class World {
 	 * 		| if(!objectInSpace.isTerminated()) 
 	 *      |   addFirstCollision(objectInSpace)
 	 */
-	@Raw
 	public void updateFirstCollisions(ObjectInSpace objectInSpace) {
 		if (objectInSpace != null) {
 			for (ObjectInSpace otherObject : getAllObjectsInSpace()) {
@@ -395,7 +387,7 @@ public class World {
 	/**
 	 * ...
 	 */
-	public boolean hasAsFirstCollision(@Raw ObjectInSpace objectInSpace) {
+	public boolean hasAsFirstCollision(ObjectInSpace objectInSpace) {
 		return firstCollisions.containsKey(objectInSpace);
 	}
 
@@ -406,9 +398,8 @@ public class World {
 	 * @post ...
 	 * 		| (new this).hasAsFirstCollision(objectInSpace)
 	 */
-	public void addFirstCollision(ObjectInSpace objectInSpace) {
-		firstCollisions.put(objectInSpace,
-				calculateFirstCollision(objectInSpace));
+	private void addFirstCollision(@Raw ObjectInSpace objectInSpace) {
+		firstCollisions.put(objectInSpace, calculateFirstCollision(objectInSpace));
 	}
 
 	/**
@@ -418,7 +409,8 @@ public class World {
 	 * @post ..
 	 * 		| !(new this).hasAsFirstCollision(objectInSpace)
 	 */
-	public void removeFirstCollision(ObjectInSpace objectInSpace) {
+	@Raw
+	private void removeFirstCollision(ObjectInSpace objectInSpace) {
 		for (ObjectInSpace otherObject : objectsInSpace) {
 			if (firstCollisions.get(otherObject) == objectInSpace)
 				addFirstCollision(otherObject);
@@ -447,57 +439,50 @@ public class World {
 	 * ...
 	 * 
 	 * @param time
+	 * @param collisionListener
 	 * @post ... 
-	 * 		| if((hasAsObjectInSpace(firstCollision)) && (firstCollisions.get(firstCollision)==null) 
-	 * 		| && (Util.fuzzyLessThanOrEqualTo(firstCollision.getTimeToCollisionWithWand(),time))
-	 * 		| && for each otherObject in objectsInSpace: 
-	 * 		| if(firstCollisions.get(otherObject)!=null) 
-	 * 		| 		(Util.fuzzyLessThanOrEqualTo(firstCollision.getTimeToCollisionWithWand(),otherObject.getTimeToCollision(firstCollisions.get(otherObject)))) 
-	 * 		| || if(firstCollisions.get(otherObject)==null) 
-	 * 		|       (Util.fuzzyLessThanOrEqualTo(firstCollision.getTimeToCollisionWithWand(),otherObject.getTimeToCollisionWithWand())) 
+	 * 		| if((this.hasAsObjectInSpace(firstCollision)) 
+	 * 		|	 && (firstCollisions.get(firstCollision)==null) 
+	 * 		| 	 && (Util.fuzzyLessThanOrEqualTo(firstCollision.getTimeToCollisionWithWand(),time))
+	 * 		| 	 && for each otherObject in objectsInSpace: 
+	 * 		|    		if(firstCollisions.get(otherObject)!=null) 
+	 * 		| 				(Util.fuzzyLessThanOrEqualTo(firstCollision.getTimeToCollisionWithWand(),otherObject.getTimeToCollision(firstCollisions.get(otherObject)))) 
+	 * 		| 		 || if(firstCollisions.get(otherObject)==null) 
+	 * 		|       		(Util.fuzzyLessThanOrEqualTo(firstCollision.getTimeToCollisionWithWand(),otherObject.getTimeToCollisionWithWand())) 
 	 * 		| then for each otherObject in objectsInSpace: 
-	 *  	| objectInSpace.move(firstCollision.getTimeToCollisionWithWand()-Util.EPSILON) 
-	 *  	| if(Ship.isShip(objectInSpace))&&((Ship) objectInSpace.checkIfThrustIsEnabled())) 
-	 *  	| then objectInSpace.thrust (firstCollision.getTimeToCollisionWithWand()-Util.EPSILON) 
-	 *  	|	   firstCollision.collideWithWand() 
-	 *      |	   this.updateCollisions(firstCollision)
-	 *      |	   this.evolve(time-firstCollision.getTimeToCollisionWithWand())
+	 *  	| 	 objectInSpace.move(firstCollision.getTimeToCollisionWithWand()) 
+	 *  	| 	 if(Ship.isShip(objectInSpace)) && ((Ship) objectInSpace.checkIfThrustIsEnabled())) 
+	 *  	|		 then objectInSpace.thrust (firstCollision.getTimeToCollisionWithWand()) 
+	 *  	|	 firstCollision.collideWithWand() 
+	 *  	|	 collisionListener.boundaryCollision(firstCollider, firstCollider.getX(), firstCollider.getY())
+	 *      |	 this.updateCollisions(firstCollision)
+	 *      |	 this.evolve(time-firstCollision.getTimeToCollisionWithWand())
 	 * @post ... 
-	 * 		| if((hasAsObjectInSpace(firstCollision)) &&
-	 *       (firstCollisions.get(firstCollision)!=null) | &&
-	 *       (Util.fuzzyLessThanOrEqualTo
-	 *       (firstCollision.getTimeToCollision(firstCollisions
-	 *       .get(firstCollision)),time)) | && for each otherObject in
-	 *       objectsInSpace: | if(firstCollisions.get(otherObject)!=null) |
-	 *       (Util.fuzzyLessThanOrEqualTo(firstCollision.getTimeToCollision(
-	 *       firstCollisions
-	 *       .get(firstCollision)),otherObject.getTimeToCollision(
-	 *       firstCollisions.get(otherObject)))) | ||
-	 *       if(firstCollisions.get(otherObject)==null) |
-	 *       (Util.fuzzyLessThanOrEqualTo
-	 *       (firstCollision.getTimeToCollision(firstCollisions
-	 *       .get(firstCollision)),otherObject.getTimeToCollisionWithWand())) |
-	 *       then for each otherObject in objectsInSpace: |
-	 *       objectInSpace.move(firstCollision
-	 *       .getTimeToCollision(firstCollisions
-	 *       .get(firstCollision))-Util.EPSILON) | if(Ship.isShip(objectInSpace))&&((Ship) objectInSpace.checkIfThrustIsEnabled())) | then
-	 *       objectInSpace
-	 *       .thrust(firstCollision.getTimeToCollision(firstCollisions
-	 *       .get(firstCollision))-Util.EPSILON) |
-	 *       firstCollision.collide(firstCollisions.get(firstCollision)) |
-	 *       this.updateCollisions(firstCollision) |
-	 *       this.updateCollisions(firstCollisions.get(firstCollision)) | &&
-	 *       this
-	 *       .evolve(time-firstCollision.getTimeToCollision(firstCollisions.get
-	 *       (firstCollision)))
-	 * @post ... | for each firstCollision in firstCollisions: |
-	 *       if((!Util.fuzzyLessThanOrEqualTo
-	 *       (firstCollision.getTimeToCollisionWithWand(),time) &&
-	 *       (!Util.fuzzyLessThanOrEqualTo
-	 *       (firstCollision.getTimeToCollision(firstCollisions
-	 *       .get(firstCollision)),time)) | then for each objectInSpace in
-	 *       objectsInSpace: | objectInSpace.move(time) | && if(Ship.isShip(objectInSpace))&&((Ship) objectInSpace.checkIfThrustIsEnabled()))
-	 *       | then objectInSpace.thrust(time)
+	 * 		| if((hasAsObjectInSpace(firstCollision))
+	 * 		|    && (firstCollisions.get(firstCollision)!=null) 
+	 * 		|	 && (Util.fuzzyLessThanOrEqualTo(firstCollision.getTimeToCollision(firstCollisions.get(firstCollision)),time)) 
+	 * 		| 	 && for each otherObject in objectsInSpace:
+	 * 		| 			if(firstCollisions.get(otherObject)!=null) 
+	 *      |				(Util.fuzzyLessThanOrEqualTo(firstCollision.getTimeToCollision(firstCollisions.get(firstCollision)),otherObject.getTimeToCollision(firstCollisions.get(otherObject))))
+	 *      | 		 || if(firstCollisions.get(otherObject)==null) 
+	 *      |				(Util.fuzzyLessThanOrEqualTo(firstCollision.getTimeToCollision(firstCollisions.get(firstCollision)),otherObject.getTimeToCollisionWithWand()))
+	 *      | then for each otherObject in objectsInSpace: 
+	 *      |	 objectInSpace.move(firstCollision.getTimeToCollision(firstCollisions.get(firstCollision))) 
+	 *      | 	 if(Ship.isShip(objectInSpace)) && ((Ship) objectInSpace.checkIfThrustIsEnabled())) 
+	 *      | 		then objectInSpace.thrust(firstCollision.getTimeToCollision(firstCollisions.get(firstCollision)))
+	 *      |	 collisionListener.objectCollision(firstCollider, secondCollider, firstCollider.getCollisionPosition(secondCollider)[0],firstCollider.getCollisionPosition(secondCollider)[1])
+	 *      | 	 firstCollision.collide(firstCollisions.get(firstCollision))
+	 *      | 	 this.updateCollisions(firstCollision)
+	 *      | 	 this.updateCollisions(firstCollisions.get(firstCollision)) 
+	 *      |    this.evolve(time-firstCollision.getTimeToCollision(firstCollisions.get(firstCollision)))
+	 * @post ... 
+	 * 		| for each firstCollision in firstCollisions: 
+	 * 		|   if((!Util.fuzzyLessThanOrEqualTo(firstCollision.getTimeToCollisionWithWand(),time) 
+	 * 		|	&& (!Util.fuzzyLessThanOrEqualTo(firstCollision.getTimeToCollision(firstCollisions.get(firstCollision)),time)) 
+	 * 		| 	then for each objectInSpace in objectsInSpace: 
+	 * 		| 		objectInSpace.move(time) 
+	 * 		| 	 && if(Ship.isShip(objectInSpace)) && ((Ship) objectInSpace.checkIfThrustIsEnabled()))
+	 *      | 			then objectInSpace.thrust(time)
 	 */
 	public void evolve(double time, CollisionListener collisionListener) {
 		double timeToFirstCollision = time;
