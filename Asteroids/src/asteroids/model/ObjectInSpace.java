@@ -740,6 +740,7 @@ public abstract class ObjectInSpace {
 				this.die();
 			} else {
 				if (Asteroid.isAsteroid(this) && Asteroid.isAsteroid(object)) {
+
 					ObjectInSpace.bounce(this, object);
 
 				} else if (Ship.isShip(object) && Ship.isShip(this)) {

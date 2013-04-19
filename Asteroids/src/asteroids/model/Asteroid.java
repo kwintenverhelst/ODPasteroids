@@ -42,20 +42,58 @@ public class Asteroid extends ObjectInSpace {
 	 * 			the given velocity in the y direction and the given radius
 	 * 			are set as the x-coordinate, the y-coordinate, the velocity in the x direction,
 	 *     		the velocity in the y direction and the radius of this new asteroid
-	 *     
-	 * @effect the mass is calculated on the basis of the radius of this new asteroid
+	 *     		the mass is calculated on the basis of the radius of this new asteroid
 	 */
 	public Asteroid(double x, double y, double velocityX, double velocityY,
 			double radius) {
+		this(x, y, velocityX, velocityY, radius, null);
+		
+	}
+	
+	/**
+	 * Initialize a new asteroid with given x-coordinate, given y-coordinate, given
+	 * velocity in the x direction, given velocity in the y direction, a given parent and given
+	 * radius
+	 * 
+	 * @param x
+	 *            The x-coordinate of the position for this new asteroid.
+	 * @param y
+	 *            The y-coordinate of the position for this new asteroid.
+	 * @param velocityX
+	 *            The velocity in the x direction for this new asteroid.
+	 * @param velocityY
+	 *            The velocity in the y direction for this new asteroid.
+	 * @param radius
+	 *            The radius for this new asteroid.
+	 * @param asteroidParent
+	 *            The parent of this new asteroid.
+	 *            
+	 * @effect the given x-coordinate, the given y-coordinate, the given velocity in the x direction,
+	 * 			the given velocity in the y direction and the given radius
+	 * 			are set as the x-coordinate, the y-coordinate, the velocity in the x direction,
+	 *     		the velocity in the y direction and the radius of this new asteroid
+	 *     
+	 * @effect the mass is calculated on the basis of the radius of this new asteroid
+	 * 
+	 * @post the given parent is the parent of this asteroid
+	 */
+	private Asteroid(double x, double y, double velocityX, double velocityY,
+			double radius, Asteroid asteroidParent) {
 
 		super(x, y, velocityX, velocityY, radius, 1);
 		setMass(calculateMass(radius));
+		this.asteroidParent = asteroidParent;
 	}
 
 	/**
 	 * Variable for the density of a asteroid in kg/km^3.
 	 */
 	private final static double DENSITY = 7.8 * Math.pow(10, 12);
+	
+	/**
+	 * Variable for the density of a asteroid in kg/km^3.
+	 */
+	private final Asteroid asteroidParent;
 
 	/**
 	 * Let this asteroid die. Meaning that the asteroid will split in two if the radius is big enough.
@@ -77,6 +115,7 @@ public class Asteroid extends ObjectInSpace {
 			Asteroid asteroid1 = new Asteroid( this.getX() + newRadius * Math.cos(angle) + Util.EPSILON, this.getY() + newRadius * Math.sin(angle) + Util.EPSILON,  newVelocity.getXCoordinate() + Util.EPSILON, newVelocity.getYCoordinate() + Util.EPSILON, newRadius);
 			Asteroid asteroid2 = new Asteroid( this.getX() - newRadius * Math.cos(angle) - Util.EPSILON, this.getY() - newRadius * Math.sin(angle) - Util.EPSILON,  -newVelocity.getXCoordinate() - Util.EPSILON, -newVelocity.getYCoordinate() - Util.EPSILON, newRadius);
 			
+			
 			thisWorld.addObjectInSpace(asteroid1);
 			thisWorld.addObjectInSpace(asteroid2);
 		}
@@ -89,6 +128,15 @@ public class Asteroid extends ObjectInSpace {
 	@Immutable
 	public double getDensity() {
 		return DENSITY;
+	}
+	
+	/**
+	 * Returns the parent of a asteroid in .
+	 */
+	@Basic
+	@Immutable
+	public Asteroid getParent() {
+		return asteroidParent;
 	}
 
 	/**

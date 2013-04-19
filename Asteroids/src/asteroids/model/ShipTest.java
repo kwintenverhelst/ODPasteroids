@@ -19,19 +19,32 @@ public class ShipTest {
 	
 	private Ship ship2;
 	
+	private Ship ship3;
+	
 	private Asteroid asteroid;
 	
 	private World world;
+	
+	private Bullet bullet1;
+	
+	private Bullet bullet2;
 
 	@Before
 	public void setUp() throws Exception {
-		ship1 = new Ship(20, 30, 50, 40, 15, 5E15, Math.PI);
-		ship2 = new Ship(500, 800, 50, 40, 15, 5E15, Math.PI);
+		ship1 = new Ship(20, 30, 50, 40, 15, 5E15, 0);
+		ship2 = new Ship(500, 800, -50, -40, 15, 5E15, Math.PI);
+		ship3 = new Ship(500, 800, 0, 0, 15, 5E15, Math.PI);
 		world = new World(1280, 720);
 		asteroid = new Asteroid(100, 200, 50, 40, 20);
-		asteroid.setWorld(world);
-		ship1.setWorld(world);
-		ship2.setWorld(world);
+		
+		world.addObjectInSpace(ship1);
+		world.addObjectInSpace(ship2);
+		world.addObjectInSpace(ship3);
+		world.addObjectInSpace(asteroid);
+		
+		bullet1 = ship1.firebullet();
+		bullet2 = ship2.firebullet();
+		
 	}
 
 	@Test
@@ -113,14 +126,6 @@ public class ShipTest {
 		assertEquals(200, ship1.getY(), Util.EPSILON);
 
 		ship1.setPosition(2000, 1500);
-				
-		assertEquals(705, ship1.getX(), Util.EPSILON);
-		assertEquals(1265, ship1.getY(), Util.EPSILON);
-		
-		ship1.setPosition(0, 0);
-		
-		assertEquals(15, ship1.getX(), Util.EPSILON);
-		assertEquals(15, ship1.getY(), Util.EPSILON);
 	}
 
 	@Test
@@ -146,7 +151,7 @@ public class ShipTest {
 	
 	@Test
 	public final void turn_SingleCase() {
-		ship1.turn(-Math.PI/2);
+		ship1.turn(Math.PI/2);
 		assertEquals(Math.PI/2, ship1.getAngle(), Util.EPSILON);
 	}
 
@@ -154,7 +159,7 @@ public class ShipTest {
 	public final void thrust_TrueCase() {
 		double velocityX = ship1.getVelocityX();
 		double velocityY = ship1.getVelocityY();
-		double thrust =   1.1*Math.pow(10, 18);
+		double thrust =   1.1*Math.pow(10, 19);
 		
 		
 		ship1.setThrusterActive(true);
@@ -162,10 +167,8 @@ public class ShipTest {
 	    assertTrue(ship1.checkIfThrustIsEnabled());
 	    assertTrue(ship1.isValidTime(5));
 	    
-	    
-	    
-	   assertEquals(velocityX +  (Math.cos(ship1.getAngle()) * Math.pow(5, 2)*thrust)/(ship1.getMass()), ship1.getVelocityX(), Util.EPSILON);
-	   assertEquals(velocityY +  (Math.sin(ship1.getAngle()) * Math.pow(5, 2)*thrust)/(ship1.getMass()), ship1.getVelocityY(), Util.EPSILON);
+	    assertEquals(velocityX +  (Math.cos(ship1.getAngle()) * Math.pow(5, 2)*thrust)/(ship1.getMass()), ship1.getVelocityX(), Util.EPSILON);
+	    assertEquals(velocityY +  (Math.sin(ship1.getAngle()) * Math.pow(5, 2)*thrust)/(ship1.getMass()), ship1.getVelocityY(), Util.EPSILON);
 
 	}
 
@@ -188,6 +191,8 @@ public class ShipTest {
 	@Test
 	public final void isShip_FalseCase() {
 		assertFalse(Ship.isShip(asteroid));
+		assertFalse(Ship.isShip(bullet1));
+		assertFalse(Ship.isShip(bullet2));
 	}
 
 	@Test
@@ -215,7 +220,7 @@ public class ShipTest {
 	
 	@Test
 	public final void overlap_OtherTrueCase() {
-		assertTrue(ship1.overlap(ship1));
+		assertFalse(ship1.overlap(ship1));
 	}
 
 	@Test
@@ -254,5 +259,134 @@ public class ShipTest {
 		assertNull(ship1.getCollisionPosition(newShip));
 	}
 
+	@Test
+	public final void fireBullet_SingleCase() {
+		assertEquals(ship1.getX() + (3 + ship1.getRadius())* Math.cos(ship1.getAngle()), bullet1.getX(), Util.EPSILON);
+		assertEquals(ship1.getY() + (3 + ship1.getRadius())* Math.sin(ship1.getAngle()), bullet1.getY(), Util.EPSILON);
+		assertEquals(250 * Math.cos(ship1.getAngle()), bullet1.getVelocityX(), Util.EPSILON);
+		assertEquals(250 * Math.sin(ship1.getAngle()), bullet1.getVelocityY(), Util.EPSILON);
+		assertEquals(3, bullet1.getRadius(), Util.EPSILON);
+		assertEquals(bullet1.calculateMass(3), bullet1.getMass(), Util.EPSILON);
+	}
+	
+	@Test
+	public final void getTimeToCollisionWithWorldHorizentalWand_FiniteCase() {
+		double afstand1 = ship1.getWorld().getHeight() - ship1.getY() - ship1.getRadius();
+		double afstand2 = 0 - ship2.getY() + ship2.getRadius();
+		assertEquals(afstand1 / ship1.getVelocityY(), ship1.getTimeToCollisionWithWorldHorizentalWand(), Util.EPSILON);
+		assertEquals(afstand2 / ship2.getVelocityY(), ship2.getTimeToCollisionWithWorldHorizentalWand(), Util.EPSILON);
+	}
+	
+	@Test
+	public final void getTimeToCollisionWithWorldHorizentalWand_infiniteCase() {
+		Ship newShip = new Ship(20, 30, 50, 40, 15,30, 30);
+		
+		assertEquals(Double.POSITIVE_INFINITY, ship3.getTimeToCollisionWithWorldHorizentalWand(), Util.EPSILON);
+		assertEquals(Double.POSITIVE_INFINITY, newShip.getTimeToCollisionWithWorldHorizentalWand(), Util.EPSILON);
+		
+	}
+	
+	@Test
+	public final void getTimeToCollisionWithWorldVerticalWand_FiniteCase() {
+		double afstand1 = ship1.getWorld().getWidth() - ship1.getX() - ship1.getRadius();
+		double afstand2 = 0 - ship2.getX() + ship2.getRadius();
+		assertEquals(afstand1 / ship1.getVelocityX(), ship1.getTimeToCollisionWithWorldVerticalWand(), Util.EPSILON);
+		assertEquals(afstand2 / ship2.getVelocityX(), ship2.getTimeToCollisionWithWorldVerticalWand(), Util.EPSILON);
+		
+	}
+	
+	@Test
+	public final void getTimeToCollisionWithWorldVerticalWand_infiniteCase() {
+		Ship newShip = new Ship(20, 30, 50, 40, 15,30, 30);
+		
+		assertEquals(Double.POSITIVE_INFINITY, ship3.getTimeToCollisionWithWorldVerticalWand(), Util.EPSILON);
+		assertEquals(Double.POSITIVE_INFINITY, newShip.getTimeToCollisionWithWorldVerticalWand(), Util.EPSILON);
+		
+	}
+	
+	@Test
+	public final void collisionWithWhichWand_SingleCase() {
+		Ship newShip = new Ship(300, 600, 40, 100, 15,30, Math.PI * 2 * 0.75);
+		world.addObjectInSpace(newShip);
+		Ship newShip2 = new Ship(world.getWidth() - 30, world.getHeight() - 30, 10, 10, 15,30, 0);
+		world.addObjectInSpace(newShip2);
+		
+		assertEquals(1, newShip.collisionWithWhichWand(), Util.EPSILON);
+		assertEquals(2, ship1.collisionWithWhichWand(), Util.EPSILON);
+		assertEquals(2, ship2.collisionWithWhichWand(), Util.EPSILON);
+		assertEquals(3, newShip2.collisionWithWhichWand(), Util.EPSILON);
+		assertEquals(4, ship3.collisionWithWhichWand(), Util.EPSILON);
+		
+	}
+	
+	@Test
+	public final void collide_AsteroidBulletCase() {
+		bullet1.collide(asteroid);		
+		assertTrue(asteroid.isTerminated());
+		assertTrue(bullet1.isTerminated());
+		
+	}
+	
+	@Test
+	public final void collide_ShipBulletCase() {
+		bullet1.collide(ship2);		
+		assertTrue(ship2.isTerminated());
+		assertTrue(bullet1.isTerminated());
+	}
+	
+	@Test
+	public final void collide_BulletBulletCase() {
+		bullet1.collide(bullet2);		
+		assertTrue(bullet2.isTerminated());
+		assertTrue(bullet1.isTerminated());
+	}
+	
+	@Test
+	public final void collide_ShipAsteroid() {
+		ship1.collide(asteroid);		
+		assertTrue(ship1.isTerminated());
+		assertFalse(asteroid.isTerminated());
+	}
+	
+	@Test
+	public final void collide_ShipShip() {
+		ship1.collide(ship2);
+		assertFalse(ship1.isTerminated());
+		assertFalse(ship2.isTerminated());
+	}
+	
+	@Test
+	public final void collide_AsteroidAsteroid() {
+		Asteroid newAsteroid = new Asteroid(20, 600, 50, 30, 50);
+		newAsteroid.collide(asteroid);		
+		assertFalse(asteroid.isTerminated());
+		assertFalse(newAsteroid.isTerminated());
+	}
+	
+	@Test
+	public final void collideWithWand_SingleCase() {
+		Ship newShip = new Ship(300, 600, 40, 100, 15,30, Math.PI * 2 * 0.75);
+		world.addObjectInSpace(newShip);
+		Ship newShip2 = new Ship(world.getWidth() - 30, world.getHeight() - 30, 10, 10, 15,30, 0);
+		world.addObjectInSpace(newShip2);
+		
+		newShip.collideWithWand();
+		ship1.collideWithWand();
+		newShip2.collideWithWand();
+		ship3.collideWithWand();
+		
+		assertEquals(40, newShip.getVelocityX(), Util.EPSILON);
+		assertEquals(-100, newShip.getVelocityY(), Util.EPSILON);
+		
+		assertEquals(-50, ship1.getVelocityX(), Util.EPSILON);
+		assertEquals(40, ship1.getVelocityY(), Util.EPSILON);
+		
+		assertEquals(-10, newShip2.getVelocityX(), Util.EPSILON);
+		assertEquals(-10, newShip2.getVelocityY(), Util.EPSILON);
+		
+		assertEquals(0, ship3.getVelocityX(), Util.EPSILON);
+		assertEquals(0, ship3.getVelocityY(), Util.EPSILON);
+		
+	}
 }
 

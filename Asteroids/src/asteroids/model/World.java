@@ -188,17 +188,32 @@ public class World {
 	 * 		| !canHaveAsObjectInSpace(objectInSpace)
 	 */
 	public void addObjectInSpace(ObjectInSpace objectInSpace)
-			throws IllegalArgumentException {
+		       throws IllegalArgumentException {
 		if (!canHaveAsObjectInSpace(objectInSpace)){
 			throw new IllegalArgumentException("This is object can't be in the world");
-		}	
-		objectInSpace.setWorld(this);
-		objectsInSpace.add(objectInSpace);
-		addFirstCollision(objectInSpace);
+		}
+		boolean noProblems = true;
 		for (ObjectInSpace otherInSpace : objectsInSpace) {
-			if(otherInSpace != null && objectInSpace.overlap(otherInSpace)){
-					objectInSpace.collide(otherInSpace);
+			if(Asteroid.isAsteroid(objectInSpace) && Asteroid.isAsteroid(otherInSpace) && (((Asteroid) objectInSpace).getParent() != null) &&(((Asteroid) objectInSpace).getParent() == ((Asteroid) otherInSpace).getParent()) ){
+				System.out.println("hallo");
+				noProblems = true;
+			} else{
+				if(objectInSpace.overlap(otherInSpace)){
+					if(Util.absoluteError(objectInSpace.getDistanceBetween(otherInSpace), 0) <= 0.01){
+					
+						objectInSpace.collide(otherInSpace);
+					}
+					else{
+		    		noProblems = false;
+					}
+				}
 			}
+		}
+		if(noProblems){
+			objectInSpace.setWorld(this);
+			objectsInSpace.add(objectInSpace);			
+			addFirstCollision(objectInSpace);
+			
 		}
 	}
 
