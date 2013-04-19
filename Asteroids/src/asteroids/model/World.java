@@ -195,7 +195,6 @@ public class World {
 		boolean noProblems = true;
 		for (ObjectInSpace otherInSpace : objectsInSpace) {
 			if(Asteroid.isAsteroid(objectInSpace) && Asteroid.isAsteroid(otherInSpace) && (((Asteroid) objectInSpace).getParent() != null) &&(((Asteroid) objectInSpace).getParent() == ((Asteroid) otherInSpace).getParent()) ){
-				System.out.println("hallo");
 				noProblems = true;
 			} else{
 				if(objectInSpace.overlap(otherInSpace)){
