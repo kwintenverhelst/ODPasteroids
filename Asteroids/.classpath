@@ -2,6 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry kind="lib" path="C:/Users/Mathieu/Documents/Unief/Vakken 2012-2013 S2/OGP/JAR/Doclets&amp;Taglets/AnnotationsDoclets.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="C:/Users/Mathieu/Documents/Unief/Vakken 2012-2013 S2/OGP/Doclets&amp;Taglets/AnnotationsDoclets.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Mathieu/Desktop/asteroids-part3/lib/antlr-4.0-complete.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
