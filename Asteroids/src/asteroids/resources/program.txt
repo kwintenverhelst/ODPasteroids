@@ -1,5 +1,3 @@
-// Ship that prints the distance to the nearest asteroid, turns and fires a bullet.
-
 double angle;
 entity nearestAsteroid;
 double distanceToNearestAsteroid;

@@ -36,7 +36,7 @@ public class FacadeTest {
 
 	@Test
 	public final void parseOutCome_TrueCase() {
-		String text = null;
+		String text = "";
 		try {
 			URL yahoo = Asteroids.class.getClassLoader().getResource(
 					"asteroids/resources/program.txt");
@@ -46,14 +46,12 @@ public class FacadeTest {
 			String inputLine;
 
 			while ((inputLine = in.readLine()) != null) {
-				text += "\n" + inputLine;
+				text = text + "\n" + inputLine;
 			}
 			in.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(text);
 		ParseOutcome<Program> parseOutcome = facade.parseProgram(text);
 		assertTrue(parseOutcome.isSuccessful());
 	}
@@ -64,5 +62,5 @@ public class FacadeTest {
 		ParseOutcome<Program> parseOutcome = facade.parseProgram(text);
 		assertFalse(parseOutcome.isSuccessful());
 	}
-
+	
 }

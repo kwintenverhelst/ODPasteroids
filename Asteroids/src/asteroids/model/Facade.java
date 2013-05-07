@@ -304,7 +304,7 @@ public class Facade implements IFacade<World, Ship, Asteroid, Bullet, Program> {
 	@Override
 	public asteroids.IFacade.ParseOutcome<Program> loadProgramFromUrl(URL url)
 			throws IOException {
-		String text = null;
+		String text = "";
 		try {
 			URL programText = url;
 			BufferedReader in = new BufferedReader(new InputStreamReader(
