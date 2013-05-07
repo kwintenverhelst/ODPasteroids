@@ -3,14 +3,18 @@ package asteroids.model;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
+
+import org.antlr.v4.runtime.RecognitionException;
 
 import asteroids.CollisionListener;
 import asteroids.IFacade;
 import asteroids.ModelException;
 import asteroids.model.programs.*;
-
+import asteroids.model.programs.parsing.ProgramFactory;
+import asteroids.model.programs.parsing.ProgramParser;
 
 public class Facade implements IFacade<World, Ship, Asteroid, Bullet, Program> {
 
@@ -269,8 +273,20 @@ public class Facade implements IFacade<World, Ship, Asteroid, Bullet, Program> {
 
 	@Override
 	public asteroids.IFacade.ParseOutcome<Program> parseProgram(String text) {
-		// TODO Auto-generated method stub
-		return null;
+		ProgramFactoryImpl factory = new ProgramFactoryImpl();
+		ProgramParser<Expression, Statement, Type> parser = new ProgramParser<Expression, Statement, Type>(factory);
+		try {
+			parser.parse(text);
+			List<String> errors = parser.getErrors();
+			if (!errors.isEmpty()) {
+				return ParseOutcome.failure(errors.get(0));
+			} else {
+				return ParseOutcome.success(new Program(parser.getGlobals(),
+						parser.getStatement()));
+			}
+		} catch (RecognitionException e) {
+			return ParseOutcome.failure(e.getMessage());
+		}
 	}
 
 	@Override
@@ -302,7 +318,7 @@ public class Facade implements IFacade<World, Ship, Asteroid, Bullet, Program> {
 	@Override
 	public void setShipProgram(Ship ship, Program program) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
