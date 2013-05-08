@@ -114,6 +114,7 @@ public class Bullet extends ObjectInSpace {
 	 * 			| this.terminate()
 	 */
 	public void die(){
+		getShip().removeFromBulletList(this);
 		this.terminate();
 	}
 

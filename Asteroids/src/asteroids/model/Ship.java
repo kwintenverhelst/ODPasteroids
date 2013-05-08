@@ -1,5 +1,7 @@
 package asteroids.model;
 
+import java.util.ArrayList;
+
 import be.kuleuven.cs.som.annotate.*;
 
 /**
@@ -71,7 +73,13 @@ public class Ship  extends ObjectInSpace{
 	 * variable registering the amount of thrust this ship can make
 	 */
 	private final double THRUST = 1.1*Math.pow(10, 19);
-		
+	
+	/**
+	 * variable registering the listBullet of this ship
+	 *
+	 */
+	private ArrayList<Bullet> listBullet = new ArrayList<Bullet>();	
+	
 	/**
 	 * terminates this bullet
 	 * 
@@ -118,6 +126,35 @@ public class Ship  extends ObjectInSpace{
 		assert isValidAngle(angle);
 		this.angle = angle;
 	}
+	
+	
+
+   	/**
+ 	 * return the listBullet of this ship
+ 	 *
+ 	 */
+	@Basic
+	public ArrayList<Bullet> getListBullet() {
+		return listBullet;
+	}
+	
+	/**
+ 	 * return the listBullet of this ship
+ 	 *
+ 	 */
+	@Basic
+	public void addBulletList(Bullet bullet) {
+		getListBullet().add(bullet);
+	}
+	
+	/**
+ 	 * return the listBullet of this ship
+ 	 *
+ 	 */
+	@Basic
+	public void removeFromBulletList(Bullet bullet) {
+		getListBullet().remove(bullet);
+	}	
 	
 	/**
 	 *Turns the ship by adding the given angle to the current angle.
@@ -184,13 +221,18 @@ public class Ship  extends ObjectInSpace{
 	 * 			| this.getWorld().addObjectInSpace(new Bullet(this))
 	 */
 	public Bullet firebullet(){
-		Bullet bullet = new Bullet(this);
-		try{
-			this.getWorld().addObjectInSpace(bullet);
-		} catch (IllegalArgumentException exc) {
+		if( getListBullet().size() < 3){
+			Bullet bullet = new Bullet(this);
+			try{
+				this.getWorld().addObjectInSpace(bullet);
+			} catch (IllegalArgumentException exc) {
+				return null;
+			}
+			getListBullet().add(bullet);
+			return bullet;
+		} else{
 			return null;
 		}
-		return bullet;
 	}
 
 	/**
