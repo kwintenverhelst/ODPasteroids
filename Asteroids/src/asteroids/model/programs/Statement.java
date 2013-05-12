@@ -1,5 +1,26 @@
+
 package asteroids.model.programs;
 
-public class Statement {
+public abstract class Statement{
 
+	/**
+	 * 
+	 * @return
+	 */
+	public abstract void execute();
+	
+	/**
+	 * 
+	 */
+	@Override
+	public abstract String toString();
+	
+	public abstract boolean canHaveAsSubstatement(Statement subStatement);
+	
+	public abstract boolean canHaveAsExpression(Expression expression);
+	
+	
+	
+	
+	
 }
