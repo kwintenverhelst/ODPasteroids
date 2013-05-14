@@ -1,38 +1,105 @@
 package asteroids.model.programs;
 
+import be.kuleuven.cs.som.annotate.Basic;
+
 public class IfStatement extends Statement {
 	
+	/**
+	 * 
+	 * @param expression
+	 * @param ifBody
+	 * @param elseBody
+	 */
 	public IfStatement (Expression expression, Statement ifBody, Statement elseBody){
+			setIfBody(ifBody);
+			setElseBody(elseBody);
+			setExpression(expression);
+		}
+
+		/**
+		 * 
+		 * @param statement
+		 * @return
+		 */
+		@Override
+		public boolean canHaveAsSubStatement(Statement subStatement) {
+			return true;
+		}
 		
-	}
-	@Override
-	protected boolean canHaveAsStatement(Statement subStatement) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+		@Basic
+		public Statement getIfBody(){
+			return ifBody;
+		}
+		
+		/**
+		 * 
+		 * @param statement
+		 */
+		public void setIfBody(Statement statement){
+			assert canHaveAsSubStatement(statement);
+			ifBody = statement;
+		}
+		
+		private Statement ifBody;
+		
+		@Basic
+		public Statement getElseBody(){
+			return elseBody;
+		}
+		
+		/**
+		 * 
+		 * @param statement
+		 */
+		public void setElseBody(Statement statement){
+			assert canHaveAsSubStatement(statement);
+			elseBody = statement;
+		}
+		
+		private Statement elseBody;
+		
+		/**
+		 * 
+		 */
+		@Override
+		public boolean canHaveAsExpression(Expression expression) {
+			if (expression.hasAsType(BOOLEAN))
+				return true;
+			return false;
+		}
+		
+		@Basic
+		public Expression getExpression(){
+			return expression;
+		}
+		
+		/**
+		 * 
+		 * @param expression
+		 */
+		public void setExpression(Expression expression){
+			assert canHaveAsExpression(expression);
+			this.expression= expression;
+		}
 
-	@Override
-	protected boolean canHaveAsExpression(Expression expression) {
-		// TODO Auto-generated method stub
-		return false;
+		private Expression expression;
+		
+		/**
+		 * 
+		 */
+		@Override
+		public void execute() {
+			// expression Bool.
+			if(getExpression().){
+				getIfBody().execute();	
+			}
+			else{
+				getElseBody().execute();
+			}
+
+		}
+
+
+
+
 	}
-
-	@Override
-	public void execute() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Statement clone() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-}

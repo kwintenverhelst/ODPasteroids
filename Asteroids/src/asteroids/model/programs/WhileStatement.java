@@ -2,39 +2,85 @@ package asteroids.model.programs;
 
 import org.stringtemplate.v4.compiler.STParser.expr_return;
 
+import be.kuleuven.cs.som.annotate.*;
+
 public class WhileStatement extends Statement {
 	
+	/**
+	 * 
+	 * @param expression
+	 * @param body
+	 */
 	public WhileStatement(Expression expression, Statement body){
-		
+		setSubStatement(body);
+		setExpression(expression);
 	}
 
+	/**
+	 * 
+	 * @param statement
+	 * @return
+	 */
 	@Override
-	protected boolean canHaveAsStatement(Statement subStatement) {
-		
+	public boolean canHaveAsSubStatement(Statement subStatement) {
+		return true;
+	}
+	
+	@Basic
+	public Statement getSubStatement(){
+		return subStatement;
+	}
+	
+	/**
+	 * 
+	 * @param statement
+	 */
+	public void setSubStatement(Statement statement){
+		assert canHaveAsSubStatement(statement);
+		subStatement = statement;
+	}
+	
+	private Statement subStatement;
+	
+	/**
+	 * 
+	 */
+	@Override
+	public boolean canHaveAsExpression(Expression expression) {
+		if (expression.hasAsType(BOOLEAN))
+			return true;
 		return false;
 	}
-
-	@Override
-	protected boolean canHaveAsExpression(Expression expression) {
-		// TODO Auto-generated method stub
-		return false;
+	
+	@Basic
+	public Expression getExpression(){
+		return expression;
+	}
+	
+	/**
+	 * 
+	 * @param expression
+	 */
+	public void setExpression(Expression expression){
+		assert canHaveAsExpression(expression);
+		this.expression= expression;
 	}
 
+	private Expression expression;
+	
+	/**
+	 * 
+	 */
 	@Override
 	public void execute() {
-	assert getExpression.hasAsType(BOOLEAN);
-	assert HasAsSubStatement(assignStatement);
-		while(getExpression()){
+		// expression Bool.
+		while(getExpression().){
 			getSubStatement().execute();	
 		}
 
 	}
 
-	@Override
-	public String toString() {
-		String text= "while(" + getExpression().toString() + ") do {\n" + getSubStatement().toString() +"}\n";
-		return text;
-	}
+
 
 
 }

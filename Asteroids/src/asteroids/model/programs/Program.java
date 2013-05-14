@@ -2,6 +2,8 @@ package asteroids.model.programs;
 
 import java.util.Map;
 
+import asteroids.model.Ship;
+
 public class Program {
 	
 	public Program() {
@@ -10,6 +12,11 @@ public class Program {
 	
 	public Program(Map<String, Type> globals, Statement statement) {
 		// TODO Auto-generated constructor stub
+	}
+
+	public Ship getEntity() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

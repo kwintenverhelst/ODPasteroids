@@ -1,28 +1,25 @@
 package asteroids.model.programs;
+import asteroids.model.Ship;
+import be.kuleuven.cs.som.annotate.*;
 
 public abstract class ActionStatement extends Statement {
 
-	@Override
-	public void execute() {
-		// TODO Auto-generated method stub
-
+	@Model
+	protected ActionStatement(int line, int column) {
+		super(line, column);
 	}
 
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+	public Ship getEntity(){
+		return getProgram().getEntity();
 	}
-
+	
 	@Override
-	public boolean canHaveAsSubstatement(Statement subStatement) {
-		// TODO Auto-generated method stub
+	public boolean  canHaveAsSubStatement(Statement subStatement) {
 		return false;
 	}
 
 	@Override
 	public boolean canHaveAsExpression(Expression expression) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
