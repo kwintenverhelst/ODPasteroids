@@ -1,9 +1,9 @@
 package asteroids.model.programs;
 
-public interface DoubleExpression {
+public interface BooleanExpression {
 
 	/**
 	 * Return the value of this expression.
 	 */
-	public abstract double getValue();
+	public abstract boolean getValue();
 }
