@@ -1,22 +1,24 @@
 package asteroids.model.programs;
 
-public class GetXExpression extends UnaryExpression implements DoubleExpression{
+public class GetXExpression extends UnaryExpression implements DoubleExpression {
 
-	protected GetXExpression(Expression operand) {
+	public GetXExpression(Expression operand) {
 		super(operand);
-		// TODO Auto-generated constructor stub
+	}
+	
+	@Override
+	public double getValue() {
+		if (getOperand().getClass().isInstance(EntityExpression.class)) {
+			return ((EntityExpression) getOperand()).getValue().getX();
+		} else {
+			return 0;
+		}
 	}
 
 	@Override
 	public String getOperatorSymbol() {
-		// TODO Auto-generated method stub
-		return null;
+		return "getx";
 	}
 
-	@Override
-	public long getValue() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 }

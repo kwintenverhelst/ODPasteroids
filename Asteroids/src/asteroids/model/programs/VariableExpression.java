@@ -2,10 +2,10 @@ package asteroids.model.programs;
 
 import asteroids.model.ObjectInSpace;
 
-public class SelfExpression extends BasicExpression implements
-EntityExpression{
+public class VariableExpression extends BasicExpression implements
+		EntityExpression {
 
-	public SelfExpression(Object value) {
+	public VariableExpression(Object value) {
 		if(value.getClass().isInstance(ObjectInSpace.class)){
 			this.value = value;
 		}
@@ -30,6 +30,6 @@ EntityExpression{
 	public String toString() {
 		return null;
 	}
-	
-	
+
+
 }

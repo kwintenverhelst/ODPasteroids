@@ -10,6 +10,12 @@ package asteroids.model.programs;
  */
 public abstract class BasicExpression extends Expression {
 
+
+	protected BasicExpression(){
+	}
+	
+	protected Object value;
+	
 	/**
 	 * Check whether this basic expression has the given expression as
 	 * one of its subexpressions.

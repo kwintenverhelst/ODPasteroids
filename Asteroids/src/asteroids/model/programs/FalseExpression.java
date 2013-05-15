@@ -3,13 +3,12 @@ package asteroids.model.programs;
 public class FalseExpression extends BasicExpression implements BooleanExpression{
 	
 	public FalseExpression(){
-		
+		this.value = false;
 	}
 	
 	@Override
 	public boolean getValue() {
-		// TODO Auto-generated method stub
-		return false;
+		return (boolean) this.value;
 	}
 
 	@Override

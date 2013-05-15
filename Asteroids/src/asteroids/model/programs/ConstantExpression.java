@@ -1,17 +1,19 @@
 package asteroids.model.programs;
 
-public class TrueExpression extends BasicExpression implements BooleanExpression{
-	
-	
-	public TrueExpression() {
-		this.value = true;
+
+public class ConstantExpression extends BasicExpression  implements DoubleExpression{
+
+	public ConstantExpression(Object value) {
+		if(value.getClass().isInstance(double.class)){
+			this.value = value;
+		}
 	}
 
 	@Override
-	public boolean getValue() {
-		return (boolean) value;
+	public double getValue() {
+		return (double) this.value;
 	}
-	
+
 	@Override
 	public boolean isMutable() {
 		// TODO Auto-generated method stub
@@ -29,6 +31,4 @@ public class TrueExpression extends BasicExpression implements BooleanExpression
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
 }

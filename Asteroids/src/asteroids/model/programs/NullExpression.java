@@ -2,10 +2,12 @@ package asteroids.model.programs;
 
 public class NullExpression extends BasicExpression {
 
-
+	public NullExpression() {
+		this.value = null;
+	}
+	
 	public Object getValue() {
-		// TODO Auto-generated method stub
-		return null;
+		return value;
 	}
 
 	@Override

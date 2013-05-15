@@ -2,21 +2,22 @@ package asteroids.model.programs;
 
 public class GetVXExpression extends UnaryExpression implements DoubleExpression{
 
-	protected GetVXExpression(Expression operand) {
+	public GetVXExpression(Expression operand) {
 		super(operand);
-		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public double getValue() {
+		if(getOperand().getClass().isInstance(EntityExpression.class)){
+			return ((EntityExpression) getOperand()).getValue().getVelocityX();
+		} else {
+			return 0;
+		}
 	}
 
 	@Override
 	public String getOperatorSymbol() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public long getValue() {
-		// TODO Auto-generated method stub
-		return 0;
+		return "getvx";
 	}
 
 }
