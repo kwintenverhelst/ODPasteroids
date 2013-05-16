@@ -12,13 +12,15 @@ public abstract class Statement{
 		this.column = column;
 	}
 	
-	public int getLine(){
+	@Basic
+	public final int getLine(){
 		return line;
 	}
 	
 	private int line;
 	
-	public int getColumn(){
+	@Basic 
+	public final int getColumn(){
 		return column;
 	}
 		
@@ -34,11 +36,16 @@ public abstract class Statement{
 	
 	public abstract boolean canHaveAsExpression(Expression expression);
 	
-	public Program getProgram(){
-		return null;
+	public final void setProgram(Program program){
+		this.program=program;
+	}
+		
+	
+	public final Program getProgram(){
+		return program;
 	}
 	
-	
+	private Program program;
 	
 	
 	

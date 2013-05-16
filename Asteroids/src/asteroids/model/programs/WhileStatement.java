@@ -11,7 +11,8 @@ public class WhileStatement extends Statement {
 	 * @param expression
 	 * @param body
 	 */
-	public WhileStatement(Expression expression, Statement body){
+	public WhileStatement(int line, int column, Expression expression, Statement body){
+		super(line, column);
 		setSubStatement(body);
 		setExpression(expression);
 	}
@@ -47,7 +48,7 @@ public class WhileStatement extends Statement {
 	 */
 	@Override
 	public boolean canHaveAsExpression(Expression expression) {
-		if (expression.hasAsType(BOOLEAN))
+		if (expression.getType()==Type.BOOLEAN)
 			return true;
 		return false;
 	}

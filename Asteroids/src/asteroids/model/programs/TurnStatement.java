@@ -11,7 +11,7 @@ public class TurnStatement extends ActionStatement {
 	
 	@Override
 	public boolean canHaveAsExpression(Expression expression) {
-		if (expression.hasAsType(DOUBLE))
+		if (expression.getType()==Type.DOUBLE)
 			return true;
 		return false;
 	}
@@ -35,7 +35,7 @@ public class TurnStatement extends ActionStatement {
 	@Override
 	public void execute(){
 		//TURN VALUE
-		getEntity().turn(getExpression().);
+		getEntity().turn(getExpression().getValue());
 		}
 
 }
