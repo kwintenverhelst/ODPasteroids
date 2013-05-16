@@ -1,19 +1,14 @@
 package asteroids.model.programs;
 
+import java.util.List;
+
 public class SequenceStatement extends Statement {
 
-	@Override
-	public void execute() {
-		// TODO Auto-generated method stub
-
+	public SequenceStatement (int line, int column, List<Statement> statements){
+		super(line, column);
+		
 	}
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 	@Override
 	public boolean canHaveAsSubstatement(Statement subStatement) {
 		// TODO Auto-generated method stub
@@ -22,8 +17,13 @@ public class SequenceStatement extends Statement {
 
 	@Override
 	public boolean canHaveAsExpression(Expression expression) {
-		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	
+	@Override
+	public void execute() {
+		
 	}
 
 }

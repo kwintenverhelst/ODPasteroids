@@ -10,7 +10,8 @@ public class IfStatement extends Statement {
 	 * @param ifBody
 	 * @param elseBody
 	 */
-	public IfStatement (Expression expression, Statement ifBody, Statement elseBody){
+	public IfStatement (int line, int column, Expression expression, Statement ifBody, Statement elseBody){
+			super(line, column);
 			setIfBody(ifBody);
 			setElseBody(elseBody);
 			setExpression(expression);
@@ -63,7 +64,7 @@ public class IfStatement extends Statement {
 		 */
 		@Override
 		public boolean canHaveAsExpression(Expression expression) {
-			if (expression.hasAsType(BOOLEAN))
+			if (expression.getType() == Type.BOOLEAN)
 				return true;
 			return false;
 		}
@@ -90,7 +91,7 @@ public class IfStatement extends Statement {
 		@Override
 		public void execute() {
 			// expression Bool.
-			if(getExpression().){
+			if(getExpression().getValue()){
 				getIfBody().execute();	
 			}
 			else{

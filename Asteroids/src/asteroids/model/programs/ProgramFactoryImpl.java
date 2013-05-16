@@ -255,19 +255,19 @@ public class ProgramFactoryImpl implements ProgramFactory<Expression, Statement,
 	@Override
 	public Type createDoubleType() {
 		// TODO Auto-generated method stub
-		return null;
+		return Type.DOUBLE;
 	}
 
 	@Override
 	public Type createBooleanType() {
 		// TODO Auto-generated method stub
-		return null;
+		return Type.BOOLEAN;
 	}
 
 	@Override
 	public Type createEntityType() {
 		// TODO Auto-generated method stub
-		return null;
+		return Type.ENTITY;
 	}
 
 }
