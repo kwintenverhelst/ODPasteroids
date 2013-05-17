@@ -1,29 +1,38 @@
 package asteroids.model.programs;
 
+import be.kuleuven.cs.som.annotate.*;
+
 public class PrintStatement extends Statement {
 
-	@Override
-	public void execute() {
-		// TODO Auto-generated method stub
-
+	public PrintStatement(int line, int column, Expression expression){
+		super(line, column);
+		setToPrint(expression);
 	}
-
+	
 	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean canHaveAsSubstatement(Statement subStatement) {
-		// TODO Auto-generated method stub
+	public boolean canHaveAsSubStatement(Statement subStatement) {
 		return false;
 	}
 
 	@Override
 	public boolean canHaveAsExpression(Expression expression) {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
+	}
+	
+	@Basic
+	public String getToPrint(){
+		return toPrint;
+	}
+	
+	public void setToPrint(Expression expression){
+		toPrint = expression.getValue().toString();
+	}
+	
+	private String toPrint;
+	
+	@Override
+	public void execute() {
+		System.out.println(toPrint);
 	}
 
 }

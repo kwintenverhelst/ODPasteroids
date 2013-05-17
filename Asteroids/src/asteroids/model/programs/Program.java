@@ -2,7 +2,7 @@ package asteroids.model.programs;
 
 import java.util.Map;
 
-import asteroids.model.Ship;
+import asteroids.model.*;
 
 public class Program {
 	
@@ -16,6 +16,10 @@ public class Program {
 
 	public Ship getEntity() {
 		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public World getWorld(){
 		return null;
 	}
 
