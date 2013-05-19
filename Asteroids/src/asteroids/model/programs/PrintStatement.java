@@ -25,7 +25,13 @@ public class PrintStatement extends Statement {
 	}
 	
 	public void setToPrint(Expression expression){
-		toPrint = expression.getValue().toString();
+		
+		if(expression != null && expression.getValue() != null){
+			toPrint = expression.getValue().toString();
+		}
+		else{
+			toPrint = "";
+		}
 	}
 	
 	private String toPrint;

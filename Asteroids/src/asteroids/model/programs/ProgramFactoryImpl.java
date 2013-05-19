@@ -40,7 +40,8 @@ public class ProgramFactoryImpl implements ProgramFactory<Expression, Statement,
 
 	@Override
 	public Expression createSelf(int line, int column) {
-		return new ;
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		return null ;
 	}
 
 	@Override
@@ -70,7 +71,8 @@ public class ProgramFactoryImpl implements ProgramFactory<Expression, Statement,
 
 	@Override
 	public Expression createVariable(int line, int column, String name) {
-		return new ;
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		return null ;
 	}
 
 	@Override
@@ -140,7 +142,8 @@ public class ProgramFactoryImpl implements ProgramFactory<Expression, Statement,
 
 	@Override
 	public Expression createGetDirection(int line, int column) {
-		return new ;
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		return null ;
 	}
 
 	@Override
@@ -155,91 +158,78 @@ public class ProgramFactoryImpl implements ProgramFactory<Expression, Statement,
 
 	@Override
 	public Statement createEnableThruster(int line, int column) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ThrustStatement(line, column);
 	}
 
 	@Override
 	public Statement createDisableThruster(int line, int column) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ThrustOffStatement(line, column);
 	}
 
 	@Override
 	public Statement createFire(int line, int column) {
-		// TODO Auto-generated method stub
-		return null;
+		return new FireStatement(line, column);
 	}
 
 	@Override
 	public Statement createTurn(int line, int column, Expression angle) {
-		// TODO Auto-generated method stub
-		return null;
+		return new TurnStatement(line, column, angle);
 	}
 
 	@Override
 	public Statement createAssignment(int line, int column, String variable,
 			Expression rhs) {
-		// TODO Auto-generated method stub
-		return null;
+		return new AssignStatement(line, column, variable, rhs);
 	}
 
 	@Override
 	public Statement createIf(int line, int column, Expression condition,
 			Statement then, Statement otherwise) {
-		// TODO Auto-generated method stub
-		return null;
+		return new IfStatement(line, column, condition, then, otherwise);
 	}
 
 	@Override
 	public Statement createWhile(int line, int column, Expression condition,
 			Statement body) {
-		// TODO Auto-generated method stub
-		return null;
+		return new WhileStatement(line, column, condition, body);
 	}
 
 	@Override
 	public Statement createForeach(int line, int column,
 			asteroids.model.programs.parsing.ProgramFactory.ForeachType type,
 			String variableName, Statement body) {
-		// TODO Auto-generated method stub
-		return null;
+		// !!!!!!!!!!!!!!!!!!!!
+		return new ForEachStatement(line, column, null, variableName, body);
 	}
 
 	@Override
 	public Statement createSkip(int line, int column) {
-		// TODO Auto-generated method stub
-		return null;
+		return new SkipStatement(line, column);
 	}
 
 	@Override
 	public Statement createSequence(int line, int column,
 			List<Statement> statements) {
-		// TODO Auto-generated method stub
-		return null;
+		return new SequenceStatement(line, column, statements);
 	}
 
 	@Override
 	public Statement createPrint(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		return new PrintStatement(line, column, e);
 	}
 
 	@Override
 	public Type createDoubleType() {
-		// TODO Auto-generated method stub
 		return Type.DOUBLE;
 	}
 
 	@Override
 	public Type createBooleanType() {
-		// TODO Auto-generated method stub
 		return Type.BOOLEAN;
 	}
 
 	@Override
 	public Type createEntityType() {
-		// TODO Auto-generated method stub
 		return Type.ENTITY;
 	}
 
