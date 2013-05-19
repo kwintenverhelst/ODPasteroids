@@ -2,8 +2,8 @@ package asteroids.model.programs;
 
 public class SquareRootExpression extends UnaryExpression  implements DoubleExpression{
 
-	public SquareRootExpression(Expression operand) {
-		super(operand);
+	public SquareRootExpression(Expression operand, int line, int column) {
+		super(operand,line, column);
 	}
 
 	@Override

@@ -2,8 +2,8 @@ package asteroids.model.programs;
 
 public class LessThanExpression extends BinaryExpression implements BooleanExpression{
 	
-	public LessThanExpression(Expression left, Expression right) {
-		super(left, right);
+	public LessThanExpression(Expression left, Expression right, int line, int column) {
+		super(left, right,line, column);
 	}
 
 	@Override

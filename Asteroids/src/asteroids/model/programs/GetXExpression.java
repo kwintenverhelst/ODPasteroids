@@ -2,8 +2,8 @@ package asteroids.model.programs;
 
 public class GetXExpression extends UnaryExpression implements DoubleExpression {
 
-	public GetXExpression(Expression operand) {
-		super(operand);
+	public GetXExpression(Expression operand, int line, int column) {
+		super(operand, line, column);
 	}
 	
 	@Override

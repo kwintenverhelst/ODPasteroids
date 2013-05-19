@@ -17,6 +17,10 @@ import be.kuleuven.cs.som.annotate.*;
  */
 public abstract class ComposedExpression extends Expression {
 
+	protected ComposedExpression(int line, int column) {
+		super(line, column);
+	}
+
 	/**
 	 * Check whether this composed expression is equal to 
 	 * the given object.

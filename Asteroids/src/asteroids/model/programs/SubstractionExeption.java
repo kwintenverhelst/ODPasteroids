@@ -13,9 +13,9 @@ public class SubstractionExeption extends BinaryExpression  implements DoubleExp
 	 *         with the given operands.
 	 *       | super(left,right)
 	 */
-	public SubstractionExeption(Expression left, Expression right)
+	public SubstractionExeption(Expression left, Expression right, int line, int column)
 			{
-		super(left, right);
+		super(left, right,line, column);
 	}
 
 	/**

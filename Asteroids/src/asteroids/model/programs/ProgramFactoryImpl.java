@@ -8,176 +8,149 @@ public class ProgramFactoryImpl implements ProgramFactory<Expression, Statement,
 
 	@Override
 	public Expression createDoubleLiteral(int line, int column, double d) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ConstantExpression(d, line, column);
 	}
 
 	@Override
 	public Expression createBooleanLiteral(int line, int column, boolean b) {
-		// TODO Auto-generated method stub
-		return null;
+		return new BooleanLiteral(line, column, b);
 	}
 
 	@Override
 	public Expression createAnd(int line, int column, Expression e1,
 			Expression e2) {
-		// TODO Auto-generated method stub
-		return null;
+		return new AndExpression(e1, e2, line, column);
 	}
 
 	@Override
 	public Expression createOr(int line, int column, Expression e1,
 			Expression e2) {
-		// TODO Auto-generated method stub
-		return null;
+		return new OrExpression(e1, e2, line, column);
 	}
 
 	@Override
 	public Expression createNot(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		return new NotExpression(e, line, column);
 	}
 
 	@Override
 	public Expression createNull(int line, int column) {
-		// TODO Auto-generated method stub
-		return null;
+		return new NullExpression(line, column);
 	}
 
 	@Override
 	public Expression createSelf(int line, int column) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ;
 	}
 
 	@Override
 	public Expression createGetX(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		return new GetXExpression(e, line, column);
 	}
 
 	@Override
 	public Expression createGetY(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		return new GetYExpression(e, line, column);
 	}
 
 	@Override
 	public Expression createGetVX(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		return new GetVXExpression(e, line, column);
 	}
 
 	@Override
 	public Expression createGetVY(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		return new GetVYExpression(e, line, column);
 	}
 
 	@Override
 	public Expression createGetRadius(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		return new GetRadiusExpression(e, line, column);
 	}
 
 	@Override
 	public Expression createVariable(int line, int column, String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ;
 	}
 
 	@Override
 	public Expression createLessThan(int line, int column, Expression e1,
 			Expression e2) {
-		// TODO Auto-generated method stub
-		return null;
+		return new LessThanExpression(e1, e2, line, column);
 	}
 
 	@Override
 	public Expression createGreaterThan(int line, int column, Expression e1,
 			Expression e2) {
-		// TODO Auto-generated method stub
-		return null;
+		return new GreaterThanExpression(e1, e2, line, column);
 	}
 
 	@Override
 	public Expression createLessThanOrEqualTo(int line, int column,
 			Expression e1, Expression e2) {
-		// TODO Auto-generated method stub
-		return null;
+		return new LessThanOrEqualExpression(e1, e2, line, column);
 	}
 
 	@Override
 	public Expression createGreaterThanOrEqualTo(int line, int column,
 			Expression e1, Expression e2) {
-		// TODO Auto-generated method stub
-		return null;
+		return new GreaterThanOrEqualExpression(e1, e2, line, column);
 	}
 
 	@Override
 	public Expression createEquality(int line, int column, Expression e1,
 			Expression e2) {
-		// TODO Auto-generated method stub
-		return null;
+		return new IsEqualExpression(e1, e2, line, column);
 	}
 
 	@Override
 	public Expression createInequality(int line, int column, Expression e1,
 			Expression e2) {
-		// TODO Auto-generated method stub
-		return null;
+		return new IsNotEqualExpression(e1, e2, line, column);
 	}
 
 	@Override
 	public Expression createAdd(int line, int column, Expression e1,
 			Expression e2) {
-		// TODO Auto-generated method stub
-		return null;
+		return new AdditionExpression(e1, e2, line, column);
 	}
 
 	@Override
 	public Expression createSubtraction(int line, int column, Expression e1,
 			Expression e2) {
-		// TODO Auto-generated method stub
-		return null;
+		return new SubstractionExeption(e1, e2, line, column);
 	}
 
 	@Override
 	public Expression createMul(int line, int column, Expression e1,
 			Expression e2) {
-		// TODO Auto-generated method stub
-		return null;
+		return new MultiplicationExpression(e1, e2, line, column);
 	}
 
 	@Override
 	public Expression createDivision(int line, int column, Expression e1,
 			Expression e2) {
-		// TODO Auto-generated method stub
-		return null;
+		return new DivisionExpression(e1, e2, line, column);
 	}
 
 	@Override
 	public Expression createSqrt(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		return new SquareRootExpression(e, line, column);
 	}
 
 	@Override
 	public Expression createGetDirection(int line, int column) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ;
 	}
 
 	@Override
 	public Expression createSin(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		return new SinExpression(e, line, column);
 	}
 
 	@Override
 	public Expression createCos(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		return new CosExpression(e, line, column);
 	}
 
 	@Override

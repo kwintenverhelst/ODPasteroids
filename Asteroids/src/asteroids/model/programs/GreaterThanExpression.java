@@ -2,8 +2,8 @@ package asteroids.model.programs;
 
 public class GreaterThanExpression extends BinaryExpression implements BooleanExpression{
 	
-	public GreaterThanExpression(Expression left, Expression right) {
-		super(left, right);
+	public GreaterThanExpression(Expression left, Expression right, int line, int column) {
+		super(left, right,line, column);
 	}
 	
 	@Override

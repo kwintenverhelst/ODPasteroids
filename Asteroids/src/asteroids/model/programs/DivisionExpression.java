@@ -2,8 +2,8 @@ package asteroids.model.programs;
 
 public class DivisionExpression extends BinaryExpression implements DoubleExpression{
 
-	public DivisionExpression(Expression left, Expression right) {
-		super(left, right);
+	public DivisionExpression(Expression left, Expression right, int line, int column) {
+		super(left, right, line, column);
 	}
 	
 	@Override

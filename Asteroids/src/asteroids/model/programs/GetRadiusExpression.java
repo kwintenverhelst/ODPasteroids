@@ -2,8 +2,8 @@ package asteroids.model.programs;
 
 public class GetRadiusExpression extends UnaryExpression implements DoubleExpression{
 
-	public GetRadiusExpression(Expression operand) {
-		super(operand);
+	public GetRadiusExpression(Expression operand, int line, int column) {
+		super(operand, line, column);
 	}
 
 	@Override

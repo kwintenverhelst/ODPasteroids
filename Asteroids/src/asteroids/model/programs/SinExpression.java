@@ -2,8 +2,8 @@ package asteroids.model.programs;
 
 public class SinExpression extends UnaryExpression implements DoubleExpression{
 
-	public SinExpression(Expression operand) {
-		super(operand);
+	public SinExpression(Expression operand, int line, int column) {
+		super(operand,line, column);
 	}
 
 	@Override

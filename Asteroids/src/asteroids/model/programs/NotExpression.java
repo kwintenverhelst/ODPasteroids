@@ -2,16 +2,16 @@ package asteroids.model.programs;
 
 public class NotExpression extends UnaryExpression implements BooleanExpression{
 	
-	public NotExpression(Expression operand) {
-		super(operand);
+	public NotExpression(Expression operand, int line, int column) {
+		super(operand,line, column);
 	}
 
 	@Override
 	public boolean getValue() {
-		if(getOperand().getClass().isInstance(BooleanExpression.class)){
+		if(BooleanExpression.class.isInstance(getOperand().getClass())){
 			return !((BooleanExpression) getOperand()).getValue();
 		} else {
-			return false;
+			throw new IllegalAccessError("hey");
 		}
 	}
 	@Override

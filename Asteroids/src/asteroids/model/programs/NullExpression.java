@@ -2,12 +2,12 @@ package asteroids.model.programs;
 
 public class NullExpression extends BasicExpression {
 
-	public NullExpression() {
-		this.value = null;
+	public NullExpression(int line, int column) {
+		super(line, column);
 	}
 	
 	public Object getValue() {
-		return value;
+		return null;
 	}
 
 	@Override

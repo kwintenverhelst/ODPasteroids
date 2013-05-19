@@ -2,8 +2,8 @@ package asteroids.model.programs;
 
 public class OrExpression extends BinaryExpression implements BooleanExpression{
 	
-	public OrExpression(Expression left, Expression right) {
-		super(left, right);
+	public OrExpression(Expression left, Expression right, int line, int column) {
+		super(left, right,line, column);
 	}
 	
 	@Override

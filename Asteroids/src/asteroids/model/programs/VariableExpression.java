@@ -5,11 +5,13 @@ import asteroids.model.ObjectInSpace;
 public class VariableExpression extends BasicExpression implements
 		EntityExpression {
 
-	public VariableExpression(Object value) {
-		if(value.getClass().isInstance(ObjectInSpace.class)){
-			this.value = value;
-		}
+	public VariableExpression(ObjectInSpace value, int line, int column) {
+		super(line, column);
+		this.value = value;
+
 	}
+
+	private ObjectInSpace value;
 
 	@Override
 	public ObjectInSpace getValue() {
@@ -30,6 +32,5 @@ public class VariableExpression extends BasicExpression implements
 	public String toString() {
 		return null;
 	}
-
 
 }

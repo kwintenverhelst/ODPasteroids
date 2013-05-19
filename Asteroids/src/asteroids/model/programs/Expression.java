@@ -1,7 +1,42 @@
 package asteroids.model.programs;
 
+import be.kuleuven.cs.som.annotate.Basic;
+import be.kuleuven.cs.som.annotate.Model;
+
 
 public abstract class Expression {
+	
+	@Model
+	protected Expression (int line, int column){
+		this.line = line;
+		this.column = column;
+	}
+	
+	@Basic
+	public final int getLine(){
+		return line;
+	}
+	
+	private final int line;
+	
+	@Basic 
+	public final int getColumn(){
+		return column;
+	}
+		
+	private final int column;
+	
+	public final void setProgram(Program program){
+		this.program=program;
+	}
+		
+	
+	public final Program getProgram(){
+		return program;
+	}
+	
+	private Program program;
+	
 	/**
 	 * Check whether this expression has the given expression as one
 	 * of its subexpressions.

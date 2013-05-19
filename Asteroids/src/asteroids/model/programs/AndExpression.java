@@ -2,8 +2,8 @@ package asteroids.model.programs;
 
 public class AndExpression extends BinaryExpression implements BooleanExpression{
 	
-	public AndExpression(Expression left, Expression right) {
-		super(left, right);
+	public AndExpression(Expression left, Expression right, int line, int column) {
+		super(left, right, line, column);
 	}
 	
 	@Override

@@ -1,17 +1,18 @@
 package asteroids.model.programs;
 
+public class ConstantExpression extends BasicExpression implements
+		DoubleExpression {
 
-public class ConstantExpression extends BasicExpression  implements DoubleExpression{
-
-	public ConstantExpression(Object value) {
-		if(value.getClass().isInstance(double.class)){
-			this.value = value;
-		}
+	public ConstantExpression(double value, int line, int column) {
+		super(line, column);
+		this.value = value;
 	}
+
+	private double value;
 
 	@Override
 	public double getValue() {
-		return (double) this.value;
+		return this.value;
 	}
 
 	@Override

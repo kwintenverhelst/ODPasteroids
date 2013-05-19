@@ -1,34 +1,35 @@
 package asteroids.model.programs;
 
-public class FalseExpression extends BasicExpression implements BooleanExpression{
-	
-	public FalseExpression(int line, int column){
+import be.kuleuven.cs.som.annotate.Value;
+
+public class BooleanLiteral extends BasicExpression implements
+		BooleanExpression {
+
+	protected BooleanLiteral(int line, int column, boolean value) {
 		super(line, column);
+		this.value = value;
 	}
 	
+	private boolean value;
+
 	@Override
 	public boolean getValue() {
-		return false;
+		return this.value;
 	}
 
 	@Override
 	public boolean isMutable() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean equals(Object other) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
-	
 
 }

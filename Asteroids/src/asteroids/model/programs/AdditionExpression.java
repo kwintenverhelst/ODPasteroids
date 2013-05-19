@@ -10,13 +10,15 @@ public class AdditionExpression extends BinaryExpression  implements DoubleExpre
 	 *         The left operand for this new addition.
 	 * @param  right
 	 *         The right operand for this new addition.
+	 * @param line 
+	 * @param column 
 	 * @effect This new addition is initialized as a binary expression
 	 *         with the given operands.
 	 *       | super(left,right)
 	 */
-	public AdditionExpression(Expression left, Expression right)
+	public AdditionExpression(Expression left, Expression right, int line, int column)
 			 {
-		super(left, right);
+		super(left, right, line, column);
 	}
 
 	/**

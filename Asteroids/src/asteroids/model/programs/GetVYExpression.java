@@ -2,8 +2,8 @@ package asteroids.model.programs;
 
 public class GetVYExpression extends UnaryExpression implements DoubleExpression{
 
-	public GetVYExpression(Expression operand) {
-		super(operand);
+	public GetVYExpression(Expression operand, int line, int column) {
+		super(operand, line, column);
 	}
 
 	@Override

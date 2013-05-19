@@ -13,9 +13,9 @@ public class MultiplicationExpression extends BinaryExpression implements Double
 	 *         with the given operands.
 	 *       | super(left,right)
 	 */
-	public MultiplicationExpression(Expression left, Expression right)
+	public MultiplicationExpression(Expression left, Expression right, int line, int column)
 			 {
-		super(left, right);
+		super(left, right,line, column);
 	}
 
 	/**
