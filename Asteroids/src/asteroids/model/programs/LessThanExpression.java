@@ -7,9 +7,9 @@ public class LessThanExpression extends BinaryExpression implements BooleanExpre
 	}
 
 	@Override
-	public boolean getValue() {
-		if(getLeftOperand().getClass().isInstance(DoubleExpression.class) && getRightOperand().getClass().isInstance(DoubleExpression.class)){
-			return ((DoubleExpression) getLeftOperand()).getValue() < ((DoubleExpression) getRightOperand()).getValue();
+	public Object getValue() {
+		if(getLeftOperand().hasTypeDouble() && getRightOperand().hasTypeDouble()){
+			return (double) getLeftOperand().getValue() < (double) getRightOperand().getValue();
 		} else {
 			return false;
 		}
@@ -20,4 +20,8 @@ public class LessThanExpression extends BinaryExpression implements BooleanExpre
 		return "<";
 	}
 
+	@Override
+	public Type getType() {
+		return TYPE;
+	}
 }

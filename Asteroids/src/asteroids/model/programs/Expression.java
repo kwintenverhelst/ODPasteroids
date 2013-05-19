@@ -37,6 +37,12 @@ public abstract class Expression {
 	
 	private Program program;
 	
+
+	/**
+	 * Return the value of this expression.
+	 */
+	public abstract Object getValue();
+	
 	/**
 	 * Check whether this expression has the given expression as one
 	 * of its subexpressions.
@@ -153,7 +159,7 @@ public abstract class Expression {
 	public int hashCode() {
 		if (! this.isMutable())
 			if(this.getClass().isInstance(DoubleExpression.class)){
-				return (int) ((DoubleExpression) this).getValue();
+				return ((Double) this.getValue()).intValue();
 			} else {
 				return 0;
 			}
@@ -178,4 +184,19 @@ public abstract class Expression {
 	 *       | result.length() > 0
 	 */
 	public abstract String toPostfix();
+	
+
+	public abstract Type getType();
+	
+	public boolean hasTypeBoolean(){
+		return this.getType() == Type.BOOLEAN;
+	}
+
+	public boolean hasTypeDouble(){
+		return this.getType() == Type.DOUBLE;
+	}
+	
+	public boolean hasTypeEntity(){
+		return this.getType() == Type.ENTITY;
+	}
 }

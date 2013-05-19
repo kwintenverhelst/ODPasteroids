@@ -1,5 +1,7 @@
 package asteroids.model.programs;
 
+import asteroids.model.ObjectInSpace;
+
 public class GetXExpression extends UnaryExpression implements DoubleExpression {
 
 	public GetXExpression(Expression operand, int line, int column) {
@@ -7,9 +9,9 @@ public class GetXExpression extends UnaryExpression implements DoubleExpression 
 	}
 	
 	@Override
-	public double getValue() {
-		if (getOperand().getClass().isInstance(EntityExpression.class)) {
-			return ((EntityExpression) getOperand()).getValue().getX();
+	public Object getValue() {
+		if (getOperand().hasTypeEntity()) {
+			return ((ObjectInSpace) getOperand().getValue()).getX();
 		} else {
 			return 0;
 		}
@@ -20,5 +22,9 @@ public class GetXExpression extends UnaryExpression implements DoubleExpression 
 		return "getx";
 	}
 
+	@Override
+	public Type getType() {
+		return TYPE;
+	}
 
 }

@@ -7,9 +7,9 @@ public class SquareRootExpression extends UnaryExpression  implements DoubleExpr
 	}
 
 	@Override
-	public double getValue() {
-		if(getOperand().getClass().isInstance(DoubleExpression.class)){
-			return Math.sqrt(((DoubleExpression) getOperand()).getValue());
+	public Object getValue() {
+		if(getOperand().hasTypeDouble()){
+			return Math.sqrt((double) getOperand().getValue());
 		} else {
 			return 0;
 		}
@@ -18,6 +18,11 @@ public class SquareRootExpression extends UnaryExpression  implements DoubleExpr
 	@Override
 	public String getOperatorSymbol() {
 		return "sqrt";
+	}
+	
+	@Override
+	public Type getType() {
+		return TYPE;
 	}
 
 }

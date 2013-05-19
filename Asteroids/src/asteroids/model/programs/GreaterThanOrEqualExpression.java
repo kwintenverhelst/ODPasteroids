@@ -2,14 +2,14 @@ package asteroids.model.programs;
 
 public class GreaterThanOrEqualExpression extends BinaryExpression implements BooleanExpression{
 	
-	public GreaterThanOrEqualExpression(Expression left, Expression right) {
-		super(left, right);
+	public GreaterThanOrEqualExpression(Expression left, Expression right, int line, int column) {
+		super(left, right,line, column);
 	}
 
 	@Override
-	public boolean getValue() {
-		if(getLeftOperand().getClass().isInstance(DoubleExpression.class) && getRightOperand().getClass().isInstance(DoubleExpression.class)){
-			return ((DoubleExpression) getLeftOperand()).getValue() >= ((DoubleExpression) getRightOperand()).getValue();
+	public Object getValue() {
+		if(getLeftOperand().hasTypeDouble() && getRightOperand().hasTypeDouble()){
+			return (double) getLeftOperand().getValue() >= (double) getRightOperand().getValue();
 		} else {
 			return false;
 		}
@@ -17,6 +17,11 @@ public class GreaterThanOrEqualExpression extends BinaryExpression implements Bo
 	@Override
 	public String getOperatorSymbol() {
 		return ">=";
+	}
+	
+	@Override
+	public Type getType() {
+		return TYPE;
 	}
 
 }

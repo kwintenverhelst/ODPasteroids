@@ -7,9 +7,9 @@ public class CosExpression extends UnaryExpression implements DoubleExpression{
 	}
 	
 	@Override
-	public double getValue() {
-		if(getOperand().getClass().isInstance(DoubleExpression.class)){
-			return Math.cos(((DoubleExpression) getOperand()).getValue());
+	public Object getValue() {
+		if(getOperand().hasTypeDouble()){
+			return Math.cos((double) getOperand().getValue());
 		} else {
 			return 0;
 		}
@@ -21,6 +21,9 @@ public class CosExpression extends UnaryExpression implements DoubleExpression{
 		return "cos";
 	}
 
-	
+	@Override
+	public Type getType() {
+		return TYPE;
+	}
 
 }

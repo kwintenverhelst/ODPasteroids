@@ -32,5 +32,10 @@ public class VariableExpression extends BasicExpression implements
 	public String toString() {
 		return null;
 	}
+	
+	@Override
+	public Type getType() {
+		return TYPE;
+	}
 
 }

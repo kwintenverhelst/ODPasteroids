@@ -7,9 +7,9 @@ public class SinExpression extends UnaryExpression implements DoubleExpression{
 	}
 
 	@Override
-	public double getValue() {
-		if(getOperand().getClass().isInstance(DoubleExpression.class)){
-			return Math.cos(((DoubleExpression) getOperand()).getValue());
+	public Object getValue() {
+		if(getOperand().hasTypeDouble()){
+			return Math.cos((double) getOperand().getValue());
 		} else {
 			return 0;
 		}
@@ -18,6 +18,11 @@ public class SinExpression extends UnaryExpression implements DoubleExpression{
 	@Override
 	public String getOperatorSymbol() {
 		return "sin";
+	}
+	
+	@Override
+	public Type getType() {
+		return TYPE;
 	}
 
 }

@@ -7,9 +7,9 @@ public class OrExpression extends BinaryExpression implements BooleanExpression{
 	}
 	
 	@Override
-	public boolean getValue() {
-		if(getLeftOperand().getClass().isInstance(BooleanExpression.class) && getRightOperand().getClass().isInstance(BooleanExpression.class)){
-			return ((BooleanExpression) getLeftOperand()).getValue() || ((BooleanExpression) getRightOperand()).getValue();
+	public Object getValue() {
+		if(getLeftOperand().hasTypeBoolean() && getRightOperand().hasTypeBoolean()){
+			return (boolean) getLeftOperand().getValue() || (boolean) getRightOperand().getValue();
 		} else {
 			return false;
 		}
@@ -18,6 +18,11 @@ public class OrExpression extends BinaryExpression implements BooleanExpression{
 	@Override
 	public String getOperatorSymbol() {
 		return "||";
+	}
+	
+	@Override
+	public Type getType() {
+		return TYPE;
 	}
 
 }

@@ -236,5 +236,5 @@ public abstract class ComposedExpression extends Expression {
 			result += getOperandAt(i).toPostfix() + " ";
 		return result + getOperatorSymbol();
 	}
-
+	
 }

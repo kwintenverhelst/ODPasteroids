@@ -1,5 +1,7 @@
 package asteroids.model.programs;
 
+import asteroids.model.ObjectInSpace;
+
 public class GetVXExpression extends UnaryExpression implements DoubleExpression{
 
 	public GetVXExpression(Expression operand, int line, int column) {
@@ -7,9 +9,9 @@ public class GetVXExpression extends UnaryExpression implements DoubleExpression
 	}
 
 	@Override
-	public double getValue() {
-		if(getOperand().getClass().isInstance(EntityExpression.class)){
-			return ((EntityExpression) getOperand()).getValue().getVelocityX();
+	public Object getValue() {
+		if(getOperand().hasTypeEntity()){
+			return ((ObjectInSpace) getOperand().getValue()).getVelocityX();
 		} else {
 			return 0;
 		}
@@ -18,6 +20,11 @@ public class GetVXExpression extends UnaryExpression implements DoubleExpression
 	@Override
 	public String getOperatorSymbol() {
 		return "getvx";
+	}
+	
+	@Override
+	public Type getType() {
+		return TYPE;
 	}
 
 }

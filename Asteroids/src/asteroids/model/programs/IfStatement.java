@@ -91,7 +91,7 @@ public class IfStatement extends Statement {
 		@Override
 		public void execute() {
 			// expression Bool.
-			if(getExpression().getValue()){
+			if((boolean) getExpression().getValue()){
 				getIfBody().execute();	
 			}
 			else{

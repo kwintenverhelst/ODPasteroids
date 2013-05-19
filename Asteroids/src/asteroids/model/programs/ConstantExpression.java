@@ -11,7 +11,7 @@ public class ConstantExpression extends BasicExpression implements
 	private double value;
 
 	@Override
-	public double getValue() {
+	public Object getValue() {
 		return this.value;
 	}
 
@@ -31,5 +31,10 @@ public class ConstantExpression extends BasicExpression implements
 	public String toString() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public Type getType() {
+		return TYPE;
 	}
 }

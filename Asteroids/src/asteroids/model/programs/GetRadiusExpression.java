@@ -1,5 +1,7 @@
 package asteroids.model.programs;
 
+import asteroids.model.ObjectInSpace;
+
 public class GetRadiusExpression extends UnaryExpression implements DoubleExpression{
 
 	public GetRadiusExpression(Expression operand, int line, int column) {
@@ -7,9 +9,9 @@ public class GetRadiusExpression extends UnaryExpression implements DoubleExpres
 	}
 
 	@Override
-	public double getValue() {
-		if(getOperand().getClass().isInstance(EntityExpression.class)){
-			return ((EntityExpression) getOperand()).getValue().getRadius();
+	public Object getValue() {
+		if(getOperand().hasTypeEntity()){
+			return ((ObjectInSpace) getOperand().getValue()).getRadius();
 		} else {
 			return 0;
 		}
@@ -18,6 +20,11 @@ public class GetRadiusExpression extends UnaryExpression implements DoubleExpres
 	@Override
 	public String getOperatorSymbol() {
 		return "getradius";
+	}
+	
+	@Override
+	public Type getType() {
+		return TYPE;
 	}
 
 }

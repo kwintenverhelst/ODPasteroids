@@ -35,7 +35,7 @@ public class TurnStatement extends ActionStatement {
 	@Override
 	public void execute(){
 		//TURN VALUE
-		getEntity().turn(getExpression().getValue());
+		getEntity().turn((double) getExpression().getValue());
 		}
 
 }

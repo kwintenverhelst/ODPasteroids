@@ -13,7 +13,7 @@ public class SelfExpression extends BasicExpression implements EntityExpression 
 	private ObjectInSpace value;
 
 	@Override
-	public ObjectInSpace getValue() {
+	public Object getValue() {
 		return value;
 	}
 
@@ -30,6 +30,11 @@ public class SelfExpression extends BasicExpression implements EntityExpression 
 	@Override
 	public String toString() {
 		return null;
+	}
+	
+	@Override
+	public Type getType() {
+		return TYPE;
 	}
 
 }

@@ -1,5 +1,7 @@
 package asteroids.model.programs;
 
+import asteroids.Util;
+
 public class IsNotEqualExpression extends BinaryExpression implements BooleanExpression{
 	
 	public IsNotEqualExpression(Expression left, Expression right, int line, int column) {
@@ -7,9 +9,9 @@ public class IsNotEqualExpression extends BinaryExpression implements BooleanExp
 	}
 
 	@Override
-	public boolean getValue() {
-		if(getLeftOperand().getClass().isInstance(DoubleExpression.class) && getRightOperand().getClass().isInstance(DoubleExpression.class)){
-			return ((DoubleExpression) getLeftOperand()).getValue() != ((DoubleExpression) getRightOperand()).getValue();
+	public Object getValue() {
+		if(getLeftOperand().hasTypeDouble() && getRightOperand().hasTypeDouble()){
+			return ! Util.fuzzyEquals((double) getLeftOperand().getValue(), (double) getRightOperand().getValue());
 		} else {
 			return false;
 		}
@@ -19,4 +21,8 @@ public class IsNotEqualExpression extends BinaryExpression implements BooleanExp
 		return "!=";
 	}
 
+	@Override
+	public Type getType() {
+		return TYPE;
+	}
 }

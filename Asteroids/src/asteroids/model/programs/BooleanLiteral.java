@@ -13,7 +13,7 @@ public class BooleanLiteral extends BasicExpression implements
 	private boolean value;
 
 	@Override
-	public boolean getValue() {
+	public Object getValue() {
 		return this.value;
 	}
 
@@ -30,6 +30,11 @@ public class BooleanLiteral extends BasicExpression implements
 	@Override
 	public String toString() {
 		return null;
+	}
+	
+	@Override
+	public Type getType() {
+		return TYPE;
 	}
 
 }

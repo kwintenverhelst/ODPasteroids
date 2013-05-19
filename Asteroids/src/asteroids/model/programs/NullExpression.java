@@ -28,6 +28,11 @@ public class NullExpression extends BasicExpression {
 		return null;
 	}
 
+	@Override
+	public Type getType() {
+		return null;
+	}
+
 	
 
 }

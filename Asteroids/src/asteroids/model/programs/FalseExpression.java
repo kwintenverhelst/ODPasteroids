@@ -7,7 +7,7 @@ public class FalseExpression extends BasicExpression implements BooleanExpressio
 	}
 	
 	@Override
-	public boolean getValue() {
+	public Object getValue() {
 		return false;
 	}
 
@@ -29,6 +29,9 @@ public class FalseExpression extends BasicExpression implements BooleanExpressio
 		return null;
 	}
 
-	
+	@Override
+	public Type getType() {
+		return TYPE;
+	}
 
 }

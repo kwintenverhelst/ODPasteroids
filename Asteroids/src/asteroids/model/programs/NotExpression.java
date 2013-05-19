@@ -7,9 +7,9 @@ public class NotExpression extends UnaryExpression implements BooleanExpression{
 	}
 
 	@Override
-	public boolean getValue() {
-		if(BooleanExpression.class.isInstance(getOperand().getClass())){
-			return !((BooleanExpression) getOperand()).getValue();
+	public Object getValue() {
+		if(getOperand().hasTypeBoolean()){
+			return !(boolean) getOperand().getValue();
 		} else {
 			throw new IllegalAccessError("hey");
 		}
@@ -17,6 +17,11 @@ public class NotExpression extends UnaryExpression implements BooleanExpression{
 	@Override
 	public String getOperatorSymbol() {
 		return "!";
+	}
+	
+	@Override
+	public Type getType() {
+		return TYPE;
 	}
 
 }

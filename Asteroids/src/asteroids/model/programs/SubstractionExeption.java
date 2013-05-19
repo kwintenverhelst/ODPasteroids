@@ -28,9 +28,9 @@ public class SubstractionExeption extends BinaryExpression  implements DoubleExp
 	 *       |   getRightOperand().getValue()
 	 */
 	@Override
-	public double getValue() {
-		if(getLeftOperand().getClass().isInstance(DoubleExpression.class) && getRightOperand().getClass().isInstance(DoubleExpression.class)){
-			return ((DoubleExpression) getLeftOperand()).getValue() - ((DoubleExpression) getRightOperand()).getValue();
+	public Object getValue() {
+		if(getLeftOperand().hasTypeDouble() && getRightOperand().hasTypeDouble()){
+			return (double) getLeftOperand().getValue() - (double) getRightOperand().getValue();
 		} else {
 			return 0;
 		}
@@ -45,6 +45,11 @@ public class SubstractionExeption extends BinaryExpression  implements DoubleExp
 	@Override
 	public String getOperatorSymbol() {
 		return "-";
+	}
+	
+	@Override
+	public Type getType() {
+		return TYPE;
 	}
 
 }

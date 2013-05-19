@@ -8,7 +8,7 @@ public class TrueExpression extends BasicExpression implements
 	}
 
 	@Override
-	public boolean getValue() {
+	public Object getValue() {
 		return true;
 	}
 
@@ -28,6 +28,11 @@ public class TrueExpression extends BasicExpression implements
 	public String toString() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public Type getType() {
+		return TYPE;
 	}
 
 }
