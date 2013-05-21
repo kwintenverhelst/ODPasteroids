@@ -5,10 +5,7 @@ import asteroids.model.*;
 import asteroids.model.programs.parsing.ProgramFactory.ForeachType;
 
 public class ForEachStatement extends Statement {
-	public enum ForeachType{
-		SHIP, ASTEROID, BULLET, ANY
-	}
-	
+		
 	public ForEachStatement(int line, int column, ForeachType type, String variableName, Statement body){
 		super(line, column);
 		variable = variableName;

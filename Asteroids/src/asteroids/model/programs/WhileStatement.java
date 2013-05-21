@@ -74,7 +74,6 @@ public class WhileStatement extends Statement {
 	 */
 	@Override
 	public void execute() {
-		// expression Bool.
 		while((boolean) getExpression().getValue()){
 			getSubStatement().execute();	
 		}
