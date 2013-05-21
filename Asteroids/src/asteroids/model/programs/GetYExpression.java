@@ -13,7 +13,7 @@ public class GetYExpression extends UnaryExpression implements DoubleExpression{
 		if(getOperand().hasTypeEntity()){
 			return ((ObjectInSpace) getOperand().getValue()).getY();
 		} else {
-			return 0;
+			throw new IllegalArgumentException("on of your operand is false");
 		}
 	}
 

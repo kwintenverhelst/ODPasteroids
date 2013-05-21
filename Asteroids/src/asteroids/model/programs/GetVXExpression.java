@@ -13,7 +13,7 @@ public class GetVXExpression extends UnaryExpression implements DoubleExpression
 		if(getOperand().hasTypeEntity()){
 			return ((ObjectInSpace) getOperand().getValue()).getVelocityX();
 		} else {
-			return 0;
+			throw new IllegalArgumentException("on of your operand is false");
 		}
 	}
 

@@ -11,7 +11,7 @@ public class OrExpression extends BinaryExpression implements BooleanExpression{
 		if(getLeftOperand().hasTypeBoolean() && getRightOperand().hasTypeBoolean()){
 			return (boolean) getLeftOperand().getValue() || (boolean) getRightOperand().getValue();
 		} else {
-			return false;
+			throw new IllegalArgumentException("on of your operand is false");
 		}
 	}
 

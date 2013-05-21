@@ -6,17 +6,34 @@ import asteroids.model.*;
 
 public class Program {
 	
+	private Ship entity;
+	
+	private Map<String, Type> globals;
+	
+	private Statement statement;
+	
 	public Program() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public Program(Map<String, Type> globals, Statement statement) {
-		// TODO Auto-generated constructor stub
+		this.globals = globals;
+		this.statement = statement;
+	}
+	
+	public Map<String, Type> getGlobals() {
+		return this.globals;
+	}
+	
+	public Statement getStatement() {
+		return this.statement;
 	}
 
 	public Ship getEntity() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.entity;
+	}
+	
+	public void setEntity(Ship entity){
+		this.entity = entity;
 	}
 	
 	public World getWorld(){

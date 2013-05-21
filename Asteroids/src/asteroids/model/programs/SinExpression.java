@@ -11,7 +11,7 @@ public class SinExpression extends UnaryExpression implements DoubleExpression{
 		if(getOperand().hasTypeDouble()){
 			return Math.cos((double) getOperand().getValue());
 		} else {
-			return 0;
+			throw new IllegalArgumentException("on of your operand is false");
 		}
 	}
 

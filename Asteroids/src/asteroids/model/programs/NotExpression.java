@@ -11,7 +11,7 @@ public class NotExpression extends UnaryExpression implements BooleanExpression{
 		if(getOperand().hasTypeBoolean()){
 			return !(boolean) getOperand().getValue();
 		} else {
-			throw new IllegalAccessError("hey");
+			throw new IllegalArgumentException("on of your operand is false");
 		}
 	}
 	@Override

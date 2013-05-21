@@ -11,7 +11,7 @@ public class SquareRootExpression extends UnaryExpression  implements DoubleExpr
 		if(getOperand().hasTypeDouble()){
 			return Math.sqrt((double) getOperand().getValue());
 		} else {
-			return 0;
+			throw new IllegalArgumentException("on of your operand is false");
 		}
 	}
 

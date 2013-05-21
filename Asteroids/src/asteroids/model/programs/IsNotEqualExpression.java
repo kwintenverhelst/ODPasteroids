@@ -13,7 +13,7 @@ public class IsNotEqualExpression extends BinaryExpression implements BooleanExp
 		if(getLeftOperand().hasTypeDouble() && getRightOperand().hasTypeDouble()){
 			return ! Util.fuzzyEquals((double) getLeftOperand().getValue(), (double) getRightOperand().getValue());
 		} else {
-			return false;
+			throw new IllegalArgumentException("on of your operand is false");
 		}
 	}
 	@Override

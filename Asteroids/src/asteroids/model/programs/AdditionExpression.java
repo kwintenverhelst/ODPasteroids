@@ -34,7 +34,7 @@ public class AdditionExpression extends BinaryExpression  implements DoubleExpre
 		if(getLeftOperand().hasTypeDouble() && getRightOperand().hasTypeDouble()){
 			return (double) getLeftOperand().getValue() + (double) getRightOperand().getValue();
 		} else {
-			return 0;
+			throw new IllegalArgumentException("on of your operand is false");
 		}
 	}
 

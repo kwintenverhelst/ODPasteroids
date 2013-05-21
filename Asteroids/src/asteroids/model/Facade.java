@@ -336,7 +336,8 @@ public class Facade implements IFacade<World, Ship, Asteroid, Bullet, Program> {
 
 	@Override
 	public void setShipProgram(Ship ship, Program program) {
-		// TODO Auto-generated method stub
+		program.setEntity(ship);
+
 
 	}
 

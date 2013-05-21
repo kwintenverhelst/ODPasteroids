@@ -13,7 +13,7 @@ public class GetRadiusExpression extends UnaryExpression implements DoubleExpres
 		if(getOperand().hasTypeEntity()){
 			return ((ObjectInSpace) getOperand().getValue()).getRadius();
 		} else {
-			return 0;
+			throw new IllegalArgumentException("on of your operand is false");
 		}
 	}
 

@@ -11,7 +11,7 @@ public class LessThanOrEqualExpression extends BinaryExpression implements Boole
 		if(getLeftOperand().hasTypeDouble() && getRightOperand().hasTypeDouble()){
 			return (double) getLeftOperand().getValue() <= (double) getRightOperand().getValue();
 		} else {
-			return false;
+			throw new IllegalArgumentException("on of your operand is false");
 		}
 	}
 	
