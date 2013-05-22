@@ -2,8 +2,6 @@ package asteroids.model;
 
 import java.util.*;
 
-import javax.swing.Timer;
-
 import asteroids.CollisionListener;
 import asteroids.Util;
 import be.kuleuven.cs.som.annotate.*;
@@ -489,6 +487,7 @@ public class World {
 	 *      |	 objectInSpace.move(firstCollision.getTimeToCollision(firstCollisions.get(firstCollision))) 
 	 *      | 	 if(Ship.isShip(objectInSpace)) && ((Ship) objectInSpace.checkIfThrustIsEnabled())) 
 	 *      | 		then objectInSpace.thrust(firstCollision.getTimeToCollision(firstCollisions.get(firstCollision)))
+	 *      | && executePrograms(time)
 	 *      |	 collisionListener.objectCollision(firstCollider, secondCollider, firstCollider.getCollisionPosition(secondCollider)[0],firstCollider.getCollisionPosition(secondCollider)[1])
 	 *      | 	 firstCollision.collide(firstCollisions.get(firstCollision))
 	 *      | 	 this.updateCollisions(firstCollision)
@@ -502,6 +501,7 @@ public class World {
 	 * 		| 		objectInSpace.move(time) 
 	 * 		| 	 && if(Ship.isShip(objectInSpace)) && ((Ship) objectInSpace.checkIfThrustIsEnabled()))
 	 *      | 			then objectInSpace.thrust(time)
+	 *      | 	&& executePrograms(time)
 	 */
 	public void evolve(double time, CollisionListener collisionListener) {
 		double timeToFirstCollision = time;
@@ -560,16 +560,19 @@ public class World {
 
 	/**
 	 * 
+	 * @param time
 	 */
 	private void executePrograms(double time){
-		while(time > 0.2){
+		timeTillExecute = timeTillExecute + time; 
+		while(timeTillExecute > 0.2){
 				for (Ship ship : getShips()) {
 					if (ship.hasProgram()) {
 						ship.getProgram().execute();
 					}
 				}
-				time = time - 0.2;
+				timeTillExecute = timeTillExecute - 0.2;
 			}
 		}
 	
+	private double timeTillExecute;
 }
