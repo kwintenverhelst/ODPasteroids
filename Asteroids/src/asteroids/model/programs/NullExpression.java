@@ -25,7 +25,7 @@ public class NullExpression extends BasicExpression {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return null;
+		return "null expression";
 	}
 
 	@Override

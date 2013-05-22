@@ -29,7 +29,7 @@ public class BooleanLiteral extends BasicExpression implements
 
 	@Override
 	public String toString() {
-		return null;
+		return value + "  boolean expression";
 	}
 	
 	@Override

@@ -84,13 +84,19 @@ public class Program {
 	}
 	
 	public void setValueToGlobal(String name, Expression expression){
+		System.out.println("change a value in program");
+
 		if(hasAsGlobal(name)){
+			System.out.println("change a value gelukt in program  " + name + "  " + expression);
+
 			getGlobalsValues().remove(name);
 			getGlobalsValues().put(name, expression);
 		}
 	}
 	
 	public Expression getValueOfGlobal(String name){
+		System.out.println("expression uit global " + name + "   " + getGlobalsValues().get(name) + "  " + getGlobalsValues().get(name).getValue() );
+
 		return getGlobalsValues().get(name);
 	}
 	

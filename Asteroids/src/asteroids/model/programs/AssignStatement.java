@@ -13,6 +13,8 @@ public class AssignStatement extends Statement {
 
 	@Override
 	public void execute() {
+		System.out.println(variable + "   :  assign  excecute " + expression.getValue() + "  " + expression  );
+
 		Statement.getProgram().setValueToGlobal(getVariable(), getExpression());
 	}
 	

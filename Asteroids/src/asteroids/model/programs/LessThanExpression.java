@@ -10,8 +10,11 @@ public class LessThanExpression extends BinaryExpression implements BooleanExpre
 	public Object getValue() {
 		if(getLeftOperand().hasTypeDouble() && getRightOperand().hasTypeDouble()){
 			return (double) getLeftOperand().getValue() < (double) getRightOperand().getValue();
+		} else if(!getLeftOperand().hasTypeDouble()) {
+			throw new IllegalArgumentException("on of your operand is false left");
 		} else {
-			throw new IllegalArgumentException("on of your operand is false");
+			throw new IllegalArgumentException("on of your operand is false right");
+	
 		}
 	}
 	
