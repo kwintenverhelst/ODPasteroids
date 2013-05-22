@@ -71,7 +71,7 @@ public class ProgramFactoryImpl implements ProgramFactory<Expression, Statement,
 	@Override
 	public Expression createVariable(int line, int column, String name) {
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		return null ;
+		return new VariableExpression(name, line, column);
 	}
 
 	@Override

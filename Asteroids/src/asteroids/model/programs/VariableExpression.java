@@ -7,6 +7,7 @@ public class VariableExpression extends BasicExpression implements
 
 	public VariableExpression(String name, int line, int column) {
 		super(line, column);
+		System.out.println(name + "variable");
 		this.name = name;
 
 	}

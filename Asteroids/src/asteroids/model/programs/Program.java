@@ -34,6 +34,7 @@ public class Program {
 	
 	public void setEntity(Ship entity){
 		this.entity = entity;
+		entity.setProgram(this);
 		SelfExpression.setSelf(entity);
 	}
 	

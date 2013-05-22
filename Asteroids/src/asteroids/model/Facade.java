@@ -338,7 +338,6 @@ public class Facade implements IFacade<World, Ship, Asteroid, Bullet, Program> {
 	public void setShipProgram(Ship ship, Program program) {
 		program.setEntity(ship);
 
-
 	}
 
 }
