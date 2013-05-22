@@ -1,6 +1,7 @@
 package asteroids.model.programs;
 
 import java.util.Map;
+import java.util.Set;
 
 import asteroids.model.*;
 
@@ -10,6 +11,8 @@ public class Program {
 	
 	private Map<String, Type> globals;
 	
+	private Map<String, Expression> globalsValue;
+	
 	private Statement statement;
 	
 	public Program() {
@@ -18,6 +21,7 @@ public class Program {
 	public Program(Map<String, Type> globals, Statement statement) {
 		this.globals = globals;
 		this.statement = statement;
+		defaultValue();
 	}
 	
 	public Map<String, Type> getGlobals() {
@@ -46,5 +50,39 @@ public class Program {
 
 	public void execute(){
 		getStatement().execute();
+	}
+	public Map<String, Expression> getGlobalsValues() {
+		return this.globalsValue;
+	}
+	
+	public void defaultValue(){
+		Set<String> globalNames = getGlobalsValues().keySet(); 
+		for(String name : globalNames){
+			Type type = getGlobals().get(name);
+			Expression expression = null;
+			if(type == Type.BOOLEAN){
+				expression = new BooleanLiteral(0, 0, false);
+			} else if(type == Type.DOUBLE){
+				expression = new ConstantExpression(0, 0, 0);
+			} else if(type == Type.ENTITY){
+				expression = new NullExpression(0, 0);
+			}
+			getGlobalsValues().put(name, expression);
+		}
+	}
+	
+	public boolean hasAsGlobal(String name){
+		return getGlobals().containsKey(name);
+	}
+	
+	public void setValueToGlobal(String name, Expression expression){
+		if(hasAsGlobal(name)){
+			getGlobalsValues().remove(name);
+			getGlobalsValues().put(name, expression);
+		}
+	}
+	
+	public Expression getValueOfGlobal(String name){
+		return getGlobalsValues().get(name);
 	}
 }

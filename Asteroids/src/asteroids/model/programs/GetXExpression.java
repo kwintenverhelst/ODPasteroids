@@ -11,6 +11,7 @@ public class GetXExpression extends UnaryExpression implements DoubleExpression 
 	@Override
 	public Object getValue() {
 		if (getOperand().hasTypeEntity()) {
+			System.out.println(((ObjectInSpace) getOperand().getValue()).getX() + "   :  variable" );
 			return ((ObjectInSpace) getOperand().getValue()).getX();
 		} else {
 			throw new IllegalArgumentException("on of your operand is false");

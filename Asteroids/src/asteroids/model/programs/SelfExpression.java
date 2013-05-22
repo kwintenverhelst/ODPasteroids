@@ -36,7 +36,7 @@ public class SelfExpression extends BasicExpression implements EntityExpression 
 
 	@Override
 	public String toString() {
-		return null;
+		return "  Self expression" +  SELF;
 	}
 	
 	@Override

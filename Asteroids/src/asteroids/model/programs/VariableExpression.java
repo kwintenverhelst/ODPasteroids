@@ -1,22 +1,36 @@
 package asteroids.model.programs;
 
+import be.kuleuven.cs.som.annotate.Basic;
 import asteroids.model.ObjectInSpace;
 
-public class VariableExpression extends BasicExpression implements
-		EntityExpression {
+public class VariableExpression extends BasicExpression  {
 
 	public VariableExpression(String name, int line, int column) {
 		super(line, column);
-		System.out.println(name + "variable");
+		System.out.println(name + "   :  variable" + line + "    " + column);
 		this.name = name;
 
 	}
 
 	private String name;
+	
+	private Expression value;
+	
+	private Type type;
 
+	public void setValue(Expression expression){
+		this.value = expression;
+		type = expression.getType();
+	}
+	
+	@Basic
+	public String getName(){
+		return this.name;
+	}
 	@Override
 	public Object getValue() {
-		return name;
+		System.out.println(value.getValue() + "   :  variable");
+		return value.getValue();
 	}
 
 	@Override
@@ -31,12 +45,12 @@ public class VariableExpression extends BasicExpression implements
 
 	@Override
 	public String toString() {
-		return null;
+		return name + "";
 	}
 	
 	@Override
 	public Type getType() {
-		return TYPE;
+		return type;
 	}
 
 }
