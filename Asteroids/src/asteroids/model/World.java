@@ -562,9 +562,9 @@ public class World {
 		long timeSinceLastExecute = now - timeOfLastExecute;
 		if(timeSinceLastExecute >= 200){
 			timeOfLastExecute = now;
-			for (ObjectInSpace objectInSpace : objectsInSpace) {
-				if (objectInSpace instanceof Ship && ((Ship) objectInSpace).hasProgram()) {
-					((Ship) objectInSpace).getProgram().execute();
+			for (Ship ship : getShips()) {
+				if (ship.hasProgram()) {
+					ship.getProgram().execute();
 				}
 			}
 		}
