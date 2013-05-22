@@ -8,7 +8,7 @@ public class FireStatement extends ActionStatement {
 	
 	@Override
 	public void execute(){
-		getEntity().firebullet();
+		 SelfExpression.getSelf().firebullet();
 	}
 
 }

@@ -40,8 +40,7 @@ public class ProgramFactoryImpl implements ProgramFactory<Expression, Statement,
 
 	@Override
 	public Expression createSelf(int line, int column) {
-		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		return null ;
+		return new SelfExpression(line, column);
 	}
 
 	@Override

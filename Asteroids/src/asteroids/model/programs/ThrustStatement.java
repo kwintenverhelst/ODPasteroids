@@ -8,7 +8,7 @@ public class ThrustStatement extends ActionStatement {
 	
 	@Override
 	public void execute(){
-		getEntity().setThrusterActive(true);
+		SelfExpression.getSelf().setThrusterActive(true);
 		}
 
 }

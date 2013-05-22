@@ -1,20 +1,27 @@
 package asteroids.model.programs;
 
-import asteroids.model.ObjectInSpace;
+import asteroids.model.Ship;
 
 public class SelfExpression extends BasicExpression implements EntityExpression {
 
-	public SelfExpression(ObjectInSpace value, int line, int column) {
+	public SelfExpression(int line, int column) {
 		super(line, column);
-		this.value = value;
 
 	}
-
-	private ObjectInSpace value;
-
+	
+	private static Ship SELF;
+	
+	public static void setSelf(Ship self){
+		SELF = self;
+	}
+	
+	public static Ship getSelf(){
+		return SELF;
+	}
+	
 	@Override
 	public Object getValue() {
-		return value;
+		return SELF;
 	}
 
 	@Override

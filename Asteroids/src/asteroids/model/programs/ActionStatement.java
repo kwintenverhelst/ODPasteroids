@@ -10,7 +10,7 @@ public abstract class ActionStatement extends Statement {
 	}
 
 	public Ship getEntity(){
-		return getProgram().getEntity();
+		return SelfExpression.getSelf();
 	}
 	
 	@Override
