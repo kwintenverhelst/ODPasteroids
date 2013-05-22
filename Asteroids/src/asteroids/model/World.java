@@ -555,13 +555,18 @@ public class World {
 		}
 	}
 	
-	private Timer timer;
+	private long timeOfLastExecute;
 	
 	private void executePrograms(){
-		if(timeSinceLastExecute >= 200)
+		long now = System.currentTimeMillis();
+		long timeSinceLastExecute = now - timeOfLastExecute;
+		if(timeSinceLastExecute >= 200){
+			timeOfLastExecute = now;
 			for (ObjectInSpace objectInSpace : objectsInSpace) {
 				if (objectInSpace instanceof Ship && ((Ship) objectInSpace).hasProgram()) {
 					((Ship) objectInSpace).getProgram().execute();
+				}
+			}
+		}
 	}
-
 }
