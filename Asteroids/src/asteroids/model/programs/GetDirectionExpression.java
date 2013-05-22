@@ -2,10 +2,10 @@ package asteroids.model.programs;
 
 import asteroids.model.Ship;
 
-public class getDirectionExpression extends UnaryExpression implements
+public class GetDirectionExpression extends UnaryExpression implements
 		DoubleExpression {
 
-	public getDirectionExpression( int line, int column) {
+	public GetDirectionExpression( int line, int column) {
 		super(new SelfExpression(line, column), line, column);
 	}
 

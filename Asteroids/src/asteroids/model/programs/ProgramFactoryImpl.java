@@ -141,7 +141,7 @@ public class ProgramFactoryImpl implements ProgramFactory<Expression, Statement,
 
 	@Override
 	public Expression createGetDirection(int line, int column) {
-		return new  ;
+		return new GetDirectionExpression(line, column);
 	}
 
 	@Override
