@@ -1,6 +1,7 @@
 package asteroids.model.programs;
 
 import be.kuleuven.cs.som.annotate.Basic;
+import be.kuleuven.cs.som.annotate.Immutable;
 import asteroids.model.*;
 import asteroids.model.programs.parsing.ProgramFactory.ForeachType;
 
@@ -8,31 +9,43 @@ public class ForEachStatement extends Statement {
 		
 	public ForEachStatement(int line, int column, ForeachType type, String variableName, Statement body){
 		super(line, column);
-		variable = variableName;
-		subStatement = body;
+		setVariable(variableName);
+		setSubStatement(body);
 		this.type = type;
 	}
+	
+	
 	
 	@Basic
 	public String getVariableName(){
 		return variable;
 	}
 	
+	public boolean isValidVariable(String variable){
+		return getProgram().hasAsGlobal(variable);
+	}
+	
+	public void setVariable(String variable){
+		assert isValidVariable(variable);
+		this.variable = variable;
+	}
+	
 	private String variable;
 
-	/**
+		@Basic
+	public Statement getSubStatement(){
+		return subStatement;
+	}
+		/**
 	 * 
 	 * @param statement
 	 * @return
 	 */
 	@Override
 	public boolean canHaveAsSubStatement(Statement subStatement) {
+		if(subStatement instanceof ActionStatement)
+			return false;
 		return true;
-	}
-	
-	@Basic
-	public Statement getSubStatement(){
-		return subStatement;
 	}
 	
 	/**
@@ -48,11 +61,11 @@ public class ForEachStatement extends Statement {
 	
 	@Override
 	public boolean canHaveAsExpression(Expression expression) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
-	private ForeachType getType(){
+	@Basic @Immutable
+	public ForeachType getType(){
 		return type;
 	}
 	

@@ -507,7 +507,6 @@ public class World {
 		double timeToFirstCollision = time;
 		ObjectInSpace firstCollider = null;
 		ObjectInSpace secondCollider = null;
-		executePrograms();
 		for (ObjectInSpace objectInSpace : objectsInSpace) {
 			double timeToCollision;
 			if (firstCollisions.get(objectInSpace) == null) {
@@ -539,6 +538,7 @@ public class World {
 			}
 			updateFirstCollisions(firstCollider);
 			updateFirstCollisions(secondCollider);
+			executePrograms(time);
 			double newTime = time - timeToFirstCollision;
 			evolve(newTime, collisionListener);
 		} else {
@@ -549,24 +549,30 @@ public class World {
 						((Ship) objectInSpace).thrust(time);
 						updateFirstCollisions(objectInSpace);
 					}
-
+			
 				}
+				executePrograms(time);
 			}
 		}
 	}
+	
+
+	/**
+	 * 
+	 */
+	private void executePrograms(double time){
+		long now = System.currentTimeMillis();
+		long timeSinceLastExecute = now - timeOfLastExecute;
+			if(timeSinceLastExecute > 200){
+				timeOfLastExecute = System.currentTimeMillis();
+				for (Ship ship : getShips()) {
+					if (ship.hasProgram()) {
+						ship.getProgram().execute();
+					}
+				}
+			}
+		}
 	
 	private long timeOfLastExecute;
 	
-	private void executePrograms(){
-		long now = System.currentTimeMillis();
-		long timeSinceLastExecute = now - timeOfLastExecute;
-		if(timeSinceLastExecute >= 200){
-			timeOfLastExecute = now;
-			for (Ship ship : getShips()) {
-				if (ship.hasProgram()) {
-					ship.getProgram().execute();
-				}
-			}
-		}
-	}
 }

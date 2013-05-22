@@ -1,7 +1,5 @@
 package asteroids.model.programs;
 
-import org.stringtemplate.v4.compiler.STParser.expr_return;
-
 import be.kuleuven.cs.som.annotate.*;
 
 public class WhileStatement extends Statement {
