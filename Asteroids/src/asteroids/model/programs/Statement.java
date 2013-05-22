@@ -36,16 +36,16 @@ public abstract class Statement{
 	
 	public abstract boolean canHaveAsExpression(Expression expression);
 	
-	public final void setProgram(Program program){
-		this.program=program;
+	public static void setProgram(Program program){
+		PROGRAM=program;
 	}
 		
 	
-	public final Program getProgram(){
-		return program;
+	public static Program getProgram(){
+		return PROGRAM;
 	}
 	
-	private Program program;
+	private static Program PROGRAM;
 	
 	
 	

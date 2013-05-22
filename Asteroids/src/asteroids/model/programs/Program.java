@@ -19,9 +19,12 @@ public class Program {
 	}
 	
 	public Program(Map<String, Type> globals, Statement statement) {
+		Expression.setProgram(this);
+		Statement.setProgram(this);
 		this.globals = globals;
 		this.statement = statement;
 		defaultValue();
+		
 	}
 	
 	public Map<String, Type> getGlobals() {

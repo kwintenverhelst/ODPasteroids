@@ -18,9 +18,8 @@ public class VariableExpression extends BasicExpression  {
 	
 	private Type type;
 
-	public void setValue(Expression expression){
-		this.value = expression;
-		type = expression.getType();
+	private void setValue(){
+		
 	}
 	
 	@Basic
@@ -29,7 +28,6 @@ public class VariableExpression extends BasicExpression  {
 	}
 	@Override
 	public Object getValue() {
-		System.out.println(value.getValue() + "   :  variable");
 		return value.getValue();
 	}
 
