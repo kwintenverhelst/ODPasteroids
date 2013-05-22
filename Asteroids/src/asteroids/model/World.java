@@ -528,6 +528,8 @@ public class World {
 					updateFirstCollisions(objectInSpace);
 				}
 			}
+			
+			executePrograms(timeToFirstCollision);
 
 			if (secondCollider == null) {
 				firstCollider.collideWithWand();
@@ -538,7 +540,6 @@ public class World {
 			}
 			updateFirstCollisions(firstCollider);
 			updateFirstCollisions(secondCollider);
-			executePrograms(time);
 			double newTime = time - timeToFirstCollision;
 			evolve(newTime, collisionListener);
 		} else {
@@ -561,18 +562,14 @@ public class World {
 	 * 
 	 */
 	private void executePrograms(double time){
-		long now = System.currentTimeMillis();
-		long timeSinceLastExecute = now - timeOfLastExecute;
-			if(timeSinceLastExecute > 200){
-				timeOfLastExecute = System.currentTimeMillis();
+		while(time > 0.2){
 				for (Ship ship : getShips()) {
 					if (ship.hasProgram()) {
 						ship.getProgram().execute();
 					}
 				}
+				time = time - 0.2;
 			}
 		}
-	
-	private long timeOfLastExecute;
 	
 }

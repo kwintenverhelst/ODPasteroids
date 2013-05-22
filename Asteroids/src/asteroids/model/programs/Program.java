@@ -58,21 +58,21 @@ public class Program {
 		return this.globalsValue;
 	}
 	
-	public void defaultValue(){
-		Set<String> globalNames = getGlobalsValues().keySet(); 
-		for(String name : globalNames){
-			Type type = getGlobals().get(name);
-			Expression expression = null;
-			if(type == Type.BOOLEAN){
-				expression = new BooleanLiteral(0, 0, false);
-			} else if(type == Type.DOUBLE){
-				expression = new ConstantExpression(0, 0, 0);
-			} else if(type == Type.ENTITY){
-				expression = new NullExpression(0, 0);
-			}
-			getGlobalsValues().put(name, expression);
-		}
-	}
+//	public void defaultValue(){
+//		Set<String> globalNames = getGlobalsValues().keySet(); 
+//		for(String name : globalNames){
+//			Type type = getGlobals().get(name);
+//			Expression expression = null;
+//			if(type == Type.BOOLEAN){
+//				expression = new BooleanLiteral(0, 0, false);
+//			} else if(type == Type.DOUBLE){
+//				expression = new ConstantExpression(0, 0, 0);
+//			} else if(type == Type.ENTITY){
+//				expression = new NullExpression(0, 0);
+//			}
+//			getGlobalsValues().put(name, expression);
+//		}
+//	}
 	
 	public boolean hasAsGlobal(String name){
 		return getGlobals().containsKey(name);
