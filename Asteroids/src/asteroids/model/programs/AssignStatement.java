@@ -6,15 +6,12 @@ public class AssignStatement extends Statement {
 	
 	public AssignStatement(int line, int column, String variable, Expression rhs){
 		super(line, column);
-		System.out.println(variable + "   :  assign  " + rhs);
 		setVariable(variable);
 		setExpression(rhs);
 	}
 
 	@Override
 	public void execute() {
-		System.out.println(variable + "   :  assign  excecute " + expression.getValue() + "  " + expression  );
-
 		Statement.getProgram().setValueToGlobal(getVariable(), getExpression());
 	}
 	

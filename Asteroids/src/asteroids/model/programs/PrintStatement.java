@@ -6,8 +6,10 @@ public class PrintStatement extends Statement {
 
 	public PrintStatement(int line, int column, Expression expression){
 		super(line, column);
-		setToPrint(expression);
+		this.expression = expression;
 	}
+	
+	private Expression expression;
 	
 	@Override
 	public boolean canHaveAsSubStatement(Statement subStatement) {
@@ -24,8 +26,7 @@ public class PrintStatement extends Statement {
 		return toPrint;
 	}
 	
-	public void setToPrint(Expression expression){
-		
+	public void setToPrint(){
 		if(expression != null && expression.getValue() != null){
 			toPrint = expression.getValue().toString();
 		}
@@ -38,6 +39,7 @@ public class PrintStatement extends Statement {
 	
 	@Override
 	public void execute() {
+		setToPrint();
 		System.out.println(toPrint);
 	}
 

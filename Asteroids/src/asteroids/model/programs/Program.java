@@ -65,16 +65,12 @@ public class Program {
 			Type type = getGlobals().get(name);
 			Expression expression = null;
 			if(type == Type.BOOLEAN){
-				System.out.print("boolean program");
 				expression = new BooleanLiteral(0, 0, false);
 			} else if(type == Type.DOUBLE){
-				System.out.print("boolean program");
 				expression = new ConstantExpression(0, 0, 0);
 			} else if(type == Type.ENTITY){
-				System.out.print("boolean program");
 				expression = new NullExpression(0, 0);
 			}
-			System.out.print(expression.getValue());
 			getGlobalsValues().put(name, expression);
 		}
 	}
@@ -84,19 +80,13 @@ public class Program {
 	}
 	
 	public void setValueToGlobal(String name, Expression expression){
-		System.out.println("change a value in program");
-
 		if(hasAsGlobal(name)){
-			System.out.println("change a value gelukt in program  " + name + "  " + expression);
-
 			getGlobalsValues().remove(name);
 			getGlobalsValues().put(name, expression);
 		}
 	}
 	
 	public Expression getValueOfGlobal(String name){
-		System.out.println("expression uit global " + name + "   " + getGlobalsValues().get(name) + "  " + getGlobalsValues().get(name).getValue() );
-
 		return getGlobalsValues().get(name);
 	}
 	
