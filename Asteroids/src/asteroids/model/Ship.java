@@ -2,6 +2,7 @@ package asteroids.model;
 
 import java.util.ArrayList;
 
+import asteroids.model.programs.Program;
 import be.kuleuven.cs.som.annotate.*;
 
 /**
@@ -248,6 +249,36 @@ public class Ship  extends ObjectInSpace{
 	public static boolean isShip(Object object){
 		return Ship.class.isAssignableFrom(object.getClass());
 	}
-
+	
+	
+	public boolean hasProgram(){
+		if(getProgram()!= null && getProgram().getEntity() !=null)
+			return true;
+		return false;
+	}
+	
+	public boolean canHaveAsProgram(Program program){
+		if(program == null)
+			return false;
+		if(program.getEntity() == null)
+			return true;
+		if(program.getEntity() == this)
+			return true;
+		return false;
+	}
+	
+	public void setProgram(Program program){
+		if(canHaveAsProgram(program))
+			this.program = program;
+	}
+	
+	@Basic
+	public Program getProgram(){
+		return program;
+	}
+	
+	private Program program;
+	
+	
 	
 }

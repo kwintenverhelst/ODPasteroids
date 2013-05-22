@@ -2,6 +2,8 @@ package asteroids.model;
 
 import java.util.*;
 
+import javax.swing.Timer;
+
 import asteroids.CollisionListener;
 import asteroids.Util;
 import be.kuleuven.cs.som.annotate.*;
@@ -505,6 +507,7 @@ public class World {
 		double timeToFirstCollision = time;
 		ObjectInSpace firstCollider = null;
 		ObjectInSpace secondCollider = null;
+		executePrograms();
 		for (ObjectInSpace objectInSpace : objectsInSpace) {
 			double timeToCollision;
 			if (firstCollisions.get(objectInSpace) == null) {
@@ -550,6 +553,15 @@ public class World {
 				}
 			}
 		}
+	}
+	
+	private Timer timer;
+	
+	private void executePrograms(){
+		if(timeSinceLastExecute >= 200)
+			for (ObjectInSpace objectInSpace : objectsInSpace) {
+				if (objectInSpace instanceof Ship && ((Ship) objectInSpace).hasProgram()) {
+					((Ship) objectInSpace).getProgram().execute();
 	}
 
 }

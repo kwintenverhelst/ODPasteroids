@@ -37,7 +37,12 @@ public class Program {
 	}
 	
 	public World getWorld(){
-		return null;
+		if(getEntity()==null)
+			return null;
+		return getEntity().getWorld();
 	}
 
+	public void execute(){
+		getStatement().execute();
+	}
 }
