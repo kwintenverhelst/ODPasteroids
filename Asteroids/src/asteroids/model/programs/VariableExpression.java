@@ -1,15 +1,13 @@
 package asteroids.model.programs;
 
 import be.kuleuven.cs.som.annotate.Basic;
-import asteroids.model.ObjectInSpace;
 
 public class VariableExpression extends BasicExpression  {
 
 	public VariableExpression(String name, int line, int column) {
 		super(line, column);
-		System.out.println(name + "   :  variable" + line + "    " + column);
 		this.name = name;
-
+		setValue(name);
 	}
 
 	private String name;
@@ -18,8 +16,11 @@ public class VariableExpression extends BasicExpression  {
 	
 	private Type type;
 
-	private void setValue(){
-		
+	private void setValue(String name){
+		if(Expression.getProgram() != null){
+			Expression.getProgram().getValueOfGlobal(getName());
+			this.type = this.value.getType();
+		}
 	}
 	
 	@Basic
@@ -28,6 +29,9 @@ public class VariableExpression extends BasicExpression  {
 	}
 	@Override
 	public Object getValue() {
+		if(this.value == null){
+			return null;
+		}
 		return value.getValue();
 	}
 

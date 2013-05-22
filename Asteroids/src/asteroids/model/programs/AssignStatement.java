@@ -13,7 +13,7 @@ public class AssignStatement extends Statement {
 
 	@Override
 	public void execute() {
-		
+		Statement.getProgram().setValueToGlobal(getVariable(), getExpression());
 	}
 	
 	@Override
@@ -53,7 +53,7 @@ public class AssignStatement extends Statement {
 	 * @param 
 	 */
 	public void setVariable(String variable){
-		//nog doen
+		this.variable = variable;
 	}
 
 	private String variable;
