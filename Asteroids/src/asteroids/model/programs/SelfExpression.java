@@ -1,6 +1,6 @@
 package asteroids.model.programs;
 
-import asteroids.model.ObjectInSpace;
+import asteroids.model.Ship;
 
 public class SelfExpression extends BasicExpression implements EntityExpression {
 
@@ -9,10 +9,14 @@ public class SelfExpression extends BasicExpression implements EntityExpression 
 
 	}
 	
-	private static ObjectInSpace SELF;
+	private static Ship SELF;
 	
-	public static void setSelf(ObjectInSpace self){
+	public static void setSelf(Ship self){
 		SELF = self;
+	}
+	
+	public static Ship getSelf(){
+		return SELF;
 	}
 	
 	@Override
