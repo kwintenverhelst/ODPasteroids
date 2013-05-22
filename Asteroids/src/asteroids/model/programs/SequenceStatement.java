@@ -1,13 +1,13 @@
 package asteroids.model.programs;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class SequenceStatement extends Statement {
 
 	public SequenceStatement (int line, int column, List<Statement> statements){
 		super(line, column);
-		statements = new ArrayList<Statement>(statements);
+		this.statements = statements;
 	}
 	
 	@Override
