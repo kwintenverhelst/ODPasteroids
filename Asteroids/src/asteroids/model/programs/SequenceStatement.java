@@ -21,7 +21,7 @@ public class SequenceStatement extends Statement {
 	}
 	
 	public Statement getStatementAt(int index){
-		return statements.get(index -1);
+		return statements.get(index);
 	}
 	
 	private List<Statement> statements;
