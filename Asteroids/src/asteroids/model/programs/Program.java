@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import be.kuleuven.cs.som.annotate.Basic;
+
 import asteroids.model.*;
 
 public class Program {
@@ -52,9 +54,7 @@ public class Program {
 		return getEntity().getWorld();
 	}
 
-	public void execute(){
-		getStatement().execute();
-	}
+
 	public Map<String, Expression> getGlobalsValues() {
 		return this.globalsValue;
 	}
@@ -65,12 +65,16 @@ public class Program {
 			Type type = getGlobals().get(name);
 			Expression expression = null;
 			if(type == Type.BOOLEAN){
+				System.out.print("boolean program");
 				expression = new BooleanLiteral(0, 0, false);
 			} else if(type == Type.DOUBLE){
+				System.out.print("boolean program");
 				expression = new ConstantExpression(0, 0, 0);
 			} else if(type == Type.ENTITY){
+				System.out.print("boolean program");
 				expression = new NullExpression(0, 0);
 			}
+			System.out.print(expression.getValue());
 			getGlobalsValues().put(name, expression);
 		}
 	}
@@ -89,4 +93,30 @@ public class Program {
 	public Expression getValueOfGlobal(String name){
 		return getGlobalsValues().get(name);
 	}
+	
+	@Basic
+	public Statement getLastExecuted(){
+		return lastExecuted;
+	}
+	
+	public void setLastExecuted(Statement statement){
+		lastExecuted = statement;
+	}
+	
+	private Statement lastExecuted;
+	
+	private boolean executed;
+	
+	public void execute(){
+		if(!executed){
+			if(getLastExecuted() == null){
+				getStatement().execute();
+			}
+			else{
+				getLastExecuted().execute();
+			}
+			executed =true;
+		}
+	}
+
 }

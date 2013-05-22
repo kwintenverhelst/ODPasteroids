@@ -9,6 +9,7 @@ public class FireStatement extends ActionStatement {
 	@Override
 	public void execute(){
 		 SelfExpression.getSelf().firebullet();
+		 getProgram().setLastExecuted(this);
 	}
 
 }
