@@ -189,14 +189,14 @@ public abstract class Expression {
 	public abstract Type getType();
 	
 	public boolean hasTypeBoolean(){
-		return this.getType() == Type.BOOLEAN;
+		return this.getValue() != null && this.getType() == Type.BOOLEAN;
 	}
 
 	public boolean hasTypeDouble(){
-		return this.getType() == Type.DOUBLE;
+		return this.getValue() != null && this.getType() == Type.DOUBLE;
 	}
 	
 	public boolean hasTypeEntity(){
-		return this.getType() == Type.ENTITY;
+		return this.getValue() != null && this.getType() == Type.ENTITY;
 	}
 }
