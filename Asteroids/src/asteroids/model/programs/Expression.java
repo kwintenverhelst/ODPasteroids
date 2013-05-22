@@ -193,7 +193,7 @@ public abstract class Expression {
 	}
 
 	public boolean hasTypeDouble(){
-		return this.getValue() != null && this.getType() == Type.DOUBLE;
+		return this.getValue() == null || this.getType() == Type.DOUBLE;
 	}
 	
 	public boolean hasTypeEntity(){

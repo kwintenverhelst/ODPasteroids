@@ -73,7 +73,9 @@ public class WhileStatement extends Statement {
 	@Override
 	public void execute() {
 		while((boolean) getExpression().getValue()){
+			System.out.println(getSubStatement() + " while lus " + getExpression().getValue());
 			getSubStatement().execute();	
+			System.out.println("deel 2");
 		}
 
 	}

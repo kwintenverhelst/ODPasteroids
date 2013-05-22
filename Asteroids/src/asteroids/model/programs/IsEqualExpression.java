@@ -12,8 +12,11 @@ public class IsEqualExpression  extends BinaryExpression implements BooleanExpre
 	public Object getValue() {
 		if(getLeftOperand().hasTypeDouble() && getRightOperand().hasTypeDouble()){
 			return Util.fuzzyEquals((double) getLeftOperand().getValue(), (double) getRightOperand().getValue());
+		} else if(!getLeftOperand().hasTypeDouble()){
+			throw new IllegalArgumentException("on of your left operand is false");
 		} else {
-			throw new IllegalArgumentException("on of your operand is false");
+			throw new IllegalArgumentException("on of your right operand is false");
+
 		}
 	}
 
