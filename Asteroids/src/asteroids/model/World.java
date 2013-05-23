@@ -559,8 +559,14 @@ public class World {
 	
 
 	/**
-	 * 
 	 * @param time
+	 * @post ...
+	 * 		| new timeTillExecute = timeTillExecute - time
+	 * 		| if(timeTillExecute > 0.2)
+	 * 		| then timeTillExecute = timeTillExecute - 0.2
+	 * 		| && for each ship in getShips():
+	 * 		| 		if(ship.hasProgram())
+	 * 		| 		then ship.getProgram().execute()
 	 */
 	private void executePrograms(double time){
 		timeTillExecute = timeTillExecute + time; 
