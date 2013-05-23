@@ -29,7 +29,6 @@ public class ConstantExpression extends BasicExpression implements
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return value + "  constant expression";
 	}
 	

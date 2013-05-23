@@ -142,7 +142,6 @@ public class AsteroidsParserMyListener<E, S, T> implements
 	}
 
 	void addDeclaration(AsteroidsParserParser.DeclContext d) {
-		System.out.println("has");
 		if (d == null) {
 			return;
 		}

@@ -76,7 +76,7 @@ public class PrintStatement extends Statement {
 	
 	@Override
 	public void execute() {
-
+		setToPrint();
 		if(!getProgram().isInterupted())
 			System.out.println(toPrint);
 	}

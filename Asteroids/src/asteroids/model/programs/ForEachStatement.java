@@ -113,26 +113,35 @@ public class ForEachStatement extends Statement {
 	
 	private ForeachType type;
 	
+	public void assignEntityToVariable(ObjectInSpace object){
+		Expression expression = new EntityLiteralExpression(object, 0, 0);
+		new AssignStatement(getLine(), getColumn(), getVariableName(), expression).execute();
+	}
+	
 	@Override
 	public void execute() {
 		if(!getProgram().isInterupted()){
 			if(getType()==ForeachType.SHIP){
 				for(Ship ship: getProgram().getWorld().getShips()){
+					assignEntityToVariable(ship);
 					getSubStatement().execute();
 				}
 			}
 			else if(getType()==ForeachType.ASTEROID){
 				for(Asteroid ship: getProgram().getWorld().getAsteroids()){
+					assignEntityToVariable(ship);
 					getSubStatement().execute();
 				}
 			}
 			else if(getType()==ForeachType.BULLET){
 				for(Bullet ship: getProgram().getWorld().getBullets()){
+					assignEntityToVariable(ship);
 					getSubStatement().execute();
 				}
 			}
 			else if(getType()==ForeachType.ANY){
 				for(ObjectInSpace ship: getProgram().getWorld().getAllObjectsInSpace()){
+					assignEntityToVariable(ship);
 					getSubStatement().execute();
 				}
 			}
