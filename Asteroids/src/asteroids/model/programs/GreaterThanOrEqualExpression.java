@@ -8,7 +8,9 @@ public class GreaterThanOrEqualExpression extends BinaryExpression implements Bo
 
 	@Override
 	public Object getValue() {
-		if(getLeftOperand().hasTypeDouble() && getRightOperand().hasTypeDouble()){
+		if(getLeftOperand().getValue() == null || getRightOperand().getValue() == null){
+			return  false;
+		} else if(getLeftOperand().hasTypeDouble() && getRightOperand().hasTypeDouble()){
 			return (double) getLeftOperand().getValue() >= (double) getRightOperand().getValue();
 		} else {
 			throw new IllegalArgumentException("on of your operand is false");
