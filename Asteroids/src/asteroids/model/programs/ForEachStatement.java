@@ -49,6 +49,15 @@ public class ForEachStatement extends Statement {
 		return true;
 	}
 	
+	@Override
+	public boolean hasAsSubStatement(Statement statement){
+		if(getSubStatement()==statement)
+			return true;
+		if(getSubStatement().hasAsSubStatement(statement))
+			return true;
+		return false;
+	}
+	
 	/**
 	 * 
 	 * @param statement
@@ -106,29 +115,29 @@ public class ForEachStatement extends Statement {
 	
 	@Override
 	public void execute() {
-		if(!getProgram().isInterupted())
-		if(getType()==ForeachType.SHIP){
-			for(Ship ship: getProgram().getWorld().getShips()){
-				getSubStatement().execute();
+		if(!getProgram().isInterupted()){
+			if(getType()==ForeachType.SHIP){
+				for(Ship ship: getProgram().getWorld().getShips()){
+					getSubStatement().execute();
+				}
 			}
-		}
-		else if(getType()==ForeachType.ASTEROID){
-			for(Asteroid ship: getProgram().getWorld().getAsteroids()){
-				getSubStatement().execute();
+			else if(getType()==ForeachType.ASTEROID){
+				for(Asteroid ship: getProgram().getWorld().getAsteroids()){
+					getSubStatement().execute();
+				}
 			}
-		}
-		else if(getType()==ForeachType.BULLET){
-			for(Bullet ship: getProgram().getWorld().getBullets()){
-				getSubStatement().execute();
+			else if(getType()==ForeachType.BULLET){
+				for(Bullet ship: getProgram().getWorld().getBullets()){
+					getSubStatement().execute();
+				}
 			}
-		}
-		else if(getType()==ForeachType.ANY){
-			for(ObjectInSpace ship: getProgram().getWorld().getAllObjectsInSpace()){
-				getSubStatement().execute();
+			else if(getType()==ForeachType.ANY){
+				for(ObjectInSpace ship: getProgram().getWorld().getAllObjectsInSpace()){
+					getSubStatement().execute();
+				}
 			}
-		}
 		
-
+		}
 	}
 		
 

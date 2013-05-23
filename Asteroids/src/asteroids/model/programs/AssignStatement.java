@@ -14,6 +14,11 @@ public class AssignStatement extends Statement {
 	public boolean canHaveAsSubStatement(Statement subStatement) {
 		return false;
 	}
+	
+	@Override
+	public boolean hasAsSubStatement(Statement subStatement) {
+		return false;
+	}
 
 	@Override
 	public boolean canHaveAsExpression(Expression expression) {

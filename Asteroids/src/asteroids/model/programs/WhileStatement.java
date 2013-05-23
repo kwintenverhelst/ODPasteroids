@@ -31,6 +31,14 @@ public class WhileStatement extends Statement {
 		return true;
 	}
 	
+	public boolean hasAsSubStatement(Statement statement){
+		if(getSubStatement()==statement)
+			return true;
+		if(getSubStatement().hasAsSubStatement(statement))
+			return true;
+		return false;
+	}
+	
 	/**
 	 * 
 	 * @param statement

@@ -63,6 +63,19 @@ public class IfStatement extends Statement {
 	public boolean canHaveAsSubStatement(Statement subStatement) {
 		return true;
 	}
+	
+	@Override
+	public boolean hasAsSubStatement(Statement statement){
+		if(getIfBody()==statement)
+			return true;
+		if(getElseBody()==statement)
+			return true;
+		if(getIfBody().hasAsSubStatement(statement))
+			return true;
+		if(getElseBody().hasAsSubStatement(statement))
+			return true;
+		return false;
+	}
 		
 	@Basic
 	public Statement getIfBody(){
@@ -128,18 +141,18 @@ public class IfStatement extends Statement {
 	@Override
 	public void execute() {
 		if(!getProgram().isInterupted()){
-
-			if((boolean) getExpression().getValue()){
-				getIfBody().execute();	
+			if(getProgram().getLastExecuted() != null && (getIfBody().hasAsSubStatement(getProgram().getLastExecuted()) || getElseBody().hasAsSubStatement(getProgram().getLastExecuted()))){
+				if(getSuperStatement()!=null)
+					getSuperStatement().execute();
 			}
 			else{
-				getElseBody().execute();
+				if((boolean) getExpression().getValue()){
+					getIfBody().execute();	
+				}
+				else{
+					getElseBody().execute();
+				}
 			}
 		}
-
 	}
-
-
-
-
 }

@@ -20,6 +20,16 @@ public class SequenceStatement extends Statement {
 		return true;
 	}
 	
+	public boolean hasAsSubStatement(Statement statement){
+		for(int i = 0; i<statements.size();i++){
+			if(statements.get(i)==statement)
+				return true;
+			if(statements.get(i).hasAsSubStatement(statement))
+				return true;
+		}
+		return false;
+	}
+	
 	@Basic
 	public Statement getSuperStatement(){
 		return superStatement;
@@ -66,29 +76,22 @@ public class SequenceStatement extends Statement {
 	@Override
 	public void execute() {
 		if(!getProgram().isInterupted()){
-			if(getProgram().getLastExecuted()==null){
-				for(int i = 0; i<statements.size();i++){
-					statements.get(i).execute();
-				}
+			int b = 0;
+			for(int i=0; i<statements.size();i++){
+				if(statements.get(i).hasAsSubStatement(getProgram().getLastExecuted()))
+					b = i+1;
 			}
-//			else{
-//				int b = 0;
-//				for(int a=0; a<statements.size();a++){
-//					if(statements.get(a)==getProgram().getLastExecuted())
-//						b = a+1;
-//				}
-//				if(b == statements.size()){
-//					if(getSuperStatement()!=null){
-//						getSuperStatement().execute();
-//					}
-//
-//				}
-//				else{
-//					for(int i=b; i<statements.size();i++){
-//						statements.get(i).execute();
-//					}
-//				}			
-//			}
+			if(b>0 && getProgram().getLastExecuted() != null){
+				if(b < statements.size())			
+					for(int i = b; i<statements.size(); i++)
+						statements.get(i).execute();
+				if(getSuperStatement()!=null)
+					getSuperStatement().execute();
+			}
+			else{
+				for(int i=0; i<statements.size();i++)
+					statements.get(i).execute();
+			}
 		}
 	}
 }

@@ -14,6 +14,10 @@ public abstract class ActionStatement extends Statement {
 		return SelfExpression.getSelf();
 	}
 	
+	@Override
+	public boolean hasAsSubStatement(Statement statement){
+		return false;
+	}
 	
 	@Override
 	public boolean  canHaveAsSubStatement(Statement subStatement) {

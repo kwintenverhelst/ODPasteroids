@@ -38,7 +38,7 @@ public abstract class Statement{
 	
 	public abstract void setSuperStatement(Statement statement);
 	
-	
+	public abstract boolean hasAsSubStatement(Statement statement);
 
 	public abstract boolean canHaveAsSubStatement(Statement subStatement);
 	
