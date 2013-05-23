@@ -30,6 +30,15 @@ public abstract class Statement{
 	 * @return
 	 */
 	public abstract void execute();
+	
+	@Basic
+	public abstract Statement getSuperStatement();
+	
+	public abstract boolean canHaveAsSuperStatement(Statement statement);
+	
+	public abstract void setSuperStatement(Statement statement);
+	
+	
 
 	public abstract boolean canHaveAsSubStatement(Statement subStatement);
 	

@@ -8,7 +8,17 @@ public class ThrustStatement extends ActionStatement {
 	
 	@Override
 	public void execute(){
-		SelfExpression.getSelf().setThrusterActive(true);
+		if(!getProgram().isInterupted()){
+			if(getProgram().getLastExecuted()==this){
+				if(getSuperStatement() != null)
+					getSuperStatement().execute();
+			}
+			else{
+				SelfExpression.getSelf().setThrusterActive(true);
+				getProgram().setLastExecuted(this);
+				getProgram().setInterupted(true);
+			}		
 		}
+	}
 
 }

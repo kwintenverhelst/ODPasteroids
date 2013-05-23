@@ -8,8 +8,16 @@ public class FireStatement extends ActionStatement {
 	
 	@Override
 	public void execute(){
-		 SelfExpression.getSelf().firebullet();
-		 getProgram().setLastExecuted(this);
+		if(!getProgram().isInterupted()){
+			if(getProgram().getLastExecuted()==this){
+				if(getSuperStatement() != null)
+					getSuperStatement().execute();
+			}
+			else{
+				SelfExpression.getSelf().firebullet();
+				getProgram().setLastExecuted(this);
+				getProgram().setInterupted(true);
+			}		
+		}
 	}
-
 }

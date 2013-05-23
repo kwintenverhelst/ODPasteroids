@@ -8,6 +8,16 @@ public class ThrustOffStatement extends ActionStatement {
 	
 	@Override
 	public void execute(){
-		SelfExpression.getSelf().setThrusterActive(false);
+		if(!getProgram().isInterupted()){
+			if(getProgram().getLastExecuted()==this){
+				if(getSuperStatement() != null)
+					getSuperStatement().execute();
+			}
+			else{
+				SelfExpression.getSelf().setThrusterActive(false);
+				getProgram().setLastExecuted(this);
+				getProgram().setInterupted(true);
+			}		
 		}
+	}	
 }

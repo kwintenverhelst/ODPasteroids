@@ -101,17 +101,37 @@ public class Program {
 	
 	private Statement lastExecuted;
 	
+	public boolean isInterupted(){
+		return interupted;
+	}
+	
+	public void setInterupted(boolean bool){
+		interupted = bool;
+	}
+	
+	private boolean interupted;
+	
+	public boolean isExecuted(){
+		return executed;
+	}
+	
+	public void setExecuted(boolean bool){
+		executed = bool;
+	}
+	
 	private boolean executed;
 	
 	public void execute(){
-		if(!executed){
-			if(getLastExecuted() == null){
-				getStatement().execute();
-			}
-			else{
+		if(!isExecuted()){
+			if(isInterupted()){
+				setInterupted(false);
 				getLastExecuted().execute();
 			}
-			executed =true;
+			else{
+				getStatement().execute();
+			}
+			if(!isInterupted())
+				setExecuted(true);
 		}
 	}
 

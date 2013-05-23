@@ -12,9 +12,15 @@ public class WhileStatement extends Statement {
 	public WhileStatement(int line, int column, Expression expression, Statement body){
 		super(line, column);
 		setSubStatement(body);
+		body.setSuperStatement(this);
 		setExpression(expression);
 	}
-
+	
+	@Basic
+	public Statement getSubStatement(){
+		return subStatement;
+	}
+	
 	/**
 	 * 
 	 * @param statement
@@ -23,11 +29,6 @@ public class WhileStatement extends Statement {
 	@Override
 	public boolean canHaveAsSubStatement(Statement subStatement) {
 		return true;
-	}
-	
-	@Basic
-	public Statement getSubStatement(){
-		return subStatement;
 	}
 	
 	/**
@@ -40,6 +41,38 @@ public class WhileStatement extends Statement {
 	}
 	
 	private Statement subStatement;
+	
+	@Basic
+	public Statement getSuperStatement(){
+		return superStatement;
+	}
+	
+	public boolean canHaveAsSuperStatement(Statement statement){
+		if(statement == null)
+			return true;
+		if(statement instanceof WhileStatement)
+			return true;
+		if(statement instanceof IfStatement)
+			return true;
+		if(statement instanceof ForEachStatement)
+			return true;
+		if(statement instanceof ActionStatement)
+			return false;
+		if(statement instanceof PrintStatement)
+			return false;
+		if(statement instanceof AssignStatement)
+			return false;
+		if(statement instanceof SequenceStatement)
+			return true;
+		return statement.canHaveAsSubStatement(this);
+	}
+		
+	public void setSuperStatement(Statement statement){
+		if(canHaveAsSuperStatement(statement))
+			superStatement = statement;
+	}
+	
+	private Statement superStatement;
 	
 	/**
 	 * 
@@ -72,15 +105,16 @@ public class WhileStatement extends Statement {
 	 */
 	@Override
 	public void execute() {
-		while((boolean) getExpression().getValue()){
-			System.out.println(getSubStatement() + " while lus " + getExpression().getValue());
-			getSubStatement().execute();	
-			System.out.println("deel 2");
-		}
+			while((boolean) getExpression().getValue()){
+				if(getProgram().isInterupted()){
+					break;
+				}
+				else{
+					getProgram().setLastExecuted(null);
+					getSubStatement().execute();
+				}
+			}
 
+		}
 	}
 
-
-
-
-}

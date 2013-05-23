@@ -11,6 +11,38 @@ public class PrintStatement extends Statement {
 	
 	private Expression expression;
 	
+	@Basic
+	public Statement getSuperStatement(){
+		return superStatement;
+	}
+	
+	public boolean canHaveAsSuperStatement(Statement statement){
+		if(statement == null)
+			return true;
+		if(statement instanceof WhileStatement)
+			return true;
+		if(statement instanceof IfStatement)
+			return true;
+		if(statement instanceof ForEachStatement)
+			return true;
+		if(statement instanceof ActionStatement)
+			return false;
+		if(statement instanceof PrintStatement)
+			return false;
+		if(statement instanceof AssignStatement)
+			return false;
+		if(statement instanceof SequenceStatement)
+			return true;
+		return statement.canHaveAsSubStatement(this);
+	}
+		
+	public void setSuperStatement(Statement statement){
+		if(canHaveAsSuperStatement(statement))
+			superStatement = statement;
+	}
+	
+	private Statement superStatement;
+	
 	@Override
 	public boolean canHaveAsSubStatement(Statement subStatement) {
 		return false;
@@ -39,8 +71,9 @@ public class PrintStatement extends Statement {
 	
 	@Override
 	public void execute() {
-		setToPrint();
-		System.out.println(toPrint);
+
+		if(!getProgram().isInterupted())
+			System.out.println(toPrint);
 	}
 
 }

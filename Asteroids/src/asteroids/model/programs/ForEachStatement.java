@@ -11,6 +11,7 @@ public class ForEachStatement extends Statement {
 		super(line, column);
 		setVariable(variableName);
 		setSubStatement(body);
+		body.setSuperStatement(this);
 		this.type = type;
 	}
 	
@@ -59,6 +60,38 @@ public class ForEachStatement extends Statement {
 	
 	private Statement subStatement;
 	
+	@Basic
+	public Statement getSuperStatement(){
+		return superStatement;
+	}
+	
+	public boolean canHaveAsSuperStatement(Statement statement){
+		if(statement == null)
+			return true;
+		if(statement instanceof WhileStatement)
+			return true;
+		if(statement instanceof IfStatement)
+			return true;
+		if(statement instanceof ForEachStatement)
+			return true;
+		if(statement instanceof ActionStatement)
+			return false;
+		if(statement instanceof PrintStatement)
+			return false;
+		if(statement instanceof AssignStatement)
+			return false;
+		if(statement instanceof SequenceStatement)
+			return true;
+		return statement.canHaveAsSubStatement(this);
+	}
+		
+	public void setSuperStatement(Statement statement){
+		if(canHaveAsSuperStatement(statement))
+			superStatement = statement;
+	}
+	
+	private Statement superStatement;
+	
 	@Override
 	public boolean canHaveAsExpression(Expression expression) {
 		return false;
@@ -73,7 +106,7 @@ public class ForEachStatement extends Statement {
 	
 	@Override
 	public void execute() {
-		//Variable Name
+		if(!getProgram().isInterupted())
 		if(getType()==ForeachType.SHIP){
 			for(Ship ship: getProgram().getWorld().getShips()){
 				getSubStatement().execute();

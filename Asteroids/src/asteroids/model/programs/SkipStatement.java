@@ -8,6 +8,16 @@ public class SkipStatement extends ActionStatement {
 	
 	@Override
 	public void execute(){
+		if(!getProgram().isInterupted()){
+			if(getProgram().getLastExecuted()==this){
+				if(getSuperStatement() != null)
+					getSuperStatement().execute();
+			}
+			else{
+				getProgram().setLastExecuted(this);
+				getProgram().setInterupted(true);
+			}		
+		}
 	}
 
 

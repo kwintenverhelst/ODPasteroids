@@ -34,8 +34,17 @@ public class TurnStatement extends ActionStatement {
 	
 	@Override
 	public void execute(){
-		//TURN VALUE
-		SelfExpression.getSelf().turn((double) getExpression().getValue());
+		if(!getProgram().isInterupted()){
+			if(getProgram().getLastExecuted()==this){
+				if(getSuperStatement() != null)
+					getSuperStatement().execute();
+			}
+			else{
+				SelfExpression.getSelf().turn((double) getExpression().getValue());
+				getProgram().setLastExecuted(this);
+				getProgram().setInterupted(true);
+			}		
 		}
+	}
 
 }
