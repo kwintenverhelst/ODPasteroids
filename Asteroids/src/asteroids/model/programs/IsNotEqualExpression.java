@@ -10,7 +10,9 @@ public class IsNotEqualExpression extends BinaryExpression implements BooleanExp
 
 	@Override
 	public Object getValue() {
-		if(getLeftOperand().hasTypeDouble() && getRightOperand().hasTypeDouble()){
+		if(getLeftOperand().getValue() == null || getRightOperand().getValue() == null){
+			return  getLeftOperand().getValue() != null || getRightOperand().getValue() != null;
+		} else if(getLeftOperand().hasTypeDouble() && getRightOperand().hasTypeDouble()){
 			return ! Util.fuzzyEquals((double) getLeftOperand().getValue(), (double) getRightOperand().getValue());
 		} else {
 			throw new IllegalArgumentException("on of your operand is false");
