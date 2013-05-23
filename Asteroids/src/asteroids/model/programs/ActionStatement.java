@@ -16,7 +16,7 @@ public abstract class ActionStatement extends Statement {
 	
 	@Override
 	public boolean hasAsSubStatement(Statement statement){
-		return false;
+		return statement == this;
 	}
 	
 	@Override
