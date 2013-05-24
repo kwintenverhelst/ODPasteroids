@@ -18,11 +18,6 @@ public class GetYExpression extends UnaryExpression implements DoubleExpression{
 	}
 
 	@Override
-	public String getOperatorSymbol() {
-		return "gety";
-	}
-	
-	@Override
 	public Type getType() {
 		return TYPE;
 	}

@@ -23,10 +23,6 @@ public class WorldTest {
 	
 	private World world2;
 	
-	private Bullet bullet1;
-	
-	private Bullet bullet2;
-
 	
 	@Before
 	public void setUp() throws Exception {
@@ -41,9 +37,6 @@ public class WorldTest {
 		world1.addObjectInSpace(ship2);
 		world2.addObjectInSpace(ship3);
 		world1.addObjectInSpace(asteroid);
-		
-		bullet1 = ship1.firebullet();
-		bullet2 = ship2.firebullet();
 		
 	}
 

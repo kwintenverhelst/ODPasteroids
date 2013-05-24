@@ -11,12 +11,14 @@ import java.util.Set;
 
 import org.antlr.v4.runtime.RecognitionException;
 
-import asteroids.Asteroids;
 import asteroids.CollisionListener;
 import asteroids.IFacade;
 import asteroids.ModelException;
-import asteroids.model.programs.*;
-import asteroids.model.programs.parsing.ProgramFactory;
+import asteroids.model.programs.Expression;
+import asteroids.model.programs.Program;
+import asteroids.model.programs.ProgramFactoryImpl;
+import asteroids.model.programs.Statement;
+import asteroids.model.programs.Type;
 import asteroids.model.programs.parsing.ProgramParser;
 
 public class Facade implements IFacade<World, Ship, Asteroid, Bullet, Program> {

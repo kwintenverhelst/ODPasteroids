@@ -21,11 +21,6 @@ public class LessThanExpression extends BinaryExpression implements BooleanExpre
 	}
 	
 	@Override
-	public String getOperatorSymbol() {
-		return "<";
-	}
-
-	@Override
 	public Type getType() {
 		return TYPE;
 	}

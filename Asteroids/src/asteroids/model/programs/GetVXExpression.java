@@ -18,11 +18,6 @@ public class GetVXExpression extends UnaryExpression implements DoubleExpression
 	}
 
 	@Override
-	public String getOperatorSymbol() {
-		return "getvx";
-	}
-	
-	@Override
 	public Type getType() {
 		return TYPE;
 	}

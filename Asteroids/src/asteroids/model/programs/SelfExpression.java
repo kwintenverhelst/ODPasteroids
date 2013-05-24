@@ -25,21 +25,6 @@ public class SelfExpression extends BasicExpression implements EntityExpression 
 	}
 
 	@Override
-	public boolean isMutable() {
-		return false;
-	}
-
-	@Override
-	public boolean equals(Object other) {
-		return false;
-	}
-
-	@Override
-	public String toString() {
-		return "  Self expression" +  SELF;
-	}
-	
-	@Override
 	public Type getType() {
 		return TYPE;
 	}

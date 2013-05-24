@@ -18,11 +18,6 @@ public class GreaterThanExpression extends BinaryExpression implements BooleanEx
 	}
 
 	@Override
-	public String getOperatorSymbol() {
-		return ">";
-	}
-
-	@Override
 	public Type getType() {
 		return TYPE;
 	}

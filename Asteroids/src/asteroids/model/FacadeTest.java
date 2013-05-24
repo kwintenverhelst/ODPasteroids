@@ -1,12 +1,11 @@
 package asteroids.model;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.junit.Before;
@@ -14,7 +13,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import asteroids.Asteroids;
-import asteroids.Util;
 import asteroids.IFacade.ParseOutcome;
 import asteroids.model.programs.Program;
 

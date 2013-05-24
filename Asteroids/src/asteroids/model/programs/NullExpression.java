@@ -11,24 +11,6 @@ public class NullExpression extends BasicExpression {
 	}
 
 	@Override
-	public boolean isMutable() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean equals(Object other) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return "null expression";
-	}
-
-	@Override
 	public Type getType() {
 		return null;
 	}

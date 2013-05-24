@@ -16,11 +16,6 @@ public class DivisionExpression extends BinaryExpression implements DoubleExpres
 	}
 
 	@Override
-	public String getOperatorSymbol() {
-		return "/";
-	}
-
-	@Override
 	public Type getType() {
 		return TYPE;
 	}

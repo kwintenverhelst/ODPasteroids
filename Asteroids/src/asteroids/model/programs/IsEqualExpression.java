@@ -23,11 +23,6 @@ public class IsEqualExpression  extends BinaryExpression implements BooleanExpre
 	}
 
 	@Override
-	public String getOperatorSymbol() {
-		return "==";
-	}
-	
-	@Override
 	public Type getType() {
 		return TYPE;
 	}

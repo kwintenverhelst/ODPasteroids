@@ -16,11 +16,6 @@ public class SinExpression extends UnaryExpression implements DoubleExpression{
 	}
 
 	@Override
-	public String getOperatorSymbol() {
-		return "sin";
-	}
-	
-	@Override
 	public Type getType() {
 		return TYPE;
 	}

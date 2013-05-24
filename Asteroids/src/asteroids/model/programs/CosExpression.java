@@ -16,12 +16,6 @@ public class CosExpression extends UnaryExpression implements DoubleExpression{
 	}
 	
 	@Override
-	public String getOperatorSymbol() {
-		// TODO Auto-generated method stub
-		return "cos";
-	}
-
-	@Override
 	public Type getType() {
 		return TYPE;
 	}

@@ -14,11 +14,7 @@ public class NotExpression extends UnaryExpression implements BooleanExpression{
 			throw new IllegalArgumentException("on of your operand is false");
 		}
 	}
-	@Override
-	public String getOperatorSymbol() {
-		return "!";
-	}
-	
+
 	@Override
 	public Type getType() {
 		return TYPE;

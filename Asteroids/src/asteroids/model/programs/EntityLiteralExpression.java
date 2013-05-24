@@ -18,23 +18,6 @@ public class EntityLiteralExpression extends BasicExpression implements
 	}
 
 	@Override
-	public boolean isMutable() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean equals(Object other) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public String toString() {
-		return  value + "  entity expression";
-	}
-
-	@Override
 	public Type getType() {
 		return TYPE;
 	}

@@ -16,11 +16,6 @@ public class AndExpression extends BinaryExpression implements BooleanExpression
 	}
 	
 	@Override
-	public String getOperatorSymbol() {
-		return "&&";
-	}
-
-	@Override
 	public Type getType() {
 		return TYPE;
 	}

@@ -18,10 +18,6 @@ public class IsNotEqualExpression extends BinaryExpression implements BooleanExp
 			throw new IllegalArgumentException("on of your operand is false");
 		}
 	}
-	@Override
-	public String getOperatorSymbol() {
-		return "!=";
-	}
 
 	@Override
 	public Type getType() {

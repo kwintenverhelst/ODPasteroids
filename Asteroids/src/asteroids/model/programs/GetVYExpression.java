@@ -18,11 +18,6 @@ public class GetVYExpression extends UnaryExpression implements DoubleExpression
 	}
 
 	@Override
-	public String getOperatorSymbol() {
-		return "getvy";
-	}
-	
-	@Override
 	public Type getType() {
 		return TYPE;
 	}

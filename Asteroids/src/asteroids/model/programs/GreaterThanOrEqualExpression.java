@@ -16,10 +16,6 @@ public class GreaterThanOrEqualExpression extends BinaryExpression implements Bo
 			throw new IllegalArgumentException("on of your operand is false");
 		}
 	}
-	@Override
-	public String getOperatorSymbol() {
-		return ">=";
-	}
 	
 	@Override
 	public Type getType() {

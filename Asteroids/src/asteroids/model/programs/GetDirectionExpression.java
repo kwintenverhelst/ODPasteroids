@@ -19,11 +19,6 @@ public class GetDirectionExpression extends UnaryExpression implements
 	}
 
 	@Override
-	public String getOperatorSymbol() {
-		return "getDirection";
-	}
-	
-	@Override
 	public Type getType() {
 		return TYPE;
 	}

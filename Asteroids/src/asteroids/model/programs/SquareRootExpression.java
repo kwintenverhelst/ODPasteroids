@@ -16,11 +16,6 @@ public class SquareRootExpression extends UnaryExpression  implements DoubleExpr
 	}
 
 	@Override
-	public String getOperatorSymbol() {
-		return "sqrt";
-	}
-	
-	@Override
 	public Type getType() {
 		return TYPE;
 	}

@@ -18,11 +18,6 @@ public class GetXExpression extends UnaryExpression implements DoubleExpression 
 	}
 
 	@Override
-	public String getOperatorSymbol() {
-		return "getx";
-	}
-
-	@Override
 	public Type getType() {
 		return TYPE;
 	}

@@ -18,11 +18,6 @@ public class GetRadiusExpression extends UnaryExpression implements DoubleExpres
 	}
 
 	@Override
-	public String getOperatorSymbol() {
-		return "getradius";
-	}
-	
-	@Override
 	public Type getType() {
 		return TYPE;
 	}

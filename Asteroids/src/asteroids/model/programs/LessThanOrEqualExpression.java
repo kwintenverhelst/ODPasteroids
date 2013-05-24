@@ -18,11 +18,6 @@ public class LessThanOrEqualExpression extends BinaryExpression implements Boole
 	}
 	
 	@Override
-	public String getOperatorSymbol() {
-		return "<=";
-	}
-	
-	@Override
 	public Type getType() {
 		return TYPE;
 	}

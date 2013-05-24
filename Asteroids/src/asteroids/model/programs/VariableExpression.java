@@ -39,21 +39,6 @@ public class VariableExpression extends BasicExpression {
 	}
 
 	@Override
-	public boolean isMutable() {
-		return false;
-	}
-
-	@Override
-	public boolean equals(Object other) {
-		return false;
-	}
-
-	@Override
-	public String toString() {
-		return name + " variable expression";
-	}
-
-	@Override
 	public Type getType() {
 		return type;
 	}
