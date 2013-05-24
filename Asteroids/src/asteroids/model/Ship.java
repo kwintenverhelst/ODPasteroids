@@ -214,10 +214,12 @@ public class Ship  extends ObjectInSpace{
 	}
 
 	/**
-	 * Fires a Bullet of this ship
+	 * Fires a Bullet of this ship if the ship hasn't already 3 bullets in this world at this moment
 	 * 
-	 * @return the bullet that you fire
-	 * 			| result == new Bullet(this)
+	 * @return the bullet that you fire if the ship hasn't already 3 bullets in this world at this moment
+	 * 			| if(getListBullet().size() < 3) 
+	 * 			| then result == new Bullet(this)
+	 * 			| else result == null
 	 * @effect set the Bullet in the same world as the ship
 	 * 			| this.getWorld().addObjectInSpace(new Bullet(this))
 	 */
@@ -250,13 +252,26 @@ public class Ship  extends ObjectInSpace{
 		return Ship.class.isAssignableFrom(object.getClass());
 	}
 	
-	
+	/**
+	 * check whether this ship has a program to follow
+	 * 
+	 * @return true if this ship has a program and that program has a entity
+	 * 			| result == (getProgram()!= null && getProgram().getEntity() !=null)
+	 */
 	public boolean hasProgram(){
 		if(getProgram()!= null && getProgram().getEntity() !=null)
 			return true;
 		return false;
 	}
 	
+	/**
+	 * check whether this ship can have the given program as program
+	 * 
+	 * @param program
+	 * 			the program that you want to check if it is fit for this ship
+	 * @return true if the given program can be a program for this ship
+	 * 			| result == (program != null && program.getEntity() == null && program.getEntity() == this)
+	 */
 	public boolean canHaveAsProgram(Program program){
 		if(program == null)
 			return false;
@@ -267,6 +282,14 @@ public class Ship  extends ObjectInSpace{
 		return false;
 	}
 	
+	/**
+	 * set the given program as the program of this ship
+	 * 
+	 * @param program
+	 * 			the program that you want to use for this ship
+	 * @post the given program is the program of this ship if this ship can have this program
+	 * 			| new.getProgram() == program
+	 */
 	public void setProgram(Program program){
 		if(canHaveAsProgram(program))
 			this.program = program;
@@ -277,6 +300,9 @@ public class Ship  extends ObjectInSpace{
 		return program;
 	}
 	
+	/**
+	 * variable that is the program of this ship
+	 */
 	private Program program;
 	
 	
