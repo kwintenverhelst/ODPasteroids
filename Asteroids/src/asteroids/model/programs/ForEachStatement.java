@@ -15,8 +15,6 @@ public class ForEachStatement extends Statement {
 		this.type = type;
 	}
 	
-	
-	
 	@Basic
 	public String getVariableName(){
 		return variable;
@@ -33,15 +31,11 @@ public class ForEachStatement extends Statement {
 	
 	private String variable;
 
-		@Basic
+	@Basic
 	public Statement getSubStatement(){
 		return subStatement;
 	}
-		/**
-	 * 
-	 * @param statement
-	 * @return
-	 */
+	
 	@Override
 	public boolean canHaveAsSubStatement(Statement subStatement) {
 		if(subStatement instanceof ActionStatement)
@@ -58,10 +52,6 @@ public class ForEachStatement extends Statement {
 		return false;
 	}
 	
-	/**
-	 * 
-	 * @param statement
-	 */
 	public void setSubStatement(Statement statement){
 		assert canHaveAsSubStatement(statement);
 		subStatement = statement;
@@ -69,11 +59,12 @@ public class ForEachStatement extends Statement {
 	
 	private Statement subStatement;
 	
-	@Basic
+	@Override @Basic
 	public Statement getSuperStatement(){
 		return superStatement;
 	}
 	
+	@Override
 	public boolean canHaveAsSuperStatement(Statement statement){
 		if(statement == null)
 			return true;
@@ -94,6 +85,7 @@ public class ForEachStatement extends Statement {
 		return statement.canHaveAsSubStatement(this);
 	}
 		
+	@Override
 	public void setSuperStatement(Statement statement){
 		if(canHaveAsSuperStatement(statement))
 			superStatement = statement;

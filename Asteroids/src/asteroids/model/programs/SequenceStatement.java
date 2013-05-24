@@ -20,6 +20,7 @@ public class SequenceStatement extends Statement {
 		return true;
 	}
 	
+	@Override
 	public boolean hasAsSubStatement(Statement statement){
 		for(int i = 0; i<statements.size();i++){
 			if(statements.get(i)==statement)
@@ -30,11 +31,12 @@ public class SequenceStatement extends Statement {
 		return false;
 	}
 	
-	@Basic
+	@Override @Basic
 	public Statement getSuperStatement(){
 		return superStatement;
 	}
 	
+	@Override
 	public boolean canHaveAsSuperStatement(Statement statement){
 		if(statement == null)
 			return true;
@@ -55,6 +57,7 @@ public class SequenceStatement extends Statement {
 		return statement.canHaveAsSubStatement(this);
 	}
 		
+	@Override
 	public void setSuperStatement(Statement statement){
 		if(canHaveAsSuperStatement(statement))
 			superStatement = statement;

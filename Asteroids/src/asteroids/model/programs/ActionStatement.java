@@ -9,7 +9,8 @@ public abstract class ActionStatement extends Statement {
 	protected ActionStatement(int line, int column) {
 		super(line, column);
 	}
-
+	
+	@Basic
 	public Ship getEntity(){
 		return SelfExpression.getSelf();
 	}
@@ -29,6 +30,7 @@ public abstract class ActionStatement extends Statement {
 		return superStatement;
 	}
 	
+	@Override
 	public boolean canHaveAsSuperStatement(Statement statement){
 		if(statement == null)
 			return true;
@@ -49,6 +51,7 @@ public abstract class ActionStatement extends Statement {
 		return statement.canHaveAsSubStatement(this);
 	}
 		
+	@Override
 	public void setSuperStatement(Statement statement){
 		if(canHaveAsSuperStatement(statement))
 			superStatement = statement;
@@ -61,5 +64,6 @@ public abstract class ActionStatement extends Statement {
 		return false;
 	}
 	
+	@Override
 	public abstract void execute();
 }

@@ -1,3 +1,4 @@
+
 package asteroids.model.programs;
 
 import be.kuleuven.cs.som.annotate.Basic;
@@ -9,6 +10,11 @@ public class TurnStatement extends ActionStatement {
 		setExpression(expression);
 	}
 	
+	@Basic
+	public Expression getExpression(){
+		return expression;
+	}
+	
 	@Override
 	public boolean canHaveAsExpression(Expression expression) {
 		if (expression.getType()==Type.DOUBLE)
@@ -16,15 +22,6 @@ public class TurnStatement extends ActionStatement {
 		return false;
 	}
 	
-	@Basic
-	public Expression getExpression(){
-		return expression;
-	}
-	
-	/**
-	 * 
-	 * @param expression
-	 */
 	public void setExpression(Expression expression){
 		assert canHaveAsExpression(expression);
 		this.expression= expression;

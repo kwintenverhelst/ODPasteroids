@@ -25,10 +25,6 @@ public abstract class Statement{
 		
 	private int column;
 	
-	/**
-	 * 
-	 * @return
-	 */
 	public abstract void execute();
 	
 	@Basic
@@ -48,7 +44,7 @@ public abstract class Statement{
 		PROGRAM=program;
 	}
 		
-	
+	@Basic
 	public static Program getProgram(){
 		return PROGRAM;
 	}

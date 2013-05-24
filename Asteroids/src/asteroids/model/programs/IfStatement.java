@@ -5,12 +5,6 @@ import be.kuleuven.cs.som.annotate.Basic;
 
 public class IfStatement extends Statement {
 	
-	/**
-	 * 
-	 * @param expression
-	 * @param ifBody
-	 * @param elseBody
-	 */
 	public IfStatement (int line, int column, Expression expression, Statement ifBody, Statement elseBody){
 			super(line, column);
 			setIfBody(ifBody);
@@ -82,10 +76,6 @@ public class IfStatement extends Statement {
 		return ifBody;
 	}
 	
-	/**
-	 * 
-	 * @param statement
-	 */
 	public void setIfBody(Statement statement){
 		assert canHaveAsSubStatement(statement);
 		ifBody = statement;
@@ -98,10 +88,6 @@ public class IfStatement extends Statement {
 		return elseBody;
 	}
 	
-	/**
-	 * 
-	 * @param statement
-	 */
 	public void setElseBody(Statement statement){
 		assert canHaveAsSubStatement(statement);
 		elseBody = statement;
@@ -109,9 +95,11 @@ public class IfStatement extends Statement {
 	
 	private Statement elseBody;
 	
-	/**
-	 * 
-	 */
+	@Basic
+	public Expression getExpression(){
+		return expression;
+	}
+	
 	@Override
 	public boolean canHaveAsExpression(Expression expression) {
 		if (expression.getType() == Type.BOOLEAN)
@@ -119,15 +107,6 @@ public class IfStatement extends Statement {
 		return false;
 	}
 	
-	@Basic
-	public Expression getExpression(){
-		return expression;
-	}
-	
-	/**
-	 * 
-	 * @param expression
-	 */
 	public void setExpression(Expression expression){
 		assert canHaveAsExpression(expression);
 		this.expression= expression;
@@ -135,9 +114,6 @@ public class IfStatement extends Statement {
 
 	private Expression expression;
 	
-	/**
-	 * 
-	 */
 	@Override
 	public void execute() {
 		if(!getProgram().isInterupted()){

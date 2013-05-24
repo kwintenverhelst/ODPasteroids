@@ -4,11 +4,6 @@ import be.kuleuven.cs.som.annotate.*;
 
 public class WhileStatement extends Statement {
 	
-	/**
-	 * 
-	 * @param expression
-	 * @param body
-	 */
 	public WhileStatement(int line, int column, Expression expression, Statement body){
 		super(line, column);
 		setSubStatement(body);
@@ -21,16 +16,12 @@ public class WhileStatement extends Statement {
 		return subStatement;
 	}
 	
-	/**
-	 * 
-	 * @param statement
-	 * @return
-	 */
 	@Override
 	public boolean canHaveAsSubStatement(Statement subStatement) {
 		return true;
 	}
 	
+	@Override
 	public boolean hasAsSubStatement(Statement statement){
 		if(getSubStatement()==statement)
 			return true;
@@ -39,10 +30,7 @@ public class WhileStatement extends Statement {
 		return false;
 	}
 	
-	/**
-	 * 
-	 * @param statement
-	 */
+	
 	public void setSubStatement(Statement statement){
 		assert canHaveAsSubStatement(statement);
 		subStatement = statement;
@@ -50,11 +38,12 @@ public class WhileStatement extends Statement {
 	
 	private Statement subStatement;
 	
-	@Basic
-	public Statement getSuperStatement(){
+	@Override @Basic
+ 	public Statement getSuperStatement(){
 		return superStatement;
 	}
 	
+	@Override
 	public boolean canHaveAsSuperStatement(Statement statement){
 		if(statement == null)
 			return true;
@@ -74,7 +63,8 @@ public class WhileStatement extends Statement {
 			return true;
 		return statement.canHaveAsSubStatement(this);
 	}
-		
+	
+	@Override
 	public void setSuperStatement(Statement statement){
 		if(canHaveAsSuperStatement(statement))
 			superStatement = statement;
@@ -82,9 +72,6 @@ public class WhileStatement extends Statement {
 	
 	private Statement superStatement;
 	
-	/**
-	 * 
-	 */
 	@Override
 	public boolean canHaveAsExpression(Expression expression) {
 		if (expression.getType()==Type.BOOLEAN)
@@ -97,10 +84,6 @@ public class WhileStatement extends Statement {
 		return expression;
 	}
 	
-	/**
-	 * 
-	 * @param expression
-	 */
 	public void setExpression(Expression expression){
 		assert canHaveAsExpression(expression);
 		this.expression= expression;
@@ -108,9 +91,6 @@ public class WhileStatement extends Statement {
 
 	private Expression expression;
 	
-	/**
-	 * 
-	 */
 	@Override
 	public void execute() {
 			while((boolean) getExpression().getValue()){

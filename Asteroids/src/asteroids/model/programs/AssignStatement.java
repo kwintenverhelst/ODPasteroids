@@ -19,7 +19,12 @@ public class AssignStatement extends Statement {
 	public boolean hasAsSubStatement(Statement subStatement) {
 		return false;
 	}
-
+	
+	@Basic
+	public Expression getExpression(){
+		return expression;
+	}
+	
 	@Override
 	public boolean canHaveAsExpression(Expression expression) {
 		if(getProgram().getValueOfGlobal(variable).getType()==expression.getType())
@@ -29,15 +34,6 @@ public class AssignStatement extends Statement {
 		return false;
 	}
 	
-	@Basic
-	public Expression getExpression(){
-		return expression;
-	}
-	
-	/**
-	 * 
-	 * @param expression
-	 */
 	public void setExpression(Expression expression){
 		assert canHaveAsExpression(expression);
 		this.expression= expression;
@@ -49,11 +45,7 @@ public class AssignStatement extends Statement {
 	public String getVariable(){
 		return variable;
 	}
-	
-	/**
-	 * 
-	 * @param 
-	 */
+
 	public void setVariable(String variable){
 		this.variable = variable;
 	}

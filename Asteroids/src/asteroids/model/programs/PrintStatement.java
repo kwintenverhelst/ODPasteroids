@@ -6,16 +6,17 @@ public class PrintStatement extends Statement {
 
 	public PrintStatement(int line, int column, Expression expression){
 		super(line, column);
-		this.expression = expression;
+		setExression(expression);
 	}
 	
-	private Expression expression;
 	
-	@Basic
+	
+	@Override @Basic
 	public Statement getSuperStatement(){
 		return superStatement;
 	}
 	
+	@Override
 	public boolean canHaveAsSuperStatement(Statement statement){
 		if(statement == null)
 			return true;
@@ -35,7 +36,8 @@ public class PrintStatement extends Statement {
 			return true;
 		return statement.canHaveAsSubStatement(this);
 	}
-		
+	
+	@Override
 	public void setSuperStatement(Statement statement){
 		if(canHaveAsSuperStatement(statement))
 			superStatement = statement;
@@ -52,11 +54,22 @@ public class PrintStatement extends Statement {
 	public boolean hasAsSubStatement(Statement subStatement) {
 		return false;
 	}
-
+	
+	@Basic
+	public Expression getExpression(){
+		return expression;
+	}
+	
 	@Override
 	public boolean canHaveAsExpression(Expression expression) {
 		return true;
 	}
+	
+	public void setExression(Expression expression){
+		this.expression=expression;
+	}
+	
+	private Expression expression;
 	
 	@Basic
 	public String getToPrint(){
@@ -64,8 +77,8 @@ public class PrintStatement extends Statement {
 	}
 	
 	public void setToPrint(){
-		if(expression != null && expression.getValue() != null){
-			toPrint = expression.getValue().toString();
+		if(getExpression() != null && getExpression().getValue() != null){
+			toPrint = getExpression().getValue().toString();
 		}
 		else{
 			toPrint = "";
