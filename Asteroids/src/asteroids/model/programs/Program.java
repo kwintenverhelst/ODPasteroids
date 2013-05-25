@@ -125,10 +125,20 @@ public class Program {
 		if(!isExecuted()){
 			if(isInterupted()){
 				setInterupted(false);
-				getLastExecuted().execute();
+				try{
+					getLastExecuted().execute();
+				}
+				catch(IllegalArgumentException e){
+					setExecuted(true);
+				}
 			}
 			else{
-				getStatement().execute();
+				try{
+					getStatement().execute();
+				}
+				catch(IllegalArgumentException e){
+					setExecuted(true);
+				}
 			}
 			if(!isInterupted())
 				setExecuted(true);
